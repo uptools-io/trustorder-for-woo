@@ -1,0 +1,34 @@
+includes:
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: 5
+
+	# Our own code stays PHP 8.1-compatible (the bundled libphonenumber needs 8.1).
+	phpVersion: 80100
+
+	paths:
+		- includes
+		- trustorder-for-woo.php
+		- uninstall.php
+
+	# analyse-only: a plain list would also hide vendor-prefixed/ from scanDirectories.
+	excludePaths:
+		analyse:
+			- tests/
+			- vendor/
+			- vendor-prefixed/
+
+	bootstrapFiles:
+		- phpstan-bootstrap.php
+
+	scanFiles:
+		- vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+		- vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+
+	# The prefixed libphonenumber the identity code calls.
+	scanDirectories:
+		- vendor-prefixed
+
+	parallel:
+		maximumNumberOfProcesses: 1

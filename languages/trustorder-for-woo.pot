@@ -1,0 +1,998 @@
+# Copyright (C) 2026 uptools.io
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-woo\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-03T20:17:31+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: trustorder-for-woo\n"
+
+#. Plugin Name of the plugin
+#: trustorder-for-woo.php
+#: includes/Admin/Privacy.php:30
+msgid "TrustOrder for WooCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: trustorder-for-woo.php
+msgid "https://uptools.io"
+msgstr ""
+
+#. Description of the plugin
+#: trustorder-for-woo.php
+msgid "Cash-on-delivery buyer reputation for WooCommerce: hides cash on delivery for risky buyers, based on hashed identities shared across shops."
+msgstr ""
+
+#. Author of the plugin
+#: trustorder-for-woo.php
+msgid "uptools.io"
+msgstr ""
+
+#: includes/Admin/AdminPage.php:50
+#: includes/Order/OrderColumn.php:46
+#: includes/Order/OrderColumn.php:50
+#: includes/Order/OrderMetabox.php:33
+msgid "TrustOrder"
+msgstr ""
+
+#: includes/Admin/AdminPage.php:106
+msgid "The admin app is missing. Run \"npm ci && npm run build\" in the plugin folder."
+msgstr ""
+
+#: includes/Admin/CapNotice.php:40
+msgid "TrustOrder reached its hourly check limit in the last hour. While the limit was reached, buyers not checked yet kept every payment method while filling in the checkout. If your shop really has this many checkouts, raise the limit with the trustorder_hourly_check_limit filter."
+msgstr ""
+
+#: includes/Admin/CapNotice.php:41
+msgid "TrustOrder reached its place-order check limit for one visitor network in the last hour. For those orders the risky payment methods stayed hidden. If many buyers share one address (for example behind a proxy), set the real visitor address with the trustorder_client_ip filter, or raise the limit with trustorder_submit_ip_check_limit."
+msgstr ""
+
+#: includes/Admin/CapNotice.php:62
+#: includes/Admin/IntlNotice.php:52
+msgid "Dismiss"
+msgstr ""
+
+#: includes/Admin/Choices.php:96
+msgid "Local pickup (classic checkout)"
+msgstr ""
+
+#: includes/Admin/Choices.php:99
+msgid "Local pickup (block checkout)"
+msgstr ""
+
+#: includes/Admin/IntlNotice.php:50
+msgid "TrustOrder: the PHP intl or mbstring extension is missing, so e-mail and shipping addresses with accented or other non-ASCII characters are not checked. Ask your host to enable intl and mbstring."
+msgstr ""
+
+#: includes/Admin/Privacy.php:39
+msgid "To decide whether cash on delivery can be offered, the webshop uses the TrustOrder service of upTools Kft. (uptools.io), shared by the participating webshops."
+msgstr ""
+
+#: includes/Admin/Privacy.php:40
+msgid "When the checkout is filled in, the webshop sends one-way hashes of the buyer's e-mail address, phone number and shipping address, hashes of the e-mail domain, and whether the e-mail domain can receive mail. Names and the readable values are never sent."
+msgstr ""
+
+#: includes/Admin/Privacy.php:41
+msgid "When an order is completed or marked as not picked up, the webshop sends the outcome (picked up or not picked up), its date, the webshop's internal order number (order ID) and the same hashes. When the webshop starts the one-time back-loading, it may also report the completed and not picked up orders of the past 3 years in the same way."
+msgstr ""
+
+#: includes/Admin/Privacy.php:42
+msgid "Purpose: assessing the risk of cash-on-delivery orders from the delivery history (picked up or not) of the same buyer across the participating webshops. Based on the result the webshop may hide cash on delivery; other payment methods stay available."
+msgstr ""
+
+#: includes/Admin/Privacy.php:43
+msgid "Legal basis: the legitimate interest of the webshop and the participating webshops in preventing losses from parcels that are not picked up (GDPR Article 6(1)(f))."
+msgstr ""
+
+#: includes/Admin/Privacy.php:44
+msgid "The webshop is the contact point for this processing: questions and objections go to the webshop. The service keeps the hashed delivery outcomes for 3 years, then deletes them."
+msgstr ""
+
+#: includes/Checkout/Enforcer.php:111
+msgid "Choose another payment method for this order."
+msgstr ""
+
+#: includes/Order/Labels.php:32
+msgid "Trusted"
+msgstr ""
+
+#: includes/Order/Labels.php:34
+#: build/index.js:7
+msgid "Unknown"
+msgstr ""
+
+#: includes/Order/Labels.php:36
+msgid "Risky"
+msgstr ""
+
+#: includes/Order/Labels.php:38
+msgid "Blocked"
+msgstr ""
+
+#: includes/Order/Labels.php:51
+msgid "Refused orders at several shops"
+msgstr ""
+
+#: includes/Order/Labels.php:52
+msgid "Recently refused an order"
+msgstr ""
+
+#: includes/Order/Labels.php:53
+msgid "Low score"
+msgstr ""
+
+#: includes/Order/Labels.php:54
+msgid "Disposable e-mail address"
+msgstr ""
+
+#: includes/Order/Labels.php:55
+msgid "E-mail domain cannot receive mail"
+msgstr ""
+
+#: includes/Order/Labels.php:56
+msgid "No order history yet"
+msgstr ""
+
+#: includes/Order/Labels.php:57
+msgid "Allowed by your exception list"
+msgstr ""
+
+#: includes/Order/Labels.php:58
+msgid "Denied by your exception list"
+msgstr ""
+
+#: includes/Order/Labels.php:72
+msgid "Not checked (limit reached)"
+msgstr ""
+
+#: includes/Order/Labels.php:76
+msgid "Not checked"
+msgstr ""
+
+#: includes/Order/OrderMetabox.php:49
+msgid "This order was not checked."
+msgstr ""
+
+#. translators: %s: limit code
+#: includes/Order/OrderMetabox.php:61
+#, php-format
+msgid "Risky payment methods stayed hidden (not checked: check limit reached, %s)."
+msgstr ""
+
+#. translators: %s: limit code
+#: includes/Order/OrderMetabox.php:63
+#, php-format
+msgid "Not checked: check limit reached (%s); every payment method stayed available."
+msgstr ""
+
+#. translators: %s: error code
+#: includes/Order/OrderMetabox.php:70
+#, php-format
+msgid "The check did not run (%s); the order was accepted."
+msgstr ""
+
+#: includes/Order/OrderMetabox.php:85
+msgid "Check id:"
+msgstr ""
+
+#. translators: 1: risk level, 2: score 0-100, 3: comma-separated reason codes
+#: includes/Order/OrderResult.php:150
+#, php-format
+msgid "TrustOrder result changed on a payment retry. Level: %1$s, score: %2$d, reasons: %3$s."
+msgstr ""
+
+#. translators: 1: risk level, 2: score 0-100, 3: comma-separated reason codes
+#: includes/Order/OrderResult.php:152
+#, php-format
+msgid "TrustOrder flagged this order. Level: %1$s, score: %2$d, reasons: %3$s."
+msgstr ""
+
+#. translators: %s: number of orders
+#: includes/Order/RefusedStatus.php:54
+#, php-format
+msgid "Not picked up <span class=\"count\">(%s)</span>"
+msgid_plural "Not picked up <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Order/RefusedStatus.php:94
+msgid "Change status to not picked up"
+msgstr ""
+
+#: includes/Order/RefusedStatus.php:103
+msgctxt "Order status"
+msgid "Not picked up"
+msgstr ""
+
+#: includes/Rest/ApiError.php:35
+msgid "Save an API key first."
+msgstr ""
+
+#: includes/Rest/ApiError.php:48
+msgid "The TrustOrder service returned an error."
+msgstr ""
+
+#: includes/Rest/ExceptionsController.php:81
+msgid "Choose allow or deny."
+msgstr ""
+
+#: includes/Rest/ExceptionsController.php:85
+msgid "The note can be at most 500 characters."
+msgstr ""
+
+#: includes/Rest/ExceptionsController.php:121
+msgid "There is no exception for this value."
+msgstr ""
+
+#: includes/Rest/IdentityInput.php:34
+msgid "Choose e-mail, phone or address."
+msgstr ""
+
+#: includes/Rest/IdentityInput.php:94
+msgid "This e-mail address is not valid."
+msgstr ""
+
+#: includes/Rest/IdentityInput.php:96
+msgid "This phone number is not valid for the chosen country."
+msgstr ""
+
+#: includes/Rest/IdentityInput.php:98
+msgid "The address needs a country, a postcode and a house number."
+msgstr ""
+
+#: includes/Rest/SettingsController.php:117
+msgid "Unknown payment method."
+msgstr ""
+
+#. translators: %s: payment method id
+#: includes/Rest/SettingsController.php:126
+#, php-format
+msgid "The payment method \"%s\" cannot be hidden and a fallback at the same time."
+msgstr ""
+
+#: includes/Rest/SettingsController.php:144
+msgid "This is not a valid TrustOrder API key. It starts with to_live_ or to_test_."
+msgstr ""
+
+#: includes/Rest/SettingsController.php:150
+msgid "Unknown strictness."
+msgstr ""
+
+#: includes/Rest/SettingsController.php:157
+msgid "A list of ids was expected."
+msgstr ""
+
+#: includes/Rest/SettingsController.php:164
+msgid "The enabled flag must be true or false."
+msgstr ""
+
+#: build/index.js:1
+msgid "Loading…"
+msgstr ""
+
+#: build/index.js:1
+msgid "Loading TrustOrder…"
+msgstr ""
+
+#: build/index.js:1
+msgid "The API key was not accepted. Check that you copied the whole key."
+msgstr ""
+
+#: build/index.js:1
+msgid "The account or shop behind this key is suspended or disabled. Contact upTools."
+msgstr ""
+
+#: build/index.js:1
+msgid "Too many requests in a short time. TrustOrder retries by itself."
+msgstr ""
+
+#: build/index.js:1
+msgid "The daily check quota is used up. Until tomorrow every payment method stays available."
+msgstr ""
+
+#: build/index.js:1
+msgid "The service did not answer in time. The order went through with every payment method."
+msgstr ""
+
+#: build/index.js:1
+msgid "The service could not be reached from this server (network or DNS error)."
+msgstr ""
+
+#: build/index.js:1
+msgid "The service sent an answer the plugin could not read."
+msgstr ""
+
+#: build/index.js:1
+msgid "Temporary error on the service side."
+msgstr ""
+
+#: build/index.js:1
+msgid "The service refused a request as invalid. Update the plugin if this repeats."
+msgstr ""
+
+#: build/index.js:1
+msgid "No API key is saved."
+msgstr ""
+
+#: build/index.js:1
+msgid "The trustorder_api_base filter returned an address that is not allowed; the default address was used."
+msgstr ""
+
+#: build/index.js:1
+msgid "A risky buyer would have had no payment method left, so nothing was hidden. Set a fallback payment method."
+msgstr ""
+
+#: build/index.js:1
+msgid "The check counter was unavailable (object cache error); checks ran without the local limits."
+msgstr ""
+
+#: build/index.js:1
+msgid "The mail server lookup of an e-mail domain failed on this server."
+msgstr ""
+
+#: build/index.js:1
+msgid "A local check limit was reached (per session or per visitor network); those buyers were not checked."
+msgstr ""
+
+#: build/index.js:1
+msgid "The service did not find the requested item."
+msgstr ""
+
+#: build/index.js:1
+msgid "The block checkout could not refuse an order placed with a hidden payment method (WooCommerce too old); the order went through."
+msgstr ""
+
+#: build/index.js:1
+msgid "An unexpected error happened inside the plugin; the checkout was not affected."
+msgstr ""
+
+#. translators: %s: HTTP status code.
+#: build/index.js:2
+#, js-format
+msgid "The service refused the request (HTTP %s)."
+msgstr ""
+
+#: build/index.js:2
+msgid "Unknown error."
+msgstr ""
+
+#: build/index.js:2
+msgid "The request failed. Try again."
+msgstr ""
+
+#: build/index.js:2
+msgid "Test mode"
+msgstr ""
+
+#: build/index.js:2
+msgid "Live"
+msgstr ""
+
+#: build/index.js:2
+msgid "Test again"
+msgstr ""
+
+#: build/index.js:2
+msgid "Connection"
+msgstr ""
+
+#. translators: %s: date and time of the test.
+#: build/index.js:3
+#, js-format
+msgid "Tested: %s"
+msgstr ""
+
+#: build/index.js:3
+msgid "No API key yet. Add the key you got from upTools on the Settings page; until then every payment method stays available."
+msgstr ""
+
+#: build/index.js:3
+#: build/index.js:8
+msgid "Go to Settings"
+msgstr ""
+
+#: build/index.js:3
+msgid "Shop"
+msgstr ""
+
+#: build/index.js:3
+msgid "Account"
+msgstr ""
+
+#: build/index.js:3
+msgid "Awaiting approval"
+msgstr ""
+
+#: build/index.js:3
+msgid "Approved"
+msgstr ""
+
+#: build/index.js:3
+msgid "Checks already work; upTools approves the account soon."
+msgstr ""
+
+#: build/index.js:3
+msgid "The account is active."
+msgstr ""
+
+#: build/index.js:3
+msgid "Checks today"
+msgstr ""
+
+#. translators: %s: daily check quota.
+#: build/index.js:4
+#, js-format
+msgid "Daily quota: %s"
+msgstr ""
+
+#: build/index.js:4
+msgid "E-mail"
+msgstr ""
+
+#: build/index.js:4
+msgid "Phone"
+msgstr ""
+
+#: build/index.js:4
+msgid "Address"
+msgstr ""
+
+#: build/index.js:4
+msgid "Always allow"
+msgstr ""
+
+#: build/index.js:4
+msgid "Always deny"
+msgstr ""
+
+#: build/index.js:4
+msgid "Country"
+msgstr ""
+
+#: build/index.js:4
+msgid "Postcode"
+msgstr ""
+
+#: build/index.js:4
+msgid "Street address"
+msgstr ""
+
+#: build/index.js:4
+msgid "Apartment, floor (optional)"
+msgstr ""
+
+#: build/index.js:4
+msgid "E-mail address"
+msgstr ""
+
+#: build/index.js:4
+msgid "Phone number"
+msgstr ""
+
+#: build/index.js:4
+msgid "Exception saved."
+msgstr ""
+
+#: build/index.js:4
+msgid "Exception removed."
+msgstr ""
+
+#: build/index.js:4
+msgid "Add or remove an exception"
+msgstr ""
+
+#: build/index.js:4
+msgid "An exception overrides the shared reputation for this shop only."
+msgstr ""
+
+#: build/index.js:4
+msgid "What to match"
+msgstr ""
+
+#: build/index.js:4
+msgid "Value"
+msgstr ""
+
+#: build/index.js:4
+msgid "The value is turned into a one-way hash on this server and only the hash is sent. The value itself is not saved anywhere, so the list below cannot show it: to remove an exception, type the same value again."
+msgstr ""
+
+#: build/index.js:4
+msgid "Rule"
+msgstr ""
+
+#: build/index.js:4
+msgid "Note (optional)"
+msgstr ""
+
+#: build/index.js:4
+msgid "Stored on the TrustOrder service and visible only to your shop, up to 500 characters. Do not write personal data here (no name, e-mail, phone or address)."
+msgstr ""
+
+#: build/index.js:4
+msgid "Note"
+msgstr ""
+
+#: build/index.js:4
+msgid "Save exception"
+msgstr ""
+
+#: build/index.js:4
+msgid "Remove exception for this value"
+msgstr ""
+
+#: build/index.js:4
+msgid "Type"
+msgstr ""
+
+#: build/index.js:4
+msgid "Added"
+msgstr ""
+
+#: build/index.js:4
+msgid "ID"
+msgstr ""
+
+#: build/index.js:4
+msgid "Search notes"
+msgstr ""
+
+#: build/index.js:4
+msgid "Filter"
+msgstr ""
+
+#: build/index.js:4
+msgid "Clear"
+msgstr ""
+
+#: build/index.js:4
+msgid "Clear all filters"
+msgstr ""
+
+#: build/index.js:4
+msgid "All"
+msgstr ""
+
+#: build/index.js:4
+msgid "No matching exceptions."
+msgstr ""
+
+#: build/index.js:4
+msgid "No exceptions yet."
+msgstr ""
+
+#: build/index.js:4
+msgid "Rows per page"
+msgstr ""
+
+#: build/index.js:4
+msgid "Previous page"
+msgstr ""
+
+#: build/index.js:4
+msgid "Next page"
+msgstr ""
+
+#. translators: %d: number of exceptions.
+#: build/index.js:5
+#, js-format
+msgid "%d exception"
+msgid_plural "%d exceptions"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of matching exceptions.
+#: build/index.js:6
+#, js-format
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: current page, 2: total pages.
+#: build/index.js:7
+#, js-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:8
+msgid "Exceptions"
+msgstr ""
+
+#: build/index.js:7
+msgid "Load more"
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:8
+msgid "Checks at checkout"
+msgstr ""
+
+#: build/index.js:7
+msgid "Risky buyers do not see the hidden payment methods."
+msgstr ""
+
+#: build/index.js:7
+msgid "Turned off in Settings: every payment method stays available."
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:8
+msgid "On"
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:8
+msgid "Off"
+msgstr ""
+
+#: build/index.js:7
+msgid "Accented characters (PHP intl)"
+msgstr ""
+
+#: build/index.js:7
+msgid "E-mails and addresses with any characters are checked."
+msgstr ""
+
+#: build/index.js:7
+msgid "intl or mbstring is missing: e-mails and addresses with accented characters are not checked. Ask your host to enable them."
+msgstr ""
+
+#: build/index.js:7
+msgid "Available"
+msgstr ""
+
+#: build/index.js:7
+msgid "Missing"
+msgstr ""
+
+#: build/index.js:7
+msgid "Order storage"
+msgstr ""
+
+#: build/index.js:7
+msgid "TrustOrder works with both order storage modes."
+msgstr ""
+
+#: build/index.js:7
+msgid "High-performance order tables"
+msgstr ""
+
+#: build/index.js:7
+msgid "WordPress posts"
+msgstr ""
+
+#: build/index.js:7
+msgid "Checkout page"
+msgstr ""
+
+#: build/index.js:7
+msgid "Both the block and the classic checkout are supported."
+msgstr ""
+
+#: build/index.js:7
+msgid "Checkout block"
+msgstr ""
+
+#: build/index.js:7
+msgid "Classic checkout"
+msgstr ""
+
+#: build/index.js:7
+msgid "Hourly check limit"
+msgstr ""
+
+#: build/index.js:7
+msgid "Reached in the last hour: buyers not checked yet kept every payment method."
+msgstr ""
+
+#: build/index.js:7
+msgid "Not reached in the last hour."
+msgstr ""
+
+#: build/index.js:7
+msgid "Reached"
+msgstr ""
+
+#: build/index.js:7
+msgid "OK"
+msgstr ""
+
+#: build/index.js:7
+msgid "Place-order limit per network"
+msgstr ""
+
+#: build/index.js:7
+msgid "Reached in the last hour: for those orders the risky payment methods stayed hidden."
+msgstr ""
+
+#: build/index.js:7
+msgid "API key"
+msgstr ""
+
+#: build/index.js:7
+msgid "A key starting with to_test_ works in test mode: checks and reports go to a separate test database."
+msgstr ""
+
+#: build/index.js:7
+msgid "Saved key"
+msgstr ""
+
+#: build/index.js:7
+msgid "For safety only the beginning of the key is shown."
+msgstr ""
+
+#: build/index.js:7
+msgid "Remove key"
+msgstr ""
+
+#: build/index.js:7
+msgid "Replace the key"
+msgstr ""
+
+#: build/index.js:7
+msgid "Your API key"
+msgstr ""
+
+#: build/index.js:7
+msgid "Paste the key you got from upTools, then save."
+msgstr ""
+
+#: build/index.js:7
+msgid "Hide key"
+msgstr ""
+
+#: build/index.js:7
+msgid "Show key"
+msgstr ""
+
+#: build/index.js:7
+msgid "Cancel"
+msgstr ""
+
+#: build/index.js:7
+msgid "Remove the saved API key? Until you add a key again, no buyer is checked and no order outcome is reported."
+msgstr ""
+
+#: build/index.js:7
+msgid "Lenient"
+msgstr ""
+
+#: build/index.js:7
+msgid "Hides cash on delivery only for buyers with clearly bad history."
+msgstr ""
+
+#: build/index.js:7
+msgid "Normal"
+msgstr ""
+
+#: build/index.js:7
+msgid "Recommended balance between lost sales and parcels not picked up."
+msgstr ""
+
+#: build/index.js:7
+msgid "Strict"
+msgstr ""
+
+#: build/index.js:7
+msgid "Hides cash on delivery already at a few warning signs."
+msgstr ""
+
+#: build/index.js:7
+msgid "Turned off in WooCommerce"
+msgstr ""
+
+#: build/index.js:7
+msgid "Overview"
+msgstr ""
+
+#: build/index.js:7
+msgid "Could not load the TrustOrder status."
+msgstr ""
+
+#: build/index.js:7
+msgid "Last error"
+msgstr ""
+
+#. translators: %s: date and time.
+#: build/index.js:8
+#, js-format
+msgid "Logged: %s"
+msgstr ""
+
+#: build/index.js:8
+msgid "No error so far."
+msgstr ""
+
+#: build/index.js:8
+msgid "Status"
+msgstr ""
+
+#: build/index.js:8
+msgid "Settings"
+msgstr ""
+
+#: build/index.js:8
+msgid "On: risky buyers do not see the payment methods below."
+msgstr ""
+
+#: build/index.js:8
+msgid "Off: no check runs, every payment method stays available. Completed and not picked up orders are still reported."
+msgstr ""
+
+#: build/index.js:8
+msgid "Strictness"
+msgstr ""
+
+#: build/index.js:8
+msgid "Payment methods"
+msgstr ""
+
+#: build/index.js:8
+msgid "Hide for risky buyers"
+msgstr ""
+
+#: build/index.js:8
+msgid "Usually cash on delivery. Only enabled payment methods are listed."
+msgstr ""
+
+#: build/index.js:8
+msgid "Fallback payment methods"
+msgstr ""
+
+#: build/index.js:8
+msgid "At least one of these must stay visible, otherwise nothing is hidden. With none selected, any remaining method counts."
+msgstr ""
+
+#: build/index.js:8
+msgid "Pickup-point and local pickup methods"
+msgstr ""
+
+#: build/index.js:8
+msgid "With these methods there is no delivery address, so no address is checked."
+msgstr ""
+
+#: build/index.js:8
+msgid "Shop exceptions"
+msgstr ""
+
+#: build/index.js:8
+msgid "Backfill"
+msgstr ""
+
+#: build/index.js:8
+msgid "Backfill past orders"
+msgstr ""
+
+#: build/index.js:8
+msgid "Not started"
+msgstr ""
+
+#: build/index.js:8
+msgid "Running"
+msgstr ""
+
+#: build/index.js:8
+msgid "Paused"
+msgstr ""
+
+#: build/index.js:8
+msgid "Finished"
+msgstr ""
+
+#: build/index.js:8
+msgid "Start backfill"
+msgstr ""
+
+#: build/index.js:8
+msgid "Running…"
+msgstr ""
+
+#: build/index.js:8
+msgid "Resume"
+msgstr ""
+
+#: build/index.js:8
+msgid "Run again"
+msgstr ""
+
+#: build/index.js:8
+msgid "Past orders"
+msgstr ""
+
+#: build/index.js:8
+msgid "Reports your completed and not picked up orders of the last 3 years, in the background. Orders already reported are skipped, so you can run it again at any time."
+msgstr ""
+
+#: build/index.js:8
+msgid "Save an API key first; the backfill runs for the environment of the key."
+msgstr ""
+
+#: build/index.js:8
+msgid "Backfill in progress"
+msgstr ""
+
+#: build/index.js:8
+msgid "The run paused after repeated errors (for example the service was unavailable). Resume continues where it stopped."
+msgstr ""
+
+#: build/index.js:8
+msgid "Processed"
+msgstr ""
+
+#. translators: %s: date and time.
+#: build/index.js:8
+#, js-format
+msgid "Started: %s"
+msgstr ""
+
+#: build/index.js:8
+msgid "Reported"
+msgstr ""
+
+#. translators: %s: date and time.
+#: build/index.js:8
+#, js-format
+msgid "Finished: %s"
+msgstr ""
+
+#: build/index.js:8
+msgid "Orders sent to TrustOrder"
+msgstr ""
+
+#: build/index.js:8
+msgid "Failed"
+msgstr ""
+
+#: build/index.js:8
+msgid "Refused by the service, not retried"
+msgstr ""
+
+#: build/index.js:8
+msgid "TrustOrder by upTools"
+msgstr ""
+
+#: build/index.js:8
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: build/index.js:8
+msgid "TrustOrder overview"
+msgstr ""
+
+#: build/index.js:8
+msgid "TrustOrder sections"
+msgstr ""
+
+#: build/index.js:8
+msgid "Unsaved changes"
+msgstr ""
+
+#: build/index.js:8
+msgid "Discard"
+msgstr ""
+
+#: build/index.js:8
+msgid "Save"
+msgstr ""
+
+#: build/index.js:8
+msgid "Settings saved."
+msgstr ""
+
+#: build/index.js:8
+msgid "API key removed."
+msgstr ""
+
+#: build/index.js:8
+msgid "Could not load the TrustOrder settings. Reload the page."
+msgstr ""

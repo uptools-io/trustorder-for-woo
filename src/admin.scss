@@ -1,0 +1,927 @@
+// TrustOrder admin styles, adapted from the lw-demo template. Colors, spacing
+// and radii come from the core WPDS tokens; the fallbacks only matter on
+// WordPress versions without them.
+
+$surface: var(--wpds-color-background-surface-neutral-strong, #fff);
+$page: var(--wpds-color-background-surface-neutral, #fcfcfc);
+$stroke: var(--wpds-color-stroke-surface-neutral, #ddd);
+$stroke-weak: var(--wpds-color-stroke-surface-neutral-weak, #f0f0f0);
+$text: var(--wpds-color-foreground-content-neutral, #1e1e1e);
+$muted: var(--wpds-color-foreground-content-neutral-weak, #707070);
+$brand: var(--wp-admin-theme-color, #3858e9);
+$success: var(--wpds-color-foreground-content-success, #007f30);
+$success-bg: var(--wpds-color-background-surface-success-weak, #eff9f1);
+$warning: var(--wpds-color-foreground-content-warning, #926300);
+$warning-bg: var(--wpds-color-background-surface-warning-weak, #fef8ee);
+$error: var(--wpds-color-foreground-content-error, #cc1818);
+$error-bg: var(--wpds-color-background-surface-error-weak, #fcf0f1);
+$track: var(--wpds-color-background-track-neutral-weak, #f0f0f0);
+$radius: var(--wpds-border-radius-md, 4px);
+$radius-lg: var(--wpds-border-radius-lg, 8px);
+$gap-sm: var(--wpds-dimension-gap-sm, 8px);
+$gap-md: var(--wpds-dimension-gap-md, 12px);
+$gap-lg: var(--wpds-dimension-gap-lg, 16px);
+$gap-xl: var(--wpds-dimension-gap-xl, 24px);
+$mono: var(--wpds-typography-font-family-mono, monospace);
+
+
+// Accent ---------------------------------------------------------------------
+// The upTools yellow (#ffd43b) is NOT used as --wp-admin-theme-color: white
+// button text on it is 1.5:1 and the yellow itself is 1.5:1 against the white
+// surface (toggles, focus rings, links would fail WCAG 1.4.3 / 1.4.11). So
+// controls keep the WordPress admin blue, and the yellow appears only as a
+// marker: the mark tile, the active side-nav stripe and the card stripe.
+$accent: #ffd43b;
+$accent-ink: #1e1e1e; // 15:1 on the yellow.
+
+// Focus rings: only for keyboard users. Core components draw the ring on
+// :focus, so it also stayed after every mouse click. :focus-visible is the
+// browser's own "keyboard or text field" signal — clicking hides the ring,
+// Tab still shows it (WCAG 2.4.7). Scoped to this screen, incl. modals.
+body.trustorder-screen {
+	:is(button, a, [role="button"], [role="radio"], [role="tab"], [tabindex]):focus:not(:focus-visible) {
+		outline: none;
+		box-shadow: none;
+	}
+
+	// Secondary buttons draw their border with box-shadow: keep it.
+	.components-button.is-secondary:focus:not(:focus-visible) {
+		box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color);
+	}
+
+	.components-form-toggle__input:focus:not(:focus-visible) + .components-form-toggle__track {
+		box-shadow: none;
+	}
+}
+// Full-bleed app screen inside the classic admin frame.
+.trustorder-screen {
+	#wpcontent {
+		padding-left: 0;
+	}
+
+	#wpbody-content {
+		padding-bottom: 0;
+	}
+
+	#wpfooter {
+		display: none;
+	}
+}
+
+
+.trustorder-root {
+	height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
+	background: $page;
+	color: $text;
+	font-size: 14px;
+}
+
+// Zero specificity: never recolors an svg that sets its own fill.
+:where(.trustorder-root svg) {
+	fill: currentColor;
+}
+
+// App shell ----------------------------------------------------------------
+// Full-height sidebar | main column (top bar + scrolling content).
+
+$bar-height: 64px;
+$foot-height: 56px;
+$canvas: var(--wpds-color-background-surface-neutral-weak, #f6f7f7);
+
+.to-shell {
+	display: grid;
+	grid-template-columns: 264px minmax(0, 1fr);
+	height: 100%;
+}
+
+.to-sidebar {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	background: $surface;
+	border-right: 1px solid $stroke-weak;
+
+	&__head {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex-shrink: 0;
+		height: $bar-height;
+		padding: 0 $gap-xl;
+		border-bottom: 1px solid $stroke-weak;
+		box-sizing: border-box;
+
+		svg {
+			width: 26px;
+			height: 26px;
+		}
+
+		strong {
+			font-size: 15px;
+		}
+	}
+
+	&__home {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		border-radius: $radius;
+		color: $text;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: $text;
+			box-shadow: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: 4px;
+		}
+	}
+
+	&__foot {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: $foot-height;
+		padding: 0 $gap-md;
+		border-top: 1px solid $stroke-weak;
+		box-sizing: border-box;
+
+		.to-sidenav__item {
+			color: $muted;
+
+			&:hover {
+				color: $text;
+			}
+		}
+	}
+}
+
+.to-sidenav {
+	flex: 1;
+	overflow-y: auto;
+	padding: $gap-lg $gap-md;
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		margin: 0;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		min-height: 38px;
+		padding: 0 $gap-md;
+		border-radius: $radius-lg;
+		color: $text;
+		font-weight: 500;
+		text-decoration: none;
+		transition: background-color 0.1s;
+
+		svg {
+			flex-shrink: 0;
+			color: $muted;
+		}
+
+		&:hover {
+			background: $canvas;
+			color: $text;
+		}
+
+		&:focus {
+			box-shadow: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: -2px;
+		}
+
+		&[aria-current="page"] {
+			background: $canvas;
+			font-weight: 600;
+
+			svg {
+				color: $text;
+			}
+		}
+	}
+
+	&__label {
+		flex: 1;
+	}
+
+	&__meta {
+		color: $muted;
+		font-size: 12px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__dot {
+		display: block;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+
+		&.is-ok {
+			background: $success;
+		}
+
+		&.is-error {
+			background: $error;
+		}
+	}
+}
+
+.to-main {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	background: $canvas;
+}
+
+.to-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: $gap-lg;
+	flex-shrink: 0;
+	height: $bar-height;
+	padding: 0 $gap-xl 0 32px;
+	background: $surface;
+	border-bottom: 1px solid $stroke-weak;
+	box-sizing: border-box;
+
+	&__title {
+		margin: 0;
+		padding: 0;
+		font-size: 18px;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: $gap-sm;
+	}
+
+	&__dirty {
+		color: $muted;
+		font-size: 12px;
+	}
+}
+
+.to-save {
+	gap: $gap-sm;
+
+	kbd {
+		padding: 1px 5px;
+		border-radius: 3px;
+		background: rgba(255, 255, 255, 0.2);
+		color: inherit;
+		font-family: inherit;
+		font-size: 11px;
+	}
+}
+
+.to-scroll {
+	flex: 1;
+	overflow-y: auto;
+	padding: $gap-xl 32px;
+}
+
+.to-content {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-lg;
+	// Fluid: fills the main column, capped only on ultra-wide screens so
+	// label/control rows stay scannable.
+	width: 100%;
+	max-width: 1440px;
+	margin: 0 auto;
+	padding-bottom: 48px;
+}
+
+.to-footer {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: flex-end;
+	height: $foot-height;
+	padding: 0 32px;
+	border-top: 1px solid $stroke-weak;
+	background: $surface;
+	box-sizing: border-box;
+
+	a {
+		display: inline-flex;
+		border-radius: 2px;
+		text-decoration: none;
+		transition: opacity 0.15s;
+
+		&:hover {
+			opacity: 0.8;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: 4px;
+		}
+	}
+}
+
+// Settings rows ------------------------------------------------------------
+
+.to-row {
+	display: grid;
+	grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
+	gap: $gap-xl;
+	align-items: start;
+
+	& + & {
+		padding-top: $gap-lg;
+		border-top: 1px solid $stroke-weak;
+	}
+
+	&.is-stacked {
+		grid-template-columns: 1fr;
+		gap: $gap-md;
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	&__title {
+		color: $text;
+		font-weight: 600;
+	}
+
+	&__help {
+		margin: 0;
+		color: $muted;
+		font-size: 13px;
+		line-height: 1.5;
+	}
+
+	&__control {
+		display: flex;
+		flex-direction: column;
+		gap: $gap-md;
+		min-width: 0;
+	}
+}
+
+.to-switch {
+	display: flex;
+	align-items: center;
+	gap: $gap-sm;
+	min-height: 32px;
+
+	&__state {
+		color: $muted;
+	}
+}
+
+.to-callout {
+	display: flex;
+	gap: $gap-sm;
+	padding: 10px $gap-md;
+	border-radius: $radius-lg;
+	background: $canvas;
+	font-size: 13px;
+	line-height: 1.5;
+
+	> svg {
+		flex-shrink: 0;
+		margin-top: 1px;
+		color: $muted;
+	}
+
+	&.is-warning {
+		background: $warning-bg;
+
+		> svg {
+			color: $warning;
+		}
+	}
+}
+
+// Sidebar toggle only exists on mobile.
+.to-sidebar__toggle {
+	display: none;
+}
+
+// Mobile (WP admin breakpoint): no inner scroll containers — the page scrolls
+// naturally, the sidebar becomes a header with a section dropdown, and the
+// top bar sticks under the admin bar.
+@media (max-width: 782px) {
+	.trustorder-root {
+		height: auto;
+		min-height: calc(100vh - var(--wp-admin--admin-bar--height, 46px));
+		// clip (not hidden) keeps position: sticky working.
+		overflow-x: clip;
+	}
+
+	.to-keyrow {
+		flex-wrap: wrap;
+
+		> .components-base-control {
+			flex-basis: 100%;
+		}
+	}
+
+	.to-shell {
+		display: block;
+		height: auto;
+	}
+
+	.to-sidebar {
+		position: relative;
+		border-right: 0;
+		border-bottom: 1px solid $stroke-weak;
+
+		&__head {
+			height: 52px;
+			padding: 0 $gap-lg;
+			border-bottom: 0;
+		}
+
+		&__toggle {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			width: calc(100% - 32px);
+			min-height: 44px;
+			margin: 0 $gap-lg $gap-md;
+			padding: 0 $gap-md;
+			border: 1px solid $stroke;
+			border-radius: $radius-lg;
+			background: $surface;
+			color: $text;
+			font: inherit;
+			font-weight: 600;
+			cursor: pointer;
+
+			span {
+				flex: 1;
+				text-align: left;
+			}
+
+			svg:last-child {
+				transition: transform 0.15s;
+			}
+
+			&:focus-visible {
+				outline: 2px solid $brand;
+				outline-offset: 2px;
+			}
+		}
+
+		&.is-open &__toggle svg:last-child {
+			transform: rotate(180deg);
+		}
+
+		&__foot {
+			display: none;
+		}
+	}
+
+	.to-sidenav {
+		display: none;
+		position: absolute;
+		top: 100%;
+		right: $gap-lg;
+		left: $gap-lg;
+		z-index: 20;
+		margin-top: -$gap-sm;
+		padding: 6px;
+		border: 1px solid $stroke-weak;
+		border-radius: $radius-lg;
+		background: $surface;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+		.is-open & {
+			display: block;
+		}
+
+		&__item {
+			min-height: 44px;
+		}
+	}
+
+	.to-main {
+		display: block;
+	}
+
+	.to-topbar {
+		position: sticky;
+		top: var(--wp-admin--admin-bar--height, 46px);
+		z-index: 10;
+		height: 56px;
+		padding: 0 $gap-lg;
+
+		&__title {
+			overflow: hidden;
+			font-size: 16px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		&__dirty {
+			display: none;
+		}
+	}
+
+	.to-save kbd {
+		display: none;
+	}
+
+	.to-scroll {
+		overflow: visible;
+		padding: $gap-lg;
+	}
+
+	.to-footer {
+		padding: 10px $gap-lg;
+	}
+
+	.to-row {
+		grid-template-columns: 1fr;
+		gap: $gap-sm;
+	}
+}
+
+// Below 600px the admin bar scrolls away, so the top bar sticks to the top.
+@media (max-width: 600px) {
+	.to-topbar {
+		top: 0;
+	}
+}
+// Connection ---------------------------------------------------------------
+
+.to-keyrow {
+	> .components-base-control {
+		flex: 1;
+	}
+}
+
+.to-testresult {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	font-weight: 500;
+
+	&.is-ok {
+		color: $success;
+	}
+
+	&.is-error {
+		color: $error;
+	}
+}
+
+// Tiles --------------------------------------------------------------------
+
+.to-tiles {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: $gap-md;
+}
+
+.to-tile {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: $gap-lg;
+	background: $surface;
+	border: 1px solid $stroke-weak;
+	border-radius: $radius-lg;
+
+	&__label {
+		color: $muted;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	&__value {
+		font-size: 22px;
+		font-weight: 600;
+		line-height: 1.3;
+
+		small {
+			color: $muted;
+			font-size: 13px;
+			font-weight: 400;
+		}
+	}
+
+	&__meter {
+		width: 100%;
+		max-width: none;
+	}
+
+	&__detail {
+		color: $muted;
+		font-size: 12px;
+	}
+}
+.to-snackbars {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 100000;
+	width: auto;
+	max-width: min(480px, calc(100vw - 48px));
+}
+// Skeletons ----------------------------------------------------------------
+// Shapes come from the WPDS <Skeleton>; these rules only size and lay them out.
+
+.lw-skel {
+	border-radius: $radius;
+
+	&.is-round {
+		border-radius: 999px;
+	}
+
+	&--text {
+		max-width: 100%;
+		height: 12px;
+
+		&.is-sm {
+			height: 10px;
+		}
+
+		&.is-lg {
+			height: 16px;
+		}
+
+		&.is-xl {
+			height: 28px;
+		}
+	}
+}
+
+.lw-skel-lines,
+.lw-skel-stack {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-sm;
+	width: 100%;
+}
+
+.lw-skel-stack.is-loose {
+	gap: $gap-lg;
+}
+
+.lw-skel-tab {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-lg;
+}
+
+.lw-skel-rows {
+	display: flex;
+	flex-direction: column;
+}
+
+.lw-skel-row {
+	display: grid;
+	grid-template-columns: minmax(140px, 30%) minmax(0, 1fr) auto;
+	align-items: center;
+	gap: $gap-md;
+	padding: 14px 0;
+	border-bottom: 1px solid $stroke-weak;
+
+	&:last-child {
+		border-bottom: 0;
+	}
+}
+
+.lw-skel-toolbar {
+	display: flex;
+	gap: $gap-sm;
+	margin-bottom: $gap-md;
+}
+
+.lw-skel-spacer {
+	flex: 1;
+}
+
+.lw-skel-nav {
+	padding: $gap-lg $gap-xl;
+	gap: 22px;
+}
+// Segmented control (variant B, "soft segmented") -----------------------------
+// Restyles core ToggleGroupControl: grey track, raised white thumb. The thumb
+// is the group's ::before, positioned by core through --selected-* (unitless
+// px); core offsets it for a 1px border, which this track does not have.
+
+body.trustorder-screen {
+	.components-toggle-group-control {
+		min-height: 40px;
+		padding: 3px;
+		border: 0;
+		border-radius: 9px;
+		background: $track;
+		box-sizing: border-box;
+
+		// No focus-within ring on the group, at all (explicit decision).
+		&:focus-within {
+			outline: none;
+		}
+
+		&::before {
+			top: calc(var(--selected-top) * 1px);
+			left: 0;
+			width: calc(var(--selected-width) * 1px);
+			height: calc(var(--selected-height) * 1px);
+			border: 0;
+			border-radius: 7px;
+			background: $surface;
+			box-shadow: 0 1px 2px rgba(16, 24, 32, 0.12), 0 1px 1px rgba(16, 24, 32, 0.06);
+		}
+	}
+
+	.components-toggle-group-control-option-base {
+		border-radius: 7px;
+		color: $muted;
+		font-weight: 500;
+
+		&:hover {
+			color: $text;
+		}
+
+		&[aria-checked="true"] {
+			color: $text;
+			font-weight: 600;
+		}
+	}
+}
+
+// TrustOrder pieces -----------------------------------------------------------
+
+// Mark: yellow tile, dark glyph.
+.to-mark {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 30px;
+	height: 30px;
+	border-radius: 8px;
+	background: $accent;
+	color: $accent-ink;
+
+	.to-sidebar__head & svg {
+		width: 18px;
+		height: 18px;
+	}
+}
+
+// Active section: a yellow stripe at the left edge (marker, not text color).
+.to-sidenav__item[aria-current="page"] {
+	box-shadow: inset 3px 0 0 $accent;
+}
+
+.to-section.is-accent {
+	border-top: 3px solid $accent;
+}
+
+.to-row__help,
+.to-tile__detail {
+	font-size: 13px;
+}
+
+.to-tile__label {
+	font-size: 12px;
+}
+
+.to-checks {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: $gap-sm $gap-lg;
+	margin: 0;
+	padding: 0;
+	border: 0;
+
+	.components-base-control__field {
+		margin-bottom: 0;
+	}
+
+	&__hint {
+		color: $muted;
+		font-size: 13px;
+	}
+}
+
+.to-state {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: $gap-md;
+		margin: 0;
+		padding: 12px 0;
+		border-bottom: 1px solid $stroke-weak;
+
+		&:last-child {
+			border-bottom: 0;
+		}
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+
+		span {
+			color: $muted;
+			font-size: 13px;
+		}
+	}
+}
+
+.to-keyprefix {
+	font-family: $mono;
+	font-size: 14px;
+}
+
+.to-fields {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: $gap-md;
+}
+
+.to-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $gap-sm;
+}
+
+.to-id {
+	font-family: $mono;
+	font-size: 13px;
+}
+
+.to-progress {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: $gap-sm;
+
+	.components-progress-bar,
+	.to-callout {
+		align-self: stretch;
+	}
+
+	.components-progress-bar {
+		width: 100%;
+		max-width: none;
+	}
+}
+
+.to-sidenav__dot.is-dirty {
+	background: $warning;
+}
+
+// Header actions keep their width (long translated button labels).
+.to-section .components-card__header > :last-child:not(:first-child) {
+	flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+	.to-state li {
+		grid-template-columns: 1fr;
+		gap: 6px;
+
+		> :last-child {
+			justify-self: start;
+		}
+	}
+}

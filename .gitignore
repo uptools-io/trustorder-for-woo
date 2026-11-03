@@ -1,0 +1,9 @@
+/vendor/
+/node_modules/
+/dist/
+/strauss.phar
+.phpunit.result.cache
+/.superpowers/
+/docs/superpowers/
+/.claude/
+.DS_Store

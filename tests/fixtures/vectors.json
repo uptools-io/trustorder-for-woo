@@ -1,0 +1,1131 @@
+[
+ {
+  "kind": "email",
+  "input": {
+   "raw": "Foo.Bar+shop@GoogleMail.com"
+  },
+  "ok": true,
+  "norm": "foobar@gmail.com",
+  "hash": "8cd79ce2224abde026ddc67563fe5edb8b5eb41846c63cd550a76ea76cc2eddd"
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "x.y+z@freemail.hu"
+  },
+  "ok": true,
+  "norm": "x.y@freemail.hu",
+  "hash": "d8e62a2fe6a32350bc89a1460314ce829835ac1f708fb74e6f58a601a85716bd"
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "user@bücher.de"
+  },
+  "ok": true,
+  "norm": "user@xn--bcher-kva.de",
+  "hash": "04e0342b39ba53dc45164a17233214269f038a667302782655edf34b41e983fd"
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": " A@B.HU "
+  },
+  "ok": true,
+  "norm": "a@b.hu",
+  "hash": "643fef12886302f0503c1e0e25ca3ea9a540e43fb681af01fec129df7f912a4a"
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "john.doe@gmail.com"
+  },
+  "ok": true,
+  "norm": "johndoe@gmail.com",
+  "hash": "3553ccee7a70a89ee2ec0edd128c865c5793a3ff72d82529db2582354b222962"
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "JOHN.DOE+spam@Gmail.Com"
+  },
+  "ok": true,
+  "norm": "johndoe@gmail.com",
+  "hash": "3553ccee7a70a89ee2ec0edd128c865c5793a3ff72d82529db2582354b222962"
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "kovacs.janos@example.hu"
+  },
+  "ok": true,
+  "norm": "kovacs.janos@example.hu",
+  "hash": "e6212bb3fd776bd235b9db0a511af0e8929e29fe62b695117716a14192ccd4a4"
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "a@ b.hu"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "a @b.hu"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "İ@example.hu"
+  },
+  "ok": true,
+  "norm": "i@example.hu",
+  "hash": "819d8dbae3d092070ac29b6c49a76650a09bc622cfda24c86e4ba23d93e78d4e"
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "a@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "a@b"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "@b.hu"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "a@@b.hu"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "+tag@example.com"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "a@"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "no-at-sign.hu"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "a b@example.com"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "a@exa mple.com"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "email",
+  "input": {
+   "raw": "Ördög@example.hu"
+  },
+  "ok": true,
+  "norm": "ördög@example.hu",
+  "hash": "ec2eba7f5f6867c0ad6290cb3e1a0f8766ba6b0ab1b28501114a97b6225bdc7a"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "06 30 123 4567",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+36301234567",
+  "hash": "038e5821814169825ae568bfefdb18ca31d4d2e0a0f5941b6da27df45d50ddf4"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "0630/123-4567",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+36301234567",
+  "hash": "038e5821814169825ae568bfefdb18ca31d4d2e0a0f5941b6da27df45d50ddf4"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+36 30 123 4567",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+36301234567",
+  "hash": "038e5821814169825ae568bfefdb18ca31d4d2e0a0f5941b6da27df45d50ddf4"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "0036301234567",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+36301234567",
+  "hash": "038e5821814169825ae568bfefdb18ca31d4d2e0a0f5941b6da27df45d50ddf4"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+36 (30) 123-4567",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+36301234567",
+  "hash": "038e5821814169825ae568bfefdb18ca31d4d2e0a0f5941b6da27df45d50ddf4"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "06-30-123-4567",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+36301234567",
+  "hash": "038e5821814169825ae568bfefdb18ca31d4d2e0a0f5941b6da27df45d50ddf4"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "06 1 234 5678",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+3612345678",
+  "hash": "45e1f8a51a1469d75d79024e6e8a1573b2c14520f89ba46d7f1f2e5bab8bb4e9"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+36 30 111 1111",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+36301111111",
+  "hash": "ac2471214c1042f0c0bb9aad6bb5aed2292c6ff24769b757654b542567e62f2f"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+36 11 111 1111",
+   "region": "HU"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+36 1 111 1111",
+   "region": "HU"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+48 123 456 789",
+   "region": "PL"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+33 123456789",
+   "region": "FR"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "123456",
+   "region": "HU"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "",
+   "region": "HU"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "abc",
+   "region": "HU"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "06 30 123",
+   "region": "HU"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "1-800-FLOWERS",
+   "region": "US"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "0722 123 456",
+   "region": "RO"
+  },
+  "ok": true,
+  "norm": "+40722123456",
+  "hash": "2b6462c299c5fb02fe3d6c4943cfed3962fea4b4699acf4ec10aed903b2a17b1"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+40 722 123 456",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+40722123456",
+  "hash": "2b6462c299c5fb02fe3d6c4943cfed3962fea4b4699acf4ec10aed903b2a17b1"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+49 30 901820",
+   "region": "DE"
+  },
+  "ok": true,
+  "norm": "+4930901820",
+  "hash": "9045eeee707e242af71682c8b9df8568c5ed68f007c31df12cf482477f0b941d"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "0036 20 999 8888",
+   "region": "HU"
+  },
+  "ok": true,
+  "norm": "+36209998888",
+  "hash": "41e68bfa7d35bf45208f71971a9b9bf7774180653888157271f6c51f2d9e4c8c"
+ },
+ {
+  "kind": "phone",
+  "input": {
+   "raw": "+36 22 222 2222",
+   "region": "HU"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Petőfi Sándor u. 12/A 3. em. 5.",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|petofi sandor utca 12a",
+  "hash": "956b4ad633a194c484c3fdd6d6145ec1ac929b211438b3452e79b4853f65df96"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|fo ut 3",
+  "hash": "0bdd28bd271698847a04e4d25fcfbe44f641965331b278abb815fda6d541955d"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1062",
+   "line1": "Andrássy krt. 10-12.",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1062|andrassy korut 10",
+  "hash": "6c1df1a0914f58ae2787e9734050acbef6bfa61fa03218158bf32ff117ed2c9e"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1062",
+   "line1": "Andrássy út 10",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1062|andrassy ut 10",
+  "hash": "7d563c9d1be4e9fa8bd3a6d7ec47627b9232d895c8582b7cdb8ff6bf6d0aeb20"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "2030",
+   "line1": "hrsz 1234",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|2030|hrsz 1234",
+  "hash": "f24c923cde63fb1629e322b1fc554e095ce7c37c5f6bb0c2dcb4062efd49beb9"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "2030",
+   "line1": "HRSZ. 0123/4",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|2030|hrsz 0123 4",
+  "hash": "a820be5e31dfde7b17a52f2a4f318a362a7b3cb45a4221ec8ba8f7970910f955"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "2030",
+   "line1": "HRSZ. 0123/5",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|2030|hrsz 0123 5",
+  "hash": "1619bc53b36c9323e6a6739944485eb3bdda849b6ac5cd3c0a4fc615b20cd3e9"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "   ",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Fő út",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Fő út",
+   "line2": "12"
+  },
+  "ok": true,
+  "norm": "hu|1051|fo ut 12",
+  "hash": "946158d980f2c479f3036b13e35e46b815ead98d1cb6f319ae792a17d031f4f4"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Fő út 3",
+   "line2": "99"
+  },
+  "ok": true,
+  "norm": "hu|1051|fo ut 3",
+  "hash": "0bdd28bd271698847a04e4d25fcfbe44f641965331b278abb815fda6d541955d"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "hu",
+   "postcode": "10 51",
+   "line1": " Kossuth Lajos tér 7. ",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|kossuth lajos ter 7",
+  "hash": "180294207ac553f5b6c5c37a45f3450d270cddf43bacc1153d5dc108c2cbf7a0"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "4026",
+   "line1": "Bethlen G. tr. 4 B",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|4026|bethlen g ter 4b",
+  "hash": "296ca6f6ac272b58df8979c4e628e68afccd765e7d6503352b677e30287a1f1e"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "9021",
+   "line1": "Széchenyi rkp. 2",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|9021|szechenyi rakpart 2",
+  "hash": "1006bb1ca030b87615275b20ddd72e71b784ffc6980da1008eaa4a82d8395271"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1139",
+   "line1": "Váci Út 90 fszt. 2",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1139|vaci ut 90",
+  "hash": "974f235740f78ec832ad0e28bd78187c5bd17654a40459b859e5fc43c71c05a4"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1119",
+   "line1": "Tétényi út 12 14",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1119|tetenyi ut 12",
+  "hash": "251e4fb78c73756862c3de1b88731921ed39dda9b2a143c3a5fceb665556a5f6"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1211",
+   "line1": "Kossuth Lajos Körút 5",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1211|kossuth lajos korut 5",
+  "hash": "b021d7fe70366145301a5162833c94d578d6425711e25101bda4bb51ab47b867"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "3525",
+   "line1": "Árpád fasor 4/b",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|3525|arpad fasor 4b",
+  "hash": "fddb6ad9852625b80f30d9036b8efa08b85f23119616b82d45b0ade48af0e888"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "3300",
+   "line1": "Kertvárosi ltp. 8",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|3300|kertvarosi lakotelep 8",
+  "hash": "4f9b979cf8aaaf28607660fedab01d15357b8f63516861e7381609fc9799bdd6"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Petőfi Sándor utca 12a",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|petofi sandor utca 12a",
+  "hash": "956b4ad633a194c484c3fdd6d6145ec1ac929b211438b3452e79b4853f65df96"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "RO",
+   "postcode": "400001",
+   "line1": "Strada Memorandumului 12",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "ro|400001|strada memorandumului 12",
+  "hash": "e5e56ba5ad1ddc23fdc322285cca08cea5a750ae6974dee2e4528d7c26a047de"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "GB",
+   "postcode": "SW1A 1AA",
+   "line1": "10 Downing Street",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "gb|sw1a1aa|10 downing street",
+  "hash": "5ee1156f5b7bae734e77a9feebf4fbdb6693680129832d41d481ff592442e262"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "10|51",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "H",
+   "postcode": "1051",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Fő út 3.",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|fo ut 3",
+  "hash": "0bdd28bd271698847a04e4d25fcfbe44f641965331b278abb815fda6d541955d"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1000",
+   "line1": "56-osok tere 4",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1000|56 osok tere 4",
+  "hash": "b03f7dfb8d483f17d8625671ddf91cbe219311c3a8c2b335ddd1fd93dd8ae1fe"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1000",
+   "line1": "56-osok tere",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1000",
+   "line1": "56-osok tere",
+   "line2": "4"
+  },
+  "ok": true,
+  "norm": "hu|1000|56 osok tere 4",
+  "hash": "b03f7dfb8d483f17d8625671ddf91cbe219311c3a8c2b335ddd1fd93dd8ae1fe"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "FR",
+   "postcode": "75002",
+   "line1": "12 rue de la Paix",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "fr|75002|12 rue de la paix",
+  "hash": "779b5c03d6173a68edf3fb7ceead75c47074e880253374b3e0809b5f8704b334"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "FR",
+   "postcode": "75005",
+   "line1": "12 rue Saint-Augustin",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "fr|75005|12 rue saint augustin",
+  "hash": "64871b27ecf4916ef403854190c7b806ff623febd9f28b126c7da9aaa53ae7cc"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "12",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Kossuth",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Kossuth u 3. I/5",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|kossuth utca 3",
+  "hash": "246263d6dfc2fe1589eecc25ba143a9edbe7595b14d8eb34645764e8bb660352"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Kossuth u. 3. B lph. 2/5",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|kossuth utca 3",
+  "hash": "246263d6dfc2fe1589eecc25ba143a9edbe7595b14d8eb34645764e8bb660352"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Kossuth u. 3. B 2/5",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|kossuth utca 3b",
+  "hash": "ba6fc22b3d6ae036929b9ea24dcd945820389b180675096d693523bbe0049cc5"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Kossuth u. 3. V",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|kossuth utca 3",
+  "hash": "246263d6dfc2fe1589eecc25ba143a9edbe7595b14d8eb34645764e8bb660352"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051",
+   "line1": "Kossuth u. 3 C lepcsohaz",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|kossuth utca 3",
+  "hash": "246263d6dfc2fe1589eecc25ba143a9edbe7595b14d8eb34645764e8bb660352"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "H-1051",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|fo ut 3",
+  "hash": "0bdd28bd271698847a04e4d25fcfbe44f641965331b278abb815fda6d541955d"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "hu-1051",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|fo ut 3",
+  "hash": "0bdd28bd271698847a04e4d25fcfbe44f641965331b278abb815fda6d541955d"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1051.",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1051|fo ut 3",
+  "hash": "0bdd28bd271698847a04e4d25fcfbe44f641965331b278abb815fda6d541955d"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "DE",
+   "postcode": "DE-10115",
+   "line1": "Invalidenstraße 1",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "de|10115|invalidenstra e 1",
+  "hash": "30e0e7bff076dbc4443cca91fc785dc2492e832af9512dbf864e6e21081739f5"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "10.51",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "-",
+   "line1": "Fő út 3",
+   "line2": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1139",
+   "line1": "XIII. ker. Fő út 3",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1139|fo ut 3",
+  "hash": "373137182cfef5a5ebceaa744bb17ab46241aad40389f0e6457112750230dae8"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1139",
+   "line1": "xiii. kerület Fő út 3",
+   "line2": ""
+  },
+  "ok": true,
+  "norm": "hu|1139|fo ut 3",
+  "hash": "373137182cfef5a5ebceaa744bb17ab46241aad40389f0e6457112750230dae8"
+ },
+ {
+  "kind": "address",
+  "input": {
+   "country": "HU",
+   "postcode": "1139",
+   "line1": "Fő út",
+   "line2": "XIII. ker. 3"
+  },
+  "ok": true,
+  "norm": "hu|1139|fo ut xiii ker 3",
+  "hash": "275639ebc817c00f348a5cfc82ea31dc8c814465349e9ef5a06e29bd7076f4c3"
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "Example.COM"
+  },
+  "ok": true,
+  "norm": "example.com",
+  "hash": "3a3ab5ba7487254e728160c083a572b00b37a95fcb8b7d1af8b8a42dd4a7d144"
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "bücher.de"
+  },
+  "ok": true,
+  "norm": "xn--bcher-kva.de",
+  "hash": "7d21e3a36d0af0bbf83a0b8bb8b76fd8a0ac104ba6d70187878e50960524ec7e"
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "gmail.com"
+  },
+  "ok": true,
+  "norm": "gmail.com",
+  "hash": "4672a2431309380c7954c449b3ff20d2cd31968853d6e98137dd3b0be3652dae"
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "faß.de"
+  },
+  "ok": true,
+  "norm": "xn--fa-hia.de",
+  "hash": "c9bf4e493070f9ae931081acd8df4e6bd5ec34d9634e5dc095ad80fbd7736907"
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "a_b.com"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com"
+  },
+  "ok": true,
+  "norm": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com",
+  "hash": "fa2d3c3360a2d402017d3ad52f3e6e6bf6d6767170ca34a78ded294b23e431dc"
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "a‍b.com"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "localhost"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": ""
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "a b.com"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "nn.ü--bn"
+  },
+  "ok": false,
+  "norm": "",
+  "hash": ""
+ },
+ {
+  "kind": "domain",
+  "input": {
+   "domain": "ü.aü--b-0"
+  },
+  "ok": true,
+  "norm": "xn--tda.xn--a--b-0-3ya",
+  "hash": "513aea51f0cb16e47e7feb13fe35797fc270640ef830906763a28fa88f05bbef"
+ },
+ {
+  "kind": "domain_suffixes",
+  "input": {
+   "domain": "a.b.mailinator.com"
+  },
+  "ok": true,
+  "norm": "a.b.mailinator.com,b.mailinator.com,mailinator.com",
+  "hash": "351df6a1401bc8c3b39c83cc87b8e2d943134ee7071bf3e6115ba930263e601a,04def0dee903c7855f7d210f97f7465be25b487856942e435e8753d5368e41b2,d612e31dc021a25d209e94df9ba873a15ed02e08a48782ca56defc5b1710c8e6"
+ },
+ {
+  "kind": "domain_suffixes",
+  "input": {
+   "domain": "mailinator.com"
+  },
+  "ok": true,
+  "norm": "mailinator.com",
+  "hash": "d612e31dc021a25d209e94df9ba873a15ed02e08a48782ca56defc5b1710c8e6"
+ },
+ {
+  "kind": "domain_suffixes",
+  "input": {
+   "domain": "x.y.z.w.v.u.example.co"
+  },
+  "ok": true,
+  "norm": "z.w.v.u.example.co,w.v.u.example.co,v.u.example.co,u.example.co,example.co",
+  "hash": "a08b82894fa74c0bf66e93668bda49a6ecb80a49afcb4f9692ed9196ecf715f6,53e767be89480f9387b5a2df97e8e431140147891f3f8026c5c29fb252c286c8,a7270c2cc711dc2f46f15e0d7edac8ae6782d6ee7171e61385e3bb85c7b8bb1e,350bf6fbbfad0d5ec80aaea01f91bc04da2eea24c52bafabf4cc71a68f6968d5,e17cb18d1f317c290bf99f4d446b2f0be62353f01b4043f1ce5ad579036b83d3"
+ }
+]

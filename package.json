@@ -1,0 +1,31 @@
+{
+	"name": "trustorder-for-woo",
+	"version": "1.0.0",
+	"private": true,
+	"description": "TrustOrder for WooCommerce admin app (WordPress components).",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build",
+		"start": "wp-scripts start",
+		"lint:js": "wp-scripts lint-js src",
+		"i18n": "wp i18n make-pot . languages/trustorder-for-woo.pot --slug=trustorder-for-woo --domain=trustorder-for-woo --exclude=node_modules,vendor,vendor-prefixed,src,tests && msgmerge --quiet --update --backup=none --no-fuzzy-matching languages/trustorder-for-woo-hu_HU.po languages/trustorder-for-woo.pot && msgfmt languages/trustorder-for-woo-hu_HU.po -o languages/trustorder-for-woo-hu_HU.mo && wp i18n make-json languages --no-purge"
+	},
+	"dependencies": {
+		"@lwplugins/data-table": "0.3.0",
+		"@wordpress/api-fetch": "7.56.0",
+		"@wordpress/components": "41.0.0",
+		"@wordpress/compose": "8.9.0",
+		"@wordpress/data": "10.56.0",
+		"@wordpress/date": "5.56.0",
+		"@wordpress/element": "8.8.0",
+		"@wordpress/i18n": "6.29.0",
+		"@wordpress/icons": "17.0.0",
+		"@wordpress/keycodes": "4.56.0",
+		"@wordpress/notices": "5.56.0",
+		"@wordpress/primitives": "4.56.0",
+		"@wordpress/ui": "0.23.0"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "36.0.0"
+	}
+}
