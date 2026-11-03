@@ -1,31 +1,37 @@
 #!/usr/bin/env bash
 # Builds the installable release ZIP: trustorder-for-woo-<version>.zip
 #
-# Source = `git archive HEAD:plugin` (committed files only, so the committed
+# Source = `git archive` of the plugin folder at HEAD (committed files only, so the committed
 # vendor-prefixed/ and build/ are in, and everything marked export-ignore in
-# plugin/.gitattributes is out), minus composer.json/composer.lock (Composer
+# .gitattributes is out), minus composer.json/composer.lock (Composer
 # metadata, not needed at runtime). Then the ZIP is checked against the
 # dev-file list and the build fails if anything slipped in.
 #
-# Usage: plugin/bin/build-zip.sh [output-dir]   (default: plugin/dist)
+# Works both as the plugin/ folder of the monorepo and as a standalone repo.
+#
+# Usage: bin/build-zip.sh [output-dir]   (default: <plugin>/dist)
 set -euo pipefail
 
 PLUGIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_DIR="$(git -C "$PLUGIN_DIR" rev-parse --show-toplevel)"
+# "" in a standalone repo, "plugin/" in the monorepo.
+PREFIX="$(git -C "$PLUGIN_DIR" rev-parse --show-prefix)"
 OUT_DIR="${1:-$PLUGIN_DIR/dist}"
 SLUG="trustorder-for-woo"
 
-if [ -n "$(git -C "$REPO_DIR" status --porcelain -- plugin)" ]; then
-	echo "warning: plugin/ has uncommitted changes; the ZIP is built from HEAD" >&2
+if [ -n "$(git -C "$REPO_DIR" status --porcelain -- "$PLUGIN_DIR")" ]; then
+	echo "warning: the plugin has uncommitted changes; the ZIP is built from HEAD" >&2
 fi
 
-VERSION="$(git -C "$REPO_DIR" show "HEAD:plugin/$SLUG.php" | sed -n 's/^ \* Version:[[:space:]]*\([0-9.]*\).*/\1/p')"
+VERSION="$(git -C "$REPO_DIR" show "HEAD:$PREFIX$SLUG.php" | sed -n 's/^ \* Version:[[:space:]]*\([0-9.]*\).*/\1/p')"
 [ -n "$VERSION" ] || { echo "error: no Version: header in $SLUG.php" >&2; exit 1; }
 
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 mkdir -p "$WORK/$SLUG" "$OUT_DIR"
-git -C "$REPO_DIR" archive HEAD:plugin | tar -x -C "$WORK/$SLUG"
+# The ZIP is written from inside $WORK, so a relative output dir must be absolute.
+OUT_DIR="$(cd "$OUT_DIR" && pwd)"
+git -C "$REPO_DIR" archive "HEAD:$PREFIX" | tar -x -C "$WORK/$SLUG"
 rm -f "$WORK/$SLUG/composer.json" "$WORK/$SLUG/composer.lock"
 
 for required in "$SLUG.php" uninstall.php readme.txt includes build/index.js build/index.asset.php vendor-prefixed/autoload.php languages; do

@@ -1,0 +1,137 @@
+name: CI
+
+on:
+  # release.yml calls this workflow and releases only when every job passes.
+  workflow_call:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  admin-build:
+    name: Admin build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Build
+        run: npm ci && npm run build
+
+      - name: Build drift check
+        # build/ is committed; catches modified AND untracked build files.
+        run: |
+          changes="$(git status --porcelain -- build)"
+          if [ -n "$changes" ]; then
+            echo "$changes"
+            echo "build/ is stale: run 'npm run build' and commit the result."
+            exit 1
+          fi
+
+  phpcs:
+    name: PHP CodeSniffer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: intl, mbstring
+          tools: composer, cs2pr
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Run PHPCS
+        run: composer phpcs -- -q --report=checkstyle | cs2pr
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: intl, mbstring
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Run PHPStan
+        run: composer analyse
+
+  test:
+    name: Tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: intl, mbstring
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Run unit tests
+        run: composer test
+
+  prefixed-vendor:
+    name: Prefixed vendor matches Strauss
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Compare vendor-prefixed/
+        # The generated autoloader (autoload.php, composer/) embeds a path- and
+        # commit-dependent suffix, so only the package files are compared.
+        run: |
+          composer strauss
+          changes="$(git status --porcelain -- vendor-prefixed ':!vendor-prefixed/autoload.php' ':!vendor-prefixed/composer')"
+          if [ -n "$changes" ]; then
+            echo "$changes"
+            echo "vendor-prefixed/ is stale: run 'composer strauss' and commit the result."
+            exit 1
+          fi
