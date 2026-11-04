@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3] - 2026-11-04
+
+### Added
+- The API key can be set with the `TRUSTORDER_API_KEY` constant (wp-config.php or Bedrock .env). It overrides the saved key; the admin screen then shows only its beginning, and the admin, REST and WP-CLI cannot change it.
+
+### Changed
+- Orders list: the column is now titled "COD check" (Hungarian: "Utánvét ellenőrzés") and is the last column, after Actions.
+
 ## [1.0.2] - 2026-11-04
 
 ### Added

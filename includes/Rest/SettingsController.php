@@ -139,6 +139,9 @@ final class SettingsController {
 	 */
 	private static function validate( array $in ) {
 		$patch = [];
+		if ( array_key_exists( 'api_key', $in ) && Settings::keyLocked() ) {
+			return ApiError::invalid( 'trustorder_key_locked', __( 'The API key is set by the TRUSTORDER_API_KEY constant (wp-config.php or .env) and cannot be changed here.', 'trustorder-for-woo' ) );
+		}
 		if ( array_key_exists( 'api_key', $in ) ) {
 			$key = is_string( $in['api_key'] ) ? trim( $in['api_key'] ) : null;
 			if ( null === $key || ( '' !== $key && ! ApiKey::isValid( $key ) ) ) {

@@ -59,16 +59,16 @@ final class OrderAdminTest extends TestCase {
 
 		foreach ( [ 'manage_woocommerce_page_wc-orders_columns', 'manage_edit-shop_order_columns' ] as $hook ) {
 			$out = apply_filters( $hook, $cols );
-			$this->assertSame( [ 'cb', 'order_number', 'order_status', 'trustorder', 'order_total' ], array_keys( $out ), $hook );
+			$this->assertSame( [ 'cb', 'order_number', 'order_status', 'order_total', 'trustorder' ], array_keys( $out ), $hook );
 		}
 	}
 
-	public function test_column_is_titled_parcel_tracking_after_the_status(): void {
-		$cols = OrderColumn::addColumn( [ 'cb' => '', 'order_status' => 'Status', 'order_total' => 'Total' ] );
+	public function test_column_is_titled_cod_check_at_the_end(): void {
+		$cols = OrderColumn::addColumn( [ 'cb' => '', 'order_status' => 'Status', 'order_total' => 'Total', 'wc_actions' => 'Actions' ] );
 
-		$this->assertSame( [ 'cb', 'order_status', OrderColumn::COLUMN, 'order_total' ], array_keys( $cols ) );
-		$this->assertSame( 'Parcel tracking', $cols[ OrderColumn::COLUMN ] );
-		$this->assertSame( 'Parcel tracking', OrderColumn::addColumn( [ 'cb' => '' ] )[ OrderColumn::COLUMN ] );
+		$this->assertSame( [ 'cb', 'order_status', 'order_total', 'wc_actions', OrderColumn::COLUMN ], array_keys( $cols ) );
+		$this->assertSame( 'COD check', $cols[ OrderColumn::COLUMN ] );
+		$this->assertSame( 'COD check', OrderColumn::addColumn( [ 'cb' => '' ] )[ OrderColumn::COLUMN ] );
 	}
 
 	public function test_a_buyer_without_history_is_a_green_new_customer(): void {

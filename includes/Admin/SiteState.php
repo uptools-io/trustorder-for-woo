@@ -35,6 +35,7 @@ final class SiteState {
 			'has_key'    => '' !== $key,
 			'key_prefix' => substr( $key, 0, self::PREFIX_LENGTH ),
 			'env'        => ApiKey::env( $key ),
+			'key_locked' => Settings::keyLocked(),
 		];
 	}
 

@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -89,7 +89,7 @@ English and Hungarian (PHP and the admin app) are bundled in `languages/`.
 
 1. Requirements: WordPress 6.6 or newer, WooCommerce 8.2 or newer, PHP 8.1 or newer. The PHP `intl` extension is recommended: without it (or without mbstring), values with non-ASCII characters, such as accented addresses or international e-mail domains, are not hashed, and an order whose e-mail contains such characters is not checked (the admin shows a notice).
 2. Upload the `trustorder-for-woo` folder to `wp-content/plugins/` (or install the ZIP under Plugins → Add New → Upload) and activate it.
-3. Under WooCommerce → TrustOrder → Settings, paste the API key you received from uptools.io (`to_test_` keys use the sandbox, `to_live_` keys the live service) and run the connection test on the Overview screen.
+3. Under WooCommerce → TrustOrder → Settings, paste the API key you received from uptools.io (`to_test_` keys use the sandbox, `to_live_` keys the live service) and run the connection test on the Overview screen. Alternatively, set the key in `wp-config.php` with `define( 'TRUSTORDER_API_KEY', 'to_live_...' );` (on Bedrock: `TRUSTORDER_API_KEY` in `.env` and `Config::define( 'TRUSTORDER_API_KEY', env( 'TRUSTORDER_API_KEY' ) );` in `config/application.php`). The constant overrides the saved key, and the key then cannot be changed from the admin screen, REST or WP-CLI.
 4. If the shop runs behind a proxy or load balancer other than Cloudflare, return the real visitor address from the `trustorder_client_ip` filter (see "Visitor IP behind a proxy").
 
 == Frequently Asked Questions ==
@@ -103,6 +103,10 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.3 =
+* New: The API key can be set with the `TRUSTORDER_API_KEY` constant (wp-config.php or Bedrock .env). It overrides the saved key; the admin screen then shows only its beginning, and the admin, REST and WP-CLI cannot change it.
+* Change: Orders list: the column is now titled "COD check" (Hungarian: "Utánvét ellenőrzés") and is the last column, after Actions.
 
 = 1.0.2 =
 * New: Settings: "Share country and postcode" (on by default, can be turned off) sends only the country and postcode of each new order, without any customer data, for anonymous order statistics. Also available as `wp trustorder settings set share-geo on|off`, and described in the suggested privacy policy text.

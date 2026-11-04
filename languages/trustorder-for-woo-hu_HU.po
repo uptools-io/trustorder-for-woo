@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-04T16:03:44+00:00\n"
+"POT-Creation-Date: 2026-11-04T21:22:13+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -142,9 +142,13 @@ msgstr ""
 
 #: includes/Admin/Privacy.php:42
 msgid ""
-"The webshop also sends the country and postcode of each new order to uptools.io for anonymous order statistics, without any other customer data, unless \"Share country and postcode\" is turned off."
+"The webshop also sends the country and postcode of each new order to "
+"uptools.io for anonymous order statistics, without any other customer data, "
+"unless \"Share country and postcode\" is turned off."
 msgstr ""
-"A webáruház minden új rendelés országát és irányítószámát is továbbítja az uptools.io részére névtelen rendelési statisztikához, bármilyen más vevőadat nélkül, kivéve, ha az „Ország és irányítószám megosztása” ki van kapcsolva."
+"A webáruház minden új rendelés országát és irányítószámát is továbbítja az "
+"uptools.io részére névtelen rendelési statisztikához, bármilyen más vevőadat "
+"nélkül, kivéve, ha az „Ország és irányítószám megosztása” ki van kapcsolva."
 
 #: includes/Admin/Privacy.php:43
 msgid ""
@@ -243,8 +247,8 @@ msgid "New customer"
 msgstr "Új vásárló"
 
 #: includes/Order/OrderColumn.php:42
-msgid "Parcel tracking"
-msgstr "Csomagkövetés"
+msgid "COD check"
+msgstr "Utánvét ellenőrzés"
 
 #: includes/Order/OrderMetabox.php:49
 msgid "This order was not checked."
@@ -359,28 +363,37 @@ msgid ""
 "The payment method \"%s\" cannot be hidden and a fallback at the same time."
 msgstr "A(z) „%s” fizetési mód nem lehet egyszerre elrejtett és tartalék."
 
-#: includes/Rest/SettingsController.php:145
+#: includes/Rest/SettingsController.php:143
+msgid ""
+"The API key is set by the TRUSTORDER_API_KEY constant (wp-config.php "
+"or .env) and cannot be changed here."
+msgstr ""
+"Az API-kulcsot a TRUSTORDER_API_KEY konstans adja meg (wp-config.php "
+"vagy .env), ezért itt nem módosítható."
+
+#: includes/Rest/SettingsController.php:148
 msgid ""
 "This is not a valid TrustOrder API key. It starts with to_live_ or to_test_."
 msgstr ""
 "Ez nem érvényes TrustOrder API-kulcs. A kulcs to_live_ vagy to_test_ "
 "előtaggal kezdődik."
 
-#: includes/Rest/SettingsController.php:151
+#: includes/Rest/SettingsController.php:154
 msgid "Unknown strictness."
 msgstr "Ismeretlen szigorúság."
 
-#: includes/Rest/SettingsController.php:158
+#: includes/Rest/SettingsController.php:161
 msgid "A list of ids was expected."
 msgstr "Azonosítók listája kellett volna."
 
-#: includes/Rest/SettingsController.php:165
+#: includes/Rest/SettingsController.php:168
 msgid "The enabled flag must be true or false."
 msgstr "A bekapcsolás értéke csak igaz vagy hamis lehet."
 
-#: includes/Rest/SettingsController.php:171
+#: includes/Rest/SettingsController.php:174
 msgid "The share_geo flag must be true or false."
-msgstr "Az ország és irányítószám megosztásának értéke csak igaz vagy hamis lehet."
+msgstr ""
+"Az ország és irányítószám megosztásának értéke csak igaz vagy hamis lehet."
 
 #: build/index.js:1
 msgid "Loading…"
@@ -888,6 +901,22 @@ msgid "API key"
 msgstr "API-kulcs"
 
 #: build/index.js:7
+msgid "Key from the configuration"
+msgstr "Kulcs a konfigurációból"
+
+#: build/index.js:7
+msgid ""
+"The key is set by the TRUSTORDER_API_KEY constant (wp-config.php or .env), "
+"so it cannot be changed here."
+msgstr ""
+"A kulcsot a TRUSTORDER_API_KEY konstans adja meg (wp-config.php vagy .env), "
+"ezért itt nem tudod módosítani."
+
+#: build/index.js:7
+msgid "Not a valid key"
+msgstr "Nem érvényes kulcs"
+
+#: build/index.js:7
 msgid ""
 "A key starting with to_test_ works in test mode: checks and reports go to a "
 "separate test database."
@@ -1123,7 +1152,8 @@ msgid ""
 "Sends only the country and postcode of every new order, without any customer "
 "data, for anonymous order statistics."
 msgstr ""
-"Minden új rendelésből csak az országot és az irányítószámot küldi el, vevőadat nélkül, névtelen rendelési statisztikához."
+"Minden új rendelésből csak az országot és az irányítószámot küldi el, "
+"vevőadat nélkül, névtelen rendelési statisztikához."
 
 #: build/index.js:8
 msgid "Shop exceptions"
@@ -1315,25 +1345,3 @@ msgstr "API-kulcs törölve."
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."
-
-#~ msgid "Hides cash on delivery only for buyers with clearly bad history."
-#~ msgstr "Csak egyértelműen rossz előzményű vevőknél rejti el az utánvétet."
-
-#~ msgid "Recommended balance between lost sales and parcels not picked up."
-#~ msgstr ""
-#~ "Ajánlott egyensúly az elmaradt eladások és a nem átvett csomagok között."
-
-#~ msgid "Hides cash on delivery already at a few warning signs."
-#~ msgstr "Már néhány figyelmeztető jelnél elrejti az utánvétet."
-
-#~ msgid "No order history yet"
-#~ msgstr "Még nincs rendelési előzmény"
-
-#~ msgid "TrustOrder by upTools"
-#~ msgstr "TrustOrder – upTools"
-
-#~ msgid ""
-#~ "Visible only to you, up to 500 characters. Do not write personal data "
-#~ "here."
-#~ msgstr ""
-#~ "Csak te látod, legfeljebb 500 karakter. Ne írj ide személyes adatot."

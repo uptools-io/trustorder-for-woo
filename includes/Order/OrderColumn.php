@@ -30,7 +30,7 @@ final class OrderColumn {
 	}
 
 	/**
-	 * Insert the column after the status column (or at the end).
+	 * Append the column at the end (after Actions).
 	 *
 	 * @param mixed $columns Columns.
 	 * @return mixed
@@ -39,19 +39,9 @@ final class OrderColumn {
 		if ( ! is_array( $columns ) ) {
 			return $columns;
 		}
-		$title = __( 'Parcel tracking', 'trustorder-for-woo' );
-		$out   = [];
-		foreach ( $columns as $key => $label ) {
-			$out[ $key ] = $label;
-			if ( 'order_status' === $key ) {
-				$out[ self::COLUMN ] = $title;
-			}
-		}
-		if ( ! isset( $out[ self::COLUMN ] ) ) {
-			$out[ self::COLUMN ] = $title;
-		}
+		$columns[ self::COLUMN ] = __( 'COD check', 'trustorder-for-woo' );
 
-		return $out;
+		return $columns;
 	}
 
 	/**

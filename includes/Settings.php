@@ -20,6 +20,11 @@ final class Settings {
 
 	public const OPTION = 'trustorder_settings';
 
+	/**
+	 * Optional constant (wp-config.php, Bedrock .env) that holds the API key.
+	 */
+	public const KEY_CONSTANT = 'TRUSTORDER_API_KEY';
+
 	public const STRICTNESS = [ 'lenient', 'normal', 'strict' ];
 
 	/**
@@ -58,6 +63,45 @@ final class Settings {
 	 * @return SettingsArray
 	 */
 	public static function get(): array {
+		$out = self::stored();
+		if ( self::keyLocked() ) {
+			$out['api_key'] = self::constantKey();
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Whether the API key comes from the TRUSTORDER_API_KEY constant (then it
+	 * cannot be changed from the admin, REST or WP-CLI). A constant that is
+	 * not a non-empty string (e.g. null from Bedrock's env() of a missing
+	 * variable) counts as not set, so the saved key stays in use.
+	 */
+	public static function keyLocked(): bool {
+		if ( ! defined( self::KEY_CONSTANT ) ) {
+			return false;
+		}
+		$raw = constant( self::KEY_CONSTANT );
+
+		return is_string( $raw ) && '' !== trim( $raw );
+	}
+
+	/**
+	 * The constant's key, trimmed; '' when it is not a valid key.
+	 */
+	private static function constantKey(): string {
+		$raw = constant( self::KEY_CONSTANT );
+		$key = is_string( $raw ) ? trim( $raw ) : '';
+
+		return ApiKey::isValid( $key ) ? $key : '';
+	}
+
+	/**
+	 * Stored settings, sanitised over the defaults (without the constant).
+	 *
+	 * @return SettingsArray
+	 */
+	private static function stored(): array {
 		$stored = get_option( self::OPTION, [] );
 
 		return self::sanitize( is_array( $stored ) ? $stored : [], self::defaults() );
@@ -73,10 +117,13 @@ final class Settings {
 	 * @return SettingsArray
 	 */
 	public static function update( array $in ): array {
-		$clean = self::sanitize( $in, self::get() );
+		if ( self::keyLocked() ) {
+			unset( $in['api_key'] );
+		}
+		$clean = self::sanitize( $in, self::stored() );
 		update_option( self::OPTION, $clean, true );
 
-		return $clean;
+		return self::get();
 	}
 
 	/**

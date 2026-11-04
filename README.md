@@ -41,6 +41,10 @@ If the TrustOrder service is slow or unavailable (the check waits at most **1.5 
 
 On by default; turn it off in the settings or with `wp trustorder settings set share-geo off`. While it is on, each order is sent once, the first time it enters processing, on hold or completed from another status: only its country and postcode, shipping address first and billing as the fallback, for anonymous order statistics. Nothing else is sent. The service stores the country, the postcode, the shop and the hour, with no link to the order, and deletes it after 1095 days. Orders whose first paid status came while the setting was off, and orders from before the update, are never sent. Network errors, 429 and 5xx answers are retried; 400, 401 and 403 are not.
 
+## API key in the configuration
+
+`define( 'TRUSTORDER_API_KEY', 'to_live_...' );` in `wp-config.php` (Bedrock: `TRUSTORDER_API_KEY=` in `.env` and `Config::define( 'TRUSTORDER_API_KEY', env( 'TRUSTORDER_API_KEY' ) );` in `config/application.php`) overrides the saved key and is never written to the database. While it is defined, the admin screen shows only its first 12 characters, and saving a key from the admin, REST (`trustorder_key_locked`) or `wp trustorder settings set api-key` is refused. An invalid value counts as no key; an empty or null value (for example Bedrock's `env()` of a missing variable) counts as not set, and the saved key stays in use.
+
 ## Admin screen
 
 WooCommerce → TrustOrder (`manage_woocommerce`), a React app with a top bar, side navigation and skeleton loading. Other plugins' admin notices are hidden on this screen.
