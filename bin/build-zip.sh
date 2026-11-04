@@ -23,7 +23,7 @@ if [ -n "$(git -C "$REPO_DIR" status --porcelain -- "$PLUGIN_DIR")" ]; then
 	echo "warning: the plugin has uncommitted changes; the ZIP is built from HEAD" >&2
 fi
 
-VERSION="$(git -C "$REPO_DIR" show "HEAD:$PREFIX$SLUG.php" | sed -n 's/^ \* Version:[[:space:]]*\([0-9.]*\).*/\1/p')"
+VERSION="$(git -C "$REPO_DIR" show "HEAD:$PREFIX$SLUG.php" | sed -n 's/^ \* Version:[[:space:]]*\([0-9A-Za-z.-]*\).*/\1/p')"
 [ -n "$VERSION" ] || { echo "error: no Version: header in $SLUG.php" >&2; exit 1; }
 
 WORK="$(mktemp -d)"

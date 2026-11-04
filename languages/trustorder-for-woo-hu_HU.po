@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-03T20:17:25+00:00\n"
+"POT-Creation-Date: 2026-11-04T11:30:15+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -43,8 +43,7 @@ msgstr ""
 msgid "uptools.io"
 msgstr "uptools.io"
 
-#: includes/Admin/AdminPage.php:50 includes/Order/OrderColumn.php:46
-#: includes/Order/OrderColumn.php:50 includes/Order/OrderMetabox.php:33
+#: includes/Admin/AdminPage.php:50 includes/Order/OrderMetabox.php:33
 msgid "TrustOrder"
 msgstr "TrustOrder"
 
@@ -135,8 +134,8 @@ msgid ""
 "back-loading, it may also report the completed and not picked up orders of "
 "the past 3 years in the same way."
 msgstr ""
-"Amikor egy rendelés teljesül, vagy „Nem vette át” állapotba kerül, a "
-"webáruház továbbítja a kimenetelt (átvette vagy nem vette át), annak "
+"Amikor egy rendelés teljesül, vagy „Rendelést nem vette át” állapotba kerül, "
+"a webáruház továbbítja a kimenetelt (átvette vagy nem vette át), annak "
 "dátumát, a webáruház belső rendelésszámát (rendelésazonosító) és ugyanezeket "
 "a hash-eket. Amikor a webáruház elindítja az egyszeri visszatöltést, az "
 "elmúlt 3 év teljesített és át nem vett rendeléseit is jelentheti ugyanígy."
@@ -177,61 +176,69 @@ msgstr ""
 msgid "Choose another payment method for this order."
 msgstr "Ehhez a rendeléshez válassz másik fizetési módot."
 
-#: includes/Order/Labels.php:32
+#: includes/Order/Labels.php:53 build/index.js:7
 msgid "Trusted"
 msgstr "Megbízható"
 
-#: includes/Order/Labels.php:34 build/index.js:7
+#: includes/Order/Labels.php:55 build/index.js:7
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: includes/Order/Labels.php:36
+#: includes/Order/Labels.php:57 build/index.js:7
 msgid "Risky"
 msgstr "Kockázatos"
 
-#: includes/Order/Labels.php:38
+#: includes/Order/Labels.php:59 build/index.js:7
 msgid "Blocked"
 msgstr "Tiltott"
 
-#: includes/Order/Labels.php:51
+#: includes/Order/Labels.php:72
 msgid "Refused orders at several shops"
 msgstr "Több boltban sem vette át a rendelést"
 
-#: includes/Order/Labels.php:52
+#: includes/Order/Labels.php:73
 msgid "Recently refused an order"
 msgstr "Nemrég nem vett át egy rendelést"
 
-#: includes/Order/Labels.php:53
+#: includes/Order/Labels.php:74
 msgid "Low score"
 msgstr "Alacsony pontszám"
 
-#: includes/Order/Labels.php:54
+#: includes/Order/Labels.php:75
 msgid "Disposable e-mail address"
 msgstr "Eldobható e-mail-cím"
 
-#: includes/Order/Labels.php:55
+#: includes/Order/Labels.php:76
 msgid "E-mail domain cannot receive mail"
 msgstr "Az e-mail-domain nem fogad leveleket"
 
-#: includes/Order/Labels.php:56
-msgid "No order history yet"
-msgstr "Még nincs rendelési előzmény"
+#: includes/Order/Labels.php:77
+msgid "First-time customer"
+msgstr "Első alkalommal vásárol"
 
-#: includes/Order/Labels.php:57
+#: includes/Order/Labels.php:78
 msgid "Allowed by your exception list"
 msgstr "A kivétellistád engedélyezi"
 
-#: includes/Order/Labels.php:58
+#: includes/Order/Labels.php:79
 msgid "Denied by your exception list"
 msgstr "A kivétellistád tiltja"
 
-#: includes/Order/Labels.php:72
+#: includes/Order/Labels.php:106
 msgid "Not checked (limit reached)"
 msgstr "Nem ellenőrzött (betelt a keret)"
 
-#: includes/Order/Labels.php:76
+#: includes/Order/Labels.php:110
 msgid "Not checked"
 msgstr "Nem ellenőrzött"
+
+#: includes/Order/Labels.php:115 build/index.js:7
+msgid "New customer"
+msgstr "Új vásárló"
+
+#: includes/Order/OrderColumn.php:42
+msgid "Parcel tracking"
+msgstr "Csomagkövetés"
 
 #: includes/Order/OrderMetabox.php:49
 msgid "This order was not checked."
@@ -287,17 +294,17 @@ msgstr ""
 #, php-format
 msgid "Not picked up <span class=\"count\">(%s)</span>"
 msgid_plural "Not picked up <span class=\"count\">(%s)</span>"
-msgstr[0] "Nem vette át <span class=\"count\">(%s)</span>"
-msgstr[1] "Nem vette át <span class=\"count\">(%s)</span>"
+msgstr[0] "Rendelést nem vette át <span class=\"count\">(%s)</span>"
+msgstr[1] "Rendelést nem vette át <span class=\"count\">(%s)</span>"
 
 #: includes/Order/RefusedStatus.php:94
 msgid "Change status to not picked up"
-msgstr "Állapot módosítása: Nem vette át"
+msgstr "Állapot módosítása: Rendelést nem vette át"
 
 #: includes/Order/RefusedStatus.php:103
 msgctxt "Order status"
 msgid "Not picked up"
-msgstr "Nem vette át"
+msgstr "Rendelést nem vette át"
 
 #: includes/Rest/ApiError.php:35
 msgid "Save an API key first."
@@ -923,29 +930,82 @@ msgstr ""
 "vevő sincs ellenőrizve, és rendelés-kimenetel sem megy ki."
 
 #: build/index.js:7
+msgid "Blocked buyer"
+msgstr "Tiltott vevő"
+
+#: build/index.js:7
+msgid "Risky buyer"
+msgstr "Kockázatos vevő"
+
+#: build/index.js:7
+msgid "Trusted and new customers"
+msgstr "Megbízható és új vásárló"
+
+#: build/index.js:7
+msgid "Cash on delivery hidden"
+msgstr "Utánvét elrejtve"
+
+#: build/index.js:7
+msgid "Stays, order flagged"
+msgstr "Marad, megjelölve"
+
+#: build/index.js:7
+msgid "Cash on delivery stays"
+msgstr "Utánvét marad"
+
+#: build/index.js:7
+msgid ""
+"In the last 12 months at least 2 established shops (or 4 new shops) reported "
+"that the buyer did not pick up the parcel, and the score is below 60."
+msgstr "Az elmúlt 12 hónapban legalább 2 bevált bolt (vagy 4 új bolt) jelezte, hogy nem vette át a csomagot, és a pontszáma 60 alatt van."
+
+#: build/index.js:7
+msgid ""
+"In the last 12 months the buyer did not pick up at least 1 parcel, or the "
+"score is below 60, or the e-mail address is disposable or cannot receive "
+"mail."
+msgstr "Az elmúlt 12 hónapban legalább 1 csomagot nem vett át, vagy a pontszáma 60 alatt van, vagy az e-mail címe eldobható, illetve nem tud levelet fogadni."
+
+#: build/index.js:7
+msgid "At least 3 picked up cash-on-delivery parcels, with no recent refusal."
+msgstr "Legalább 3 átvett utánvétes csomag, friss elutasítás nélkül."
+
+#: build/index.js:7
+msgid "No history yet: starts at 75 points, cash on delivery always stays."
+msgstr "Még nincs előzménye: 75 pontról indul, az utánvét mindig marad."
+
+#: build/index.js:7
+msgid ""
+"Score 0–100. One parcel not picked up at one new shop gives about 67 points "
+"(Risky). Picked up parcels raise it, and older cases count less and less "
+"over time."
+msgstr "Pontszám 0–100. Egy nem átvett csomag egy új boltnál kb. 67 pont (Kockázatos). Az átvett csomagok felfelé húzzák, a régi esetek idővel egyre kevesebbet számítanak."
+
+#: build/index.js:7
 msgid "Lenient"
 msgstr "Engedékeny"
 
 #: build/index.js:7
-msgid "Hides cash on delivery only for buyers with clearly bad history."
-msgstr "Csak egyértelműen rossz előzményű vevőknél rejti el az utánvétet."
+msgid "Hides cash on delivery only for Blocked buyers."
+msgstr "Csak a Tiltott vevőknél rejti el az utánvétet."
 
 #: build/index.js:7
 msgid "Normal"
 msgstr "Normál"
 
 #: build/index.js:7
-msgid "Recommended balance between lost sales and parcels not picked up."
-msgstr ""
-"Ajánlott egyensúly az elmaradt eladások és a nem átvett csomagok között."
+msgid ""
+"Recommended. Hides it for Blocked buyers and flags the Risky order (a note "
+"on the order)."
+msgstr "Ajánlott. A Tiltott vevőknél elrejti, a Kockázatos rendelést megjelöli (megjegyzés a rendelésen)."
 
 #: build/index.js:7
 msgid "Strict"
 msgstr "Szigorú"
 
 #: build/index.js:7
-msgid "Hides cash on delivery already at a few warning signs."
-msgstr "Már néhány figyelmeztető jelnél elrejti az utánvétet."
+msgid "Hides cash on delivery for Risky buyers too."
+msgstr "Már a Kockázatos vevőknél is elrejti az utánvétet."
 
 #: build/index.js:7
 msgid "Turned off in WooCommerce"
@@ -995,6 +1055,10 @@ msgstr ""
 #: build/index.js:8
 msgid "Strictness"
 msgstr "Szigorúság"
+
+#: build/index.js:8
+msgid "What do the levels mean?"
+msgstr "Mit jelentenek a szintek?"
 
 #: build/index.js:8
 msgid "Payment methods"
@@ -1137,45 +1201,106 @@ msgid "Refused by the service, not retried"
 msgstr "A szolgáltatás elutasította, nincs újrapróbálás"
 
 #: build/index.js:8
-msgid "TrustOrder by upTools"
-msgstr "TrustOrder – upTools"
+msgid "Recent"
+msgstr "Legutóbbiak"
 
 #: build/index.js:8
-msgid "(opens in a new tab)"
-msgstr "(új lapon nyílik meg)"
+msgid "Sections"
+msgstr "Menüpontok"
 
 #: build/index.js:8
+msgid "Go to"
+msgstr "Ugrás"
+
+#: build/index.js:8
+msgid "Quick search"
+msgstr "Gyorskeresés"
+
+#: build/index.js:8
+msgid "Search sections and settings"
+msgstr "Keresés a menüpontok és beállítások között"
+
+#: build/index.js:8
+msgid "Results"
+msgstr "Találatok"
+
+#. translators: %s: the search text.
+#: build/index.js:9
+msgid "No results for “%s”."
+msgstr "Nincs találat erre: „%s”."
+
+#: build/index.js:9
+msgid "to navigate"
+msgstr "navigálás"
+
+#: build/index.js:9
+msgid "to open"
+msgstr "megnyitás"
+
+#: build/index.js:9
+msgid "Quick search…"
+msgstr "Gyorskeresés…"
+
+#: build/index.js:9
+msgid "upTools (opens in a new tab)"
+msgstr "upTools (új lapon nyílik meg)"
+
+#: build/index.js:9
 msgid "TrustOrder overview"
 msgstr "TrustOrder áttekintés"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "TrustOrder sections"
 msgstr "TrustOrder szakaszok"
 
-#: build/index.js:8
+#: build/index.js:9
+msgid "Documentation"
+msgstr "Dokumentáció"
+
+#: build/index.js:9
+msgid "(opens in a new tab)"
+msgstr "(új lapon nyílik meg)"
+
+#: build/index.js:9
 msgid "Unsaved changes"
 msgstr "Mentetlen módosítások"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Discard"
 msgstr "Elvetés"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Save"
 msgstr "Mentés"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Settings saved."
 msgstr "Beállítások elmentve."
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "API key removed."
 msgstr "API-kulcs törölve."
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."
+
+#~ msgid "Hides cash on delivery only for buyers with clearly bad history."
+#~ msgstr "Csak egyértelműen rossz előzményű vevőknél rejti el az utánvétet."
+
+#~ msgid "Recommended balance between lost sales and parcels not picked up."
+#~ msgstr ""
+#~ "Ajánlott egyensúly az elmaradt eladások és a nem átvett csomagok között."
+
+#~ msgid "Hides cash on delivery already at a few warning signs."
+#~ msgstr "Már néhány figyelmeztető jelnél elrejti az utánvétet."
+
+#~ msgid "No order history yet"
+#~ msgstr "Még nincs rendelési előzmény"
+
+#~ msgid "TrustOrder by upTools"
+#~ msgstr "TrustOrder – upTools"
 
 #~ msgid ""
 #~ "Visible only to you, up to 500 characters. Do not write personal data "

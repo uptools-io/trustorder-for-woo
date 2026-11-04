@@ -29,10 +29,30 @@ $mono: var(--wpds-typography-font-family-mono, monospace);
 // The upTools yellow (#ffd43b) is NOT used as --wp-admin-theme-color: white
 // button text on it is 1.5:1 and the yellow itself is 1.5:1 against the white
 // surface (toggles, focus rings, links would fail WCAG 1.4.3 / 1.4.11). So
-// controls keep the WordPress admin blue, and the yellow appears only as a
-// marker: the mark tile, the active side-nav stripe and the card stripe.
+// controls take the upTools ink instead of the WordPress admin blue, as every
+// LW screen takes its own logo color, and the yellow appears only as a
+// marker: the mark tile, and the card stripe.
 $accent: #ffd43b;
 $accent-ink: #1e1e1e; // 15:1 on the yellow.
+
+// upTools ink. Every @wordpress/components control reads
+// --wp-admin-theme-color, so buttons, toggles, focus rings, selected states
+// and links all follow. Set on body (not only the root) so portaled modals
+// and popovers inherit it too. The "darker" steps are hover/active states;
+// ink has nothing darker, so they step lighter.
+//   white on #111111 = 18.9:1, on #2c2c2c = 14.0:1, on #3d3d3d = 11.0:1
+$ink: #111111;
+
+body.trustorder-screen,
+.trustorder-root {
+	--wp-admin-theme-color: #{$ink};
+	--wp-admin-theme-color--rgb: 17, 17, 17;
+	--wp-admin-theme-color-darker-10: #2c2c2c;
+	--wp-admin-theme-color-darker-10--rgb: 44, 44, 44;
+	--wp-admin-theme-color-darker-20: #3d3d3d;
+	--wp-admin-theme-color-darker-20--rgb: 61, 61, 61;
+	--wpds-color-stroke-focus: #{$ink};
+}
 
 // Focus rings: only for keyboard users. Core components draw the ring on
 // :focus, so it also stayed after every mouse click. :focus-visible is the
@@ -344,6 +364,14 @@ $canvas: var(--wpds-color-background-surface-neutral-weak, #f6f7f7);
 	}
 }
 
+// upTools logo: the brand file as is (never recolored); 110px is its minimum
+// on-screen width.
+.to-footer__logo {
+	display: block;
+	width: 110px;
+	height: auto;
+}
+
 // Settings rows ------------------------------------------------------------
 
 .to-row {
@@ -562,6 +590,10 @@ $canvas: var(--wpds-color-background-surface-neutral-weak, #f6f7f7);
 		padding: 10px $gap-lg;
 	}
 
+	.to-sidebar__foot {
+		display: none;
+	}
+
 	.to-row {
 		grid-template-columns: 1fr;
 		gap: $gap-sm;
@@ -728,6 +760,7 @@ $canvas: var(--wpds-color-background-surface-neutral-weak, #f6f7f7);
 }
 
 .lw-skel-nav {
+	flex: 1;
 	padding: $gap-lg $gap-xl;
 	gap: 22px;
 }
@@ -796,11 +829,6 @@ body.trustorder-screen {
 		width: 18px;
 		height: 18px;
 	}
-}
-
-// Active section: a yellow stripe at the left edge (marker, not text color).
-.to-sidenav__item[aria-current="page"] {
-	box-shadow: inset 3px 0 0 $accent;
 }
 
 .to-section.is-accent {
@@ -923,5 +951,104 @@ body.trustorder-screen {
 		> :last-child {
 			justify-self: start;
 		}
+	}
+}
+
+// Strictness rules and level guide ------------------------------------------
+
+.to-rules {
+	list-style: none;
+	margin: $gap-md 0 0;
+	padding: 0;
+	display: grid;
+	gap: $gap-sm;
+
+	&__item {
+		display: grid;
+		grid-template-columns: 24px minmax(0, 1fr) auto;
+		gap: $gap-md;
+		align-items: center;
+		margin: 0;
+	}
+
+	&__num {
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		background: $brand;
+		color: $surface;
+		font-size: 12px;
+		font-weight: 600;
+		display: grid;
+		place-items: center;
+		font-variant-numeric: tabular-nums;
+	}
+}
+
+.to-pill {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 8px;
+	border-radius: $radius;
+	font-weight: 600;
+	white-space: nowrap;
+
+	&.is-hide {
+		background: $error-bg;
+		color: $error;
+	}
+
+	&.is-flag {
+		background: $warning-bg;
+		color: $warning;
+	}
+
+	&.is-keep {
+		background: $success-bg;
+		color: $success;
+	}
+}
+
+.to-levels {
+	display: grid;
+	gap: $gap-md;
+
+	&__list {
+		display: grid;
+		gap: $gap-md;
+		margin: 0;
+	}
+
+	&__row {
+		display: grid;
+		grid-template-columns: 140px minmax(0, 1fr);
+		gap: $gap-lg;
+		align-items: baseline;
+
+		dd {
+			margin: 0;
+		}
+	}
+
+	&__note {
+		margin: 0;
+		color: $muted;
+		font-size: 13px;
+	}
+}
+
+@media (max-width: 600px) {
+	.to-rules__item {
+		grid-template-columns: 24px minmax(0, 1fr);
+
+		.to-pill {
+			grid-column: 2;
+			justify-self: start;
+		}
+	}
+
+	.to-levels__row {
+		grid-template-columns: 1fr;
+		gap: 4px;
 	}
 }

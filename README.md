@@ -42,7 +42,7 @@ If the TrustOrder service is slow or unavailable (the check waits at most **1.5 
 WooCommerce → TrustOrder (`manage_woocommerce`), a React app with a top bar, side navigation and skeleton loading. Other plugins' admin notices are hidden on this screen.
 
 - **Overview:** connection test (shop name, "Test mode" badge for `to_test_` keys, account status including "awaiting approval", daily quota and today's checks), the last error in plain words, and the state of intl, order storage, the checkout type and the check limits.
-- **Settings:** API key (write-only: after saving only its first 12 characters are shown), checks on/off, strictness, the payment methods to hide and the fallback ones (from the enabled methods), and the pickup shipping methods that send no address.
+- **Settings:** API key (write-only: after saving only its first 12 characters are shown), checks on/off, strictness (with a numbered list of what each buyer level gets and a level guide with the thresholds), the payment methods to hide and the fallback ones (from the enabled methods), and the pickup shipping methods that send no address.
 - **Exceptions:** always allow or always deny an e-mail, phone number or address in your shop. The value is hashed on your server and only the hash is sent; the list shows the type, rule, note, date and a short id, never the value. To remove an exception, type the value again.
 - **Backfill:** start or resume the backfill for the environment of the saved key, with progress.
 

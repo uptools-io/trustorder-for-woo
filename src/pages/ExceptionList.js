@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { Button, Notice } from '@wordpress/components';
+import { Button, Notice, SelectControl } from '@wordpress/components';
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { DataTable, useTableState } from '@lwplugins/data-table';
 import '@lwplugins/data-table/style.css';
@@ -50,6 +50,8 @@ const COLUMNS = [
 		render: ( row ) => <code className="to-id">{ row.id }</code>,
 	},
 ];
+
+const PER_PAGE = [ 20, 50 ];
 
 const FILTERS = [
 	{
@@ -112,7 +114,29 @@ export default function ExceptionList( { list } ) {
 	} );
 
 	return (
-		<Section title={ __( 'Exceptions', 'trustorder-for-woo' ) }>
+		<Section
+			title={ __( 'Exceptions', 'trustorder-for-woo' ) }
+			actions={
+				list.items !== null && (
+					<SelectControl
+						__next40pxDefaultSize={ false }
+						__nextHasNoMarginBottom
+						size="compact"
+						className="to-per-page"
+						label={ LABELS.perPage }
+						labelPosition="side"
+						value={ String( table.perPage ) }
+						options={ PER_PAGE.map( ( size ) => ( {
+							value: String( size ),
+							label: String( size ),
+						} ) ) }
+						onChange={ ( next ) =>
+							table.setPerPage( Number( next ) )
+						}
+					/>
+				)
+			}
+		>
 			{ list.error && (
 				<Notice status="error" isDismissible={ false }>
 					{ list.error }
@@ -126,7 +150,6 @@ export default function ExceptionList( { list } ) {
 					columns={ COLUMNS }
 					table={ table }
 					filters={ FILTERS }
-					perPageOptions={ [ 20, 50 ] }
 					labels={ LABELS }
 					caption={ __( 'Exceptions', 'trustorder-for-woo' ) }
 				/>

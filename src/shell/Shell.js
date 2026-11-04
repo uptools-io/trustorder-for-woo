@@ -1,12 +1,14 @@
 /**
  * WordPress dependencies
  */
+import { useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
  */
 import { PAGES } from '../pages';
+import QuickSearch from '../quick-search';
 import Footer from './Footer';
 import SideNav from './SideNav';
 import TopBar from './TopBar';
@@ -28,6 +30,20 @@ export default function Shell( { store } ) {
 	useUnsavedWarning( store.hasEdits );
 	useSaveShortcut( store.save, store.hasEdits && ! store.isSaving );
 
+	// The quick search indexes only Settings (rendered from the store in
+	// memory). The other pages load from the service on mount, so they are
+	// found by name only.
+	const searchPages = useCallback(
+		() =>
+			PAGES.filter( ( item ) => item.id === 'settings' ).map(
+				( item ) => ( {
+					tab: item,
+					element: <item.Component store={ store } />,
+				} )
+			),
+		[ store ]
+	);
+
 	const meta = {
 		settings: store.hasEdits ? (
 			<span className="to-sidenav__dot is-dirty">
@@ -40,7 +56,18 @@ export default function Shell( { store } ) {
 
 	return (
 		<div className="to-shell">
-			<SideNav pages={ PAGES } current={ id } meta={ meta } />
+			<SideNav
+				pages={ PAGES }
+				current={ id }
+				meta={ meta }
+				search={
+					<QuickSearch
+						tabs={ PAGES }
+						pages={ searchPages }
+						storageKey="trustorder-quick-search"
+					/>
+				}
+			/>
 			<div className="to-main">
 				<TopBar
 					title={ page.title }

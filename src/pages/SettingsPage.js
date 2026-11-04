@@ -13,13 +13,14 @@ import Section from '../components/Section';
 import Segmented from '../components/Segmented';
 import SettingRow from '../components/SettingRow';
 import ApiKeyCard from './ApiKeyCard';
+import { LevelGuide, StrictnessRules } from './StrictnessRules';
 
 const STRICTNESS = [
 	{
 		value: 'lenient',
 		label: __( 'Lenient', 'trustorder-for-woo' ),
 		help: __(
-			'Hides cash on delivery only for buyers with clearly bad history.',
+			'Hides cash on delivery only for Blocked buyers.',
 			'trustorder-for-woo'
 		),
 	},
@@ -27,7 +28,7 @@ const STRICTNESS = [
 		value: 'normal',
 		label: __( 'Normal', 'trustorder-for-woo' ),
 		help: __(
-			'Recommended balance between lost sales and parcels not picked up.',
+			'Recommended. Hides it for Blocked buyers and flags the Risky order (a note on the order).',
 			'trustorder-for-woo'
 		),
 	},
@@ -35,7 +36,7 @@ const STRICTNESS = [
 		value: 'strict',
 		label: __( 'Strict', 'trustorder-for-woo' ),
 		help: __(
-			'Hides cash on delivery already at a few warning signs.',
+			'Hides cash on delivery for Risky buyers too.',
 			'trustorder-for-woo'
 		),
 	},
@@ -135,6 +136,16 @@ export default function SettingsPage( { store } ) {
 							update( { strictness: value } )
 						}
 					/>
+					<StrictnessRules strictness={ settings.strictness } />
+				</SettingRow>
+				<SettingRow
+					stacked
+					title={ __(
+						'What do the levels mean?',
+						'trustorder-for-woo'
+					) }
+				>
+					<LevelGuide />
 				</SettingRow>
 			</Section>
 			<Section title={ __( 'Payment methods', 'trustorder-for-woo' ) }>

@@ -11,6 +11,7 @@ namespace LightweightPlugins\TrustOrder\Tests\Unit\Order;
 
 use LightweightPlugins\TrustOrder\Admin\CapNotice;
 use LightweightPlugins\TrustOrder\Checkout\QuotaGuard;
+use LightweightPlugins\TrustOrder\Order\Labels;
 use LightweightPlugins\TrustOrder\Order\OrderColumn;
 use LightweightPlugins\TrustOrder\Order\OrderMetabox;
 use PHPUnit\Framework\TestCase;
@@ -60,6 +61,38 @@ final class OrderAdminTest extends TestCase {
 			$out = apply_filters( $hook, $cols );
 			$this->assertSame( [ 'cb', 'order_number', 'order_status', 'trustorder', 'order_total' ], array_keys( $out ), $hook );
 		}
+	}
+
+	public function test_column_is_titled_parcel_tracking_after_the_status(): void {
+		$cols = OrderColumn::addColumn( [ 'cb' => '', 'order_status' => 'Status', 'order_total' => 'Total' ] );
+
+		$this->assertSame( [ 'cb', 'order_status', OrderColumn::COLUMN, 'order_total' ], array_keys( $cols ) );
+		$this->assertSame( 'Parcel tracking', $cols[ OrderColumn::COLUMN ] );
+		$this->assertSame( 'Parcel tracking', OrderColumn::addColumn( [ 'cb' => '' ] )[ OrderColumn::COLUMN ] );
+	}
+
+	public function test_a_buyer_without_history_is_a_green_new_customer(): void {
+		$new = [ 'verdict' => 'allow', 'level' => 'unknown', 'score' => 75, 'reasons' => [ 'NO_HISTORY' ] ];
+		$html = Labels::badge( $new );
+
+		$this->assertStringContainsString( 'trustorder-level-new', $html );
+		$this->assertStringContainsString( 'New customer', $html );
+		$this->assertStringContainsString( 'background:#e7f5e9', $html );
+		$this->assertStringNotContainsString( '75', $html );
+
+		// Some history, too few deliveries: still "Unknown".
+		$some = [ 'verdict' => 'allow', 'level' => 'unknown', 'score' => 80, 'reasons' => [] ];
+		$this->assertStringContainsString( 'trustorder-level-unknown', Labels::badge( $some ) );
+		$this->assertStringContainsString( 'Unknown', Labels::badge( $some ) );
+	}
+
+	public function test_risky_and_blocked_badges_are_coloured(): void {
+		$risky   = Labels::badge( [ 'verdict' => 'flag', 'level' => 'risky', 'score' => 41, 'reasons' => [ 'NEGATIVE_RECENT' ] ] );
+		$blocked = Labels::badge( [ 'verdict' => 'block', 'level' => 'blocked', 'score' => 12, 'reasons' => [ 'NEGATIVE_MULTI_ACCOUNT' ] ] );
+
+		$this->assertStringContainsString( 'background:#fcf0e1;color:#8a4600', $risky );
+		$this->assertStringContainsString( 'background:#fbe7e7;color:#a1191d', $blocked );
+		$this->assertStringContainsString( '12', $blocked );
 	}
 
 	public function test_hpos_column_renders_level_badge(): void {

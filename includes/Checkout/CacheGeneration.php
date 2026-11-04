@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace LightweightPlugins\TrustOrder\Checkout;
 
 /**
- * A shop exception added or removed changes what /check answers, so the
- * cached results (ResultCache, SessionMemory) of the old generation must not
- * be reused. Bumping the counter changes every cache key at once.
+ * A shop exception added or removed, or an outcome signal sent or withdrawn,
+ * changes what /check answers, so the cached results (ResultCache,
+ * SessionMemory) of the old generation must not be reused. Bumping the counter changes every cache key at once.
  * Non-autoloaded option `trustorder_cache_gen`.
  */
 final class CacheGeneration {

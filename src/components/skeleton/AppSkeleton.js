@@ -29,6 +29,9 @@ export default function AppSkeleton() {
 					<SkeletonBlock width={ 30 } height={ 30 } />
 					<SkeletonText width={ 100 } size="lg" />
 				</div>
+				<div className="to-sidebar__search">
+					<SkeletonBlock width="100%" height={ 36 } />
+				</div>
 				<span className="lw-skel-stack lw-skel-nav">
 					{ Array.from( { length: 4 }, ( _, index ) => (
 						<SkeletonText
@@ -37,6 +40,9 @@ export default function AppSkeleton() {
 						/>
 					) ) }
 				</span>
+				<div className="to-sidebar__foot">
+					<SkeletonText width={ 120 } />
+				</div>
 			</aside>
 			<div className="to-main">
 				<div className="to-topbar">

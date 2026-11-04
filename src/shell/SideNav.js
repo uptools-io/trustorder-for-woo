@@ -4,25 +4,33 @@
 import { useInstanceId } from '@wordpress/compose';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { Icon, chevronDown, chevronRight } from '@wordpress/icons';
+import {
+	Icon,
+	chevronDown,
+	chevronRight,
+	external,
+	help,
+} from '@wordpress/icons';
 import { Badge } from '@wordpress/ui';
 
 /**
  * Internal dependencies
  */
 import Mark from '../components/Mark';
-import { VERSION } from '../data/boot';
+import { DOCS_URL, VERSION } from '../data/boot';
 
 /**
- * Full-height left sidebar with hash links (back/forward keep working). On
- * mobile the list collapses behind a "current section" toggle.
+ * Full-height left sidebar: plugin header, quick search, hash links
+ * (back/forward keep working) and the docs link. On mobile the list
+ * collapses behind a "current section" toggle.
  *
- * @param {Object} props
- * @param {Array}  props.pages   { id, label, icon }.
- * @param {string} props.current Active page id.
- * @param {Object} props.meta    Optional node per page id, after the label.
+ * @param {Object}  props
+ * @param {Array}   props.pages   { id, label, icon }.
+ * @param {string}  props.current Active page id.
+ * @param {Object}  props.meta    Optional node per page id, after the label.
+ * @param {Element} props.search  Quick search, under the plugin header.
  */
-export default function SideNav( { pages, current, meta = {} } ) {
+export default function SideNav( { pages, current, meta = {}, search } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const navId = useInstanceId( SideNav, 'to-sidenav' );
 	const active = pages.find( ( page ) => page.id === current );
@@ -47,6 +55,7 @@ export default function SideNav( { pages, current, meta = {} } ) {
 					<Badge intent="informational">{ `v${ VERSION }` }</Badge>
 				) }
 			</div>
+			{ search && <div className="to-sidebar__search">{ search }</div> }
 			<button
 				type="button"
 				className="to-sidebar__toggle"
@@ -96,6 +105,23 @@ export default function SideNav( { pages, current, meta = {} } ) {
 					} ) }
 				</ul>
 			</nav>
+			<div className="to-sidebar__foot">
+				<a
+					className="to-sidenav__item"
+					href={ DOCS_URL }
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<Icon icon={ help } size={ 20 } />
+					<span className="to-sidenav__label">
+						{ __( 'Documentation', 'trustorder-for-woo' ) }
+					</span>
+					<Icon icon={ external } size={ 16 } />
+					<span className="screen-reader-text">
+						{ __( '(opens in a new tab)', 'trustorder-for-woo' ) }
+					</span>
+				</a>
+			</div>
 		</aside>
 	);
 }

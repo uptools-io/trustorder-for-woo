@@ -4,7 +4,14 @@
 import { __ } from '@wordpress/i18n';
 
 /**
- * Main column footer: who runs the service.
+ * Internal dependencies
+ */
+// The brand file as is (inlined as a data URI by the build, never recolored).
+import logoUrl from '../components/uptools-logo.svg';
+
+/**
+ * Main column footer: the upTools logo linking to uptools.io. Same height as
+ * the sidebar footer, so the two line up.
  */
 export default function Footer() {
 	return (
@@ -14,9 +21,17 @@ export default function Footer() {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				{ __( 'TrustOrder by upTools', 'trustorder-for-woo' ) }
+				<img
+					className="to-footer__logo"
+					src={ logoUrl }
+					alt=""
+					width="110"
+				/>
 				<span className="screen-reader-text">
-					{ __( '(opens in a new tab)', 'trustorder-for-woo' ) }
+					{ __(
+						'upTools (opens in a new tab)',
+						'trustorder-for-woo'
+					) }
 				</span>
 			</a>
 		</footer>

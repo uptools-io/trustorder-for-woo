@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -99,6 +99,17 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.1 =
+* New: Settings: a numbered list under the strictness control shows what happens to Blocked, Risky and other buyers, and a level guide explains the levels with their thresholds.
+* New: Admin screen: quick search in the side navigation, a documentation link and the upTools logo in the footer.
+* Change: Orders list: the column is titled "Parcel tracking", and a buyer with no history shows a green "New customer" badge instead of "Unknown".
+* Change: Level badges are coloured per level, with the icon and the label on one line.
+* Change: Admin screen: buttons and controls use the upTools ink instead of the admin blue, a new badge-check mark, and the active side navigation item has no yellow stripe.
+* Change: Strictness help texts say exactly which buyers lose cash on delivery.
+* Change: Exceptions: the rows per page control moved to the section header.
+* Change: Hungarian: the order status reads "Rendelést nem vette át".
+* Fix: A cached check result (up to 10 minutes) is dropped as soon as an outcome signal is sent or withdrawn, so a buyer who just refused a parcel is checked again.
 
 = 1.0.0 =
 * New: Checkout check on the block and the classic checkout from hashed e-mail, phone and address (identity hash protocol v1): the payment methods you choose (default: cash on delivery) are hidden for blocked buyers, and the server refuses an order placed with a hidden method.

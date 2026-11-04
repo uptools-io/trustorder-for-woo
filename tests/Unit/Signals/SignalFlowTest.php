@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\TrustOrder\Tests\Unit\Signals;
 
+use LightweightPlugins\TrustOrder\Checkout\CacheGeneration;
 use LightweightPlugins\TrustOrder\Checkout\IdentityBuilder;
 use LightweightPlugins\TrustOrder\Signals\SignalJob;
 use LightweightPlugins\TrustOrder\Signals\SignalRouter;
@@ -83,6 +84,30 @@ final class SignalFlowTest extends SignalTestCase {
 		$body = $this->calls()[0][2];
 		$this->assertSame( 'refused', $body['outcome'] );
 		$this->assertSame( '2026-10-02T11:00:00Z', $body['occurred_at'] );
+	}
+
+	public function test_a_sent_refusal_drops_the_cached_check_results(): void {
+		$before = CacheGeneration::current();
+		$this->transition( $this->order(), 'to-refused' );
+
+		$this->assertSame( $before + 1, CacheGeneration::current() );
+	}
+
+	public function test_a_retract_drops_the_cached_check_results(): void {
+		$o = $this->order();
+		$this->transition( $o, 'to-refused' );
+		$before = CacheGeneration::current();
+		$this->transition( $o, 'processing' );
+
+		$this->assertSame( $before + 1, CacheGeneration::current() );
+	}
+
+	public function test_a_failed_send_keeps_the_cached_check_results(): void {
+		$before        = CacheGeneration::current();
+		$this->answers = [ self::problem( 503, 'UNAVAILABLE' ) ];
+		$this->transition( $this->order(), 'to-refused' );
+
+		$this->assertSame( $before, CacheGeneration::current() );
 	}
 
 	public function test_completed_refunded_completed_sends_one_delivered(): void {

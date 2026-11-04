@@ -39,15 +39,16 @@ final class OrderColumn {
 		if ( ! is_array( $columns ) ) {
 			return $columns;
 		}
-		$out = [];
+		$title = __( 'Parcel tracking', 'trustorder-for-woo' );
+		$out   = [];
 		foreach ( $columns as $key => $label ) {
 			$out[ $key ] = $label;
 			if ( 'order_status' === $key ) {
-				$out[ self::COLUMN ] = __( 'TrustOrder', 'trustorder-for-woo' );
+				$out[ self::COLUMN ] = $title;
 			}
 		}
 		if ( ! isset( $out[ self::COLUMN ] ) ) {
-			$out[ self::COLUMN ] = __( 'TrustOrder', 'trustorder-for-woo' );
+			$out[ self::COLUMN ] = $title;
 		}
 
 		return $out;

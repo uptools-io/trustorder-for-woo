@@ -12,6 +12,7 @@ namespace LightweightPlugins\TrustOrder\Signals;
 use LightweightPlugins\TrustOrder\Api\ApiKey;
 use LightweightPlugins\TrustOrder\Api\Client;
 use LightweightPlugins\TrustOrder\Api\Response;
+use LightweightPlugins\TrustOrder\Checkout\CacheGeneration;
 use LightweightPlugins\TrustOrder\Log;
 use LightweightPlugins\TrustOrder\Settings;
 
@@ -157,6 +158,8 @@ final class SignalJob {
 			$next['sent_at']     = SignalState::now();
 			$next['occurred_at'] = $occurred_at;
 			SignalState::write( $order, $next );
+			// The buyer's history changed: a cached check result is now stale.
+			CacheGeneration::bump();
 			return;
 		}
 		$next                = self::failure( $order, $state, $env, $want, $resp, $attempts );
@@ -178,6 +181,7 @@ final class SignalJob {
 			$next            = self::next( $state, $env, null, SignalState::RETRACTED, Outcome::RETRACT );
 			$next['sent_at'] = SignalState::now();
 			SignalState::write( $order, $next );
+			CacheGeneration::bump();
 			return;
 		}
 		if ( 409 === $resp->status() ) {

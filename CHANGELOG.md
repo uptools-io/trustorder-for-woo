@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.0.1] - 2026-11-04
+
+### Added
+- Settings: a numbered list under the strictness control shows what happens to Blocked, Risky and other buyers, and a level guide explains the levels with their thresholds.
+- Admin screen: quick search in the side navigation, a documentation link and the upTools logo in the footer.
+
+### Changed
+- Orders list: the column is titled "Parcel tracking", and a buyer with no history shows a green "New customer" badge instead of "Unknown".
+- Level badges are coloured per level, with the icon and the label on one line.
+- Admin screen: buttons and controls use the upTools ink instead of the admin blue, a new badge-check mark, and the active side navigation item has no yellow stripe.
+- Strictness help texts say exactly which buyers lose cash on delivery.
+- Exceptions: the rows per page control moved to the section header.
+- Hungarian: the order status reads "Rendelést nem vette át".
+
+### Fixed
+- A cached check result (up to 10 minutes) is dropped as soon as an outcome signal is sent or withdrawn, so a buyer who just refused a parcel is checked again.
+
 ## [1.0.0] - 2026-11-03
 
 ### Added
