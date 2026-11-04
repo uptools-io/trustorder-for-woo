@@ -126,6 +126,63 @@ final class SignalRetryTest extends SignalTestCase {
 		$this->assertSame( [], $this->pending() );
 	}
 
+	public function test_a_pending_delivery_retried_after_refund_sends_delete_not_put(): void {
+		$this->answers = [ self::problem( 503, 'INTERNAL' ), self::http( 204, '' ) ];
+		$o             = $this->order();
+		$this->transition( $o, 'completed', false );
+		$this->runOnce(); // PUT -> 503, retry pending (the response may have been lost).
+		$this->assertSame( SignalState::PENDING, $this->state( $o )['status'] );
+		$o->set_status( 'refunded' );
+		$this->runOnce(); // The scheduled retry now reads "refunded".
+
+		$this->assertSame( [ 'PUT', 'DELETE' ], array_column( $this->calls(), 0 ) );
+		$this->assertSame( SignalState::RETRACTED, $this->state( $o )['status'] );
+		$this->assertSame( [], $this->pending() );
+	}
+
+	public function test_a_failed_refund_delete_is_retried_as_a_delete(): void {
+		$this->answers = [ self::problem( 503, 'INTERNAL' ), self::problem( 503, 'INTERNAL' ), self::http( 204, '' ) ];
+		$o             = $this->order();
+		$this->transition( $o, 'completed', false );
+		$this->runOnce(); // PUT -> 503.
+		$o->set_status( 'refunded' );
+		$this->runOnce(); // DELETE -> 503, retry pending.
+		$this->assertSame( SignalState::PENDING, $this->state( $o )['status'] );
+		$this->runOnce(); // DELETE again.
+
+		$this->assertSame( [ 'PUT', 'DELETE', 'DELETE' ], array_column( $this->calls(), 0 ) );
+		$this->assertSame( SignalState::RETRACTED, $this->state( $o )['status'] );
+	}
+
+	public function test_a_refund_keeps_a_refusal_under_a_pending_delivery(): void {
+		$o = $this->order();
+		$this->transition( $o, 'to-refused' );
+		$this->answers = [ self::problem( 503, 'INTERNAL' ) ];
+		$this->transition( $o, 'completed', false );
+		$this->runOnce(); // PUT delivered -> 503, retry pending, refusal still held.
+		$this->assertSame( [ 'refused', SignalState::PENDING ], [ $this->state( $o )['outcome'], $this->state( $o )['status'] ] );
+		$this->transition( $o, 'refunded', false );
+		$this->runOnce(); // The scheduled retry now reads "refunded".
+
+		$this->assertSame( [ 'PUT', 'PUT' ], array_column( $this->calls(), 0 ), 'no DELETE, no second delivery PUT' );
+		$this->assertSame( 'refused', $this->state( $o )['outcome'] );
+		$this->assertSame( [], $this->pending() );
+	}
+
+	public function test_a_pending_retract_over_a_refusal_continues_after_a_refund(): void {
+		$o = $this->order();
+		$this->transition( $o, 'to-refused' );
+		$this->answers = [ self::problem( 503, 'INTERNAL' ), self::http( 204, '' ) ];
+		$this->transition( $o, 'processing', false );
+		$this->runOnce(); // DELETE -> 503, retry pending.
+		$this->transition( $o, 'refunded', false );
+		$this->runOnce(); // DELETE again.
+
+		$this->assertSame( [ 'PUT', 'DELETE', 'DELETE' ], array_column( $this->calls(), 0 ) );
+		$s = $this->state( $o );
+		$this->assertSame( [ null, SignalState::RETRACTED ], [ $s['outcome'], $s['status'] ] );
+	}
+
 	public function test_failed_retract_keeps_the_held_outcome(): void {
 		$o = $this->order();
 		$this->transition( $o, 'completed' );

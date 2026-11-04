@@ -28,6 +28,7 @@ final class SettingsTest extends TestCase {
 		$this->assertSame( [ 'cod' ], $s['hidden_gateways'] );
 		$this->assertSame( [], $s['fallback_gateways'] );
 		$this->assertTrue( $s['enabled'] );
+		$this->assertTrue( $s['share_geo'], 'sharing is on by default' );
 		$this->assertContains( 'local_pickup', $s['pickup_methods'] );
 		$this->assertContains( 'pickup_location', $s['pickup_methods'] );
 		$this->assertSame( Settings::DEFAULT_PICKUP_METHODS, $s['pickup_methods'] );
@@ -54,6 +55,14 @@ final class SettingsTest extends TestCase {
 		$this->assertSame( $s, Settings::get() );
 		$this->assertSame( $s, $GLOBALS['trustorder_test']['options'][ Settings::OPTION ] );
 		$this->assertTrue( $GLOBALS['trustorder_test']['autoload'][ Settings::OPTION ] );
+	}
+
+	public function test_share_geo_is_a_bool_and_kept_on_unrelated_updates(): void {
+		$this->assertTrue( Settings::update( [ 'share_geo' => true ] )['share_geo'] );
+		$this->assertTrue( Settings::update( [ 'strictness' => 'strict' ] )['share_geo'] );
+		$this->assertTrue( Settings::update( [ 'share_geo' => 'maybe' ] )['share_geo'], 'unrecognised value keeps the previous one' );
+		$this->assertFalse( Settings::update( [ 'share_geo' => false ] )['share_geo'] );
+		$this->assertTrue( Settings::update( [ 'share_geo' => '1' ] )['share_geo'] );
 	}
 
 	public function test_invalid_strictness_falls_back_to_normal(): void {

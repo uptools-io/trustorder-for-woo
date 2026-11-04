@@ -146,6 +146,16 @@ final class Client {
 	}
 
 	/**
+	 * POST /geo (country and postcode of one order, nothing else).
+	 *
+	 * @param array<string, string> $body GeoBody (country, postcode).
+	 * @return Response
+	 */
+	public function postGeo( array $body ): Response {
+		return $this->request( 'POST', '/geo', '/geo', $body, self::BACKGROUND_TIMEOUT );
+	}
+
+	/**
 	 * PUT /exceptions.
 	 *
 	 * @param array<string, mixed> $body ExceptionBody (kind, identity_hash, action, note).

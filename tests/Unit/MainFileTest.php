@@ -22,7 +22,7 @@ final class MainFileTest extends TestCase {
 		$this->assertIsArray( $got, 'probe output: ' . $out );
 		$this->assertSame(
 			[
-				'version'     => '1.0.1',
+				'version'     => '1.0.2',
 				'file'        => 'trustorder-for-woo.php',
 				'composer'    => false,
 				'settings'    => true,

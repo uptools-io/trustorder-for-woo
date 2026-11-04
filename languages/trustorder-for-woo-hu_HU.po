@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-04T11:30:15+00:00\n"
+"POT-Creation-Date: 2026-11-04T16:03:44+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -142,6 +142,12 @@ msgstr ""
 
 #: includes/Admin/Privacy.php:42
 msgid ""
+"The webshop also sends the country and postcode of each new order to uptools.io for anonymous order statistics, without any other customer data, unless \"Share country and postcode\" is turned off."
+msgstr ""
+"A webáruház minden új rendelés országát és irányítószámát is továbbítja az uptools.io részére névtelen rendelési statisztikához, bármilyen más vevőadat nélkül, kivéve, ha az „Ország és irányítószám megosztása” ki van kapcsolva."
+
+#: includes/Admin/Privacy.php:43
+msgid ""
 "Purpose: assessing the risk of cash-on-delivery orders from the delivery "
 "history (picked up or not) of the same buyer across the participating "
 "webshops. Based on the result the webshop may hide cash on delivery; other "
@@ -152,7 +158,7 @@ msgstr ""
 "sem) alapján. Az eredmény alapján a webáruház elrejtheti az utánvétet; a "
 "többi fizetési mód elérhető marad."
 
-#: includes/Admin/Privacy.php:43
+#: includes/Admin/Privacy.php:44
 msgid ""
 "Legal basis: the legitimate interest of the webshop and the participating "
 "webshops in preventing losses from parcels that are not picked up (GDPR "
@@ -162,7 +168,7 @@ msgstr ""
 "csomagokból eredő veszteségek megelőzésében (GDPR 6. cikk (1) bekezdés f) "
 "pont)."
 
-#: includes/Admin/Privacy.php:44
+#: includes/Admin/Privacy.php:45
 msgid ""
 "The webshop is the contact point for this processing: questions and "
 "objections go to the webshop. The service keeps the hashed delivery outcomes "
@@ -342,35 +348,39 @@ msgstr "Ez a telefonszám a választott országban nem érvényes."
 msgid "The address needs a country, a postcode and a house number."
 msgstr "A címhez ország, irányítószám és házszám kell."
 
-#: includes/Rest/SettingsController.php:117
+#: includes/Rest/SettingsController.php:118
 msgid "Unknown payment method."
 msgstr "Ismeretlen fizetési mód."
 
 #. translators: %s: payment method id
-#: includes/Rest/SettingsController.php:126
+#: includes/Rest/SettingsController.php:127
 #, php-format
 msgid ""
 "The payment method \"%s\" cannot be hidden and a fallback at the same time."
 msgstr "A(z) „%s” fizetési mód nem lehet egyszerre elrejtett és tartalék."
 
-#: includes/Rest/SettingsController.php:144
+#: includes/Rest/SettingsController.php:145
 msgid ""
 "This is not a valid TrustOrder API key. It starts with to_live_ or to_test_."
 msgstr ""
 "Ez nem érvényes TrustOrder API-kulcs. A kulcs to_live_ vagy to_test_ "
 "előtaggal kezdődik."
 
-#: includes/Rest/SettingsController.php:150
+#: includes/Rest/SettingsController.php:151
 msgid "Unknown strictness."
 msgstr "Ismeretlen szigorúság."
 
-#: includes/Rest/SettingsController.php:157
+#: includes/Rest/SettingsController.php:158
 msgid "A list of ids was expected."
 msgstr "Azonosítók listája kellett volna."
 
-#: includes/Rest/SettingsController.php:164
+#: includes/Rest/SettingsController.php:165
 msgid "The enabled flag must be true or false."
 msgstr "A bekapcsolás értéke csak igaz vagy hamis lehet."
+
+#: includes/Rest/SettingsController.php:171
+msgid "The share_geo flag must be true or false."
+msgstr "Az ország és irányítószám megosztásának értéke csak igaz vagy hamis lehet."
 
 #: build/index.js:1
 msgid "Loading…"
@@ -773,11 +783,11 @@ msgstr "A kockázatos vevők nem látják az elrejtett fizetési módokat."
 msgid "Turned off in Settings: every payment method stays available."
 msgstr "A Beállításokban kikapcsolva: minden fizetési mód elérhető marad."
 
-#: build/index.js:7 build/index.js:8
+#: build/index.js:7
 msgid "On"
 msgstr "Be"
 
-#: build/index.js:7 build/index.js:8
+#: build/index.js:7
 msgid "Off"
 msgstr "Ki"
 
@@ -957,14 +967,18 @@ msgstr "Utánvét marad"
 msgid ""
 "In the last 12 months at least 2 established shops (or 4 new shops) reported "
 "that the buyer did not pick up the parcel, and the score is below 60."
-msgstr "Az elmúlt 12 hónapban legalább 2 bevált bolt (vagy 4 új bolt) jelezte, hogy nem vette át a csomagot, és a pontszáma 60 alatt van."
+msgstr ""
+"Az elmúlt 12 hónapban legalább 2 bevált bolt (vagy 4 új bolt) jelezte, hogy "
+"nem vette át a csomagot, és a pontszáma 60 alatt van."
 
 #: build/index.js:7
 msgid ""
 "In the last 12 months the buyer did not pick up at least 1 parcel, or the "
 "score is below 60, or the e-mail address is disposable or cannot receive "
 "mail."
-msgstr "Az elmúlt 12 hónapban legalább 1 csomagot nem vett át, vagy a pontszáma 60 alatt van, vagy az e-mail címe eldobható, illetve nem tud levelet fogadni."
+msgstr ""
+"Az elmúlt 12 hónapban legalább 1 csomagot nem vett át, vagy a pontszáma 60 "
+"alatt van, vagy az e-mail címe eldobható, illetve nem tud levelet fogadni."
 
 #: build/index.js:7
 msgid "At least 3 picked up cash-on-delivery parcels, with no recent refusal."
@@ -979,7 +993,10 @@ msgid ""
 "Score 0–100. One parcel not picked up at one new shop gives about 67 points "
 "(Risky). Picked up parcels raise it, and older cases count less and less "
 "over time."
-msgstr "Pontszám 0–100. Egy nem átvett csomag egy új boltnál kb. 67 pont (Kockázatos). Az átvett csomagok felfelé húzzák, a régi esetek idővel egyre kevesebbet számítanak."
+msgstr ""
+"Pontszám 0–100. Egy nem átvett csomag egy új boltnál kb. 67 pont "
+"(Kockázatos). Az átvett csomagok felfelé húzzák, a régi esetek idővel egyre "
+"kevesebbet számítanak."
 
 #: build/index.js:7
 msgid "Lenient"
@@ -997,7 +1014,9 @@ msgstr "Normál"
 msgid ""
 "Recommended. Hides it for Blocked buyers and flags the Risky order (a note "
 "on the order)."
-msgstr "Ajánlott. A Tiltott vevőknél elrejti, a Kockázatos rendelést megjelöli (megjegyzés a rendelésen)."
+msgstr ""
+"Ajánlott. A Tiltott vevőknél elrejti, a Kockázatos rendelést megjelöli "
+"(megjegyzés a rendelésen)."
 
 #: build/index.js:7
 msgid "Strict"
@@ -1094,6 +1113,17 @@ msgstr "Átvételi pontos és személyes átvételi módok"
 msgid ""
 "With these methods there is no delivery address, so no address is checked."
 msgstr "Ezeknél a módoknál nincs kézbesítési cím, ezért címet sem ellenőrzünk."
+
+#: build/index.js:8
+msgid "Share country and postcode"
+msgstr "Ország és irányítószám megosztása"
+
+#: build/index.js:8
+msgid ""
+"Sends only the country and postcode of every new order, without any customer "
+"data, for anonymous order statistics."
+msgstr ""
+"Minden új rendelésből csak az országot és az irányítószámot küldi el, vevőadat nélkül, névtelen rendelési statisztikához."
 
 #: build/index.js:8
 msgid "Shop exceptions"

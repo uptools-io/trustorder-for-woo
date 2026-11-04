@@ -62,8 +62,9 @@ final class SignalRouter {
 	/**
 	 * `→ completed` and `→ to-refused` always; `→ processing|on-hold|pending`
 	 * only when a signal may exist (coming from completed / to-refused, or
-	 * the order holds a sent signal, e.g. completed → refunded → processing).
-	 * Everything else (refunded, cancelled, failed…) schedules nothing.
+	 * the order holds a sent signal, e.g. completed → cancelled → processing);
+	 * `→ refunded` only when the refund retracts (a delivery, not a refusal).
+	 * Everything else (cancelled, failed…) schedules nothing.
 	 *
 	 * @param string         $from  Old status.
 	 * @param string         $to    New status.
@@ -73,6 +74,9 @@ final class SignalRouter {
 		$want = Outcome::forStatus( $to );
 		if ( Outcome::isSignal( $want ) ) {
 			return true;
+		}
+		if ( Outcome::REFUND === $want ) {
+			return null !== $order && Outcome::RETRACT === Outcome::onRefund( SignalState::read( $order ) );
 		}
 		if ( Outcome::RETRACT !== $want ) {
 			return false;

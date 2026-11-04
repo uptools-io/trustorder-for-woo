@@ -48,9 +48,11 @@ export default function Section( {
 					{ actions }
 				</CardHeader>
 			) }
-			<CardBody>
-				<VStack spacing={ 5 }>{ children }</VStack>
-			</CardBody>
+			{ children && (
+				<CardBody>
+					<VStack spacing={ 5 }>{ children }</VStack>
+				</CardBody>
+			) }
 		</Card>
 	);
 }

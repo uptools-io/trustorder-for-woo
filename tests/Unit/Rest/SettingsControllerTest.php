@@ -43,6 +43,17 @@ final class SettingsControllerTest extends RestTestCase {
 		$this->assertSame( 'normal', $data['settings']['strictness'] );
 		$this->assertSame( [ 'cod' ], $data['settings']['hidden_gateways'] );
 		$this->assertTrue( $data['settings']['enabled'] );
+		$this->assertTrue( $data['settings']['share_geo'] );
+	}
+
+	public function test_post_accepts_share_geo_true_and_false(): void {
+		$data = $this->ok( $this->call( 'POST', '/settings', [ 'share_geo' => true ] ) );
+		$this->assertTrue( $data['settings']['share_geo'] );
+		$this->assertTrue( Settings::get()['share_geo'] );
+
+		$data = $this->ok( $this->call( 'POST', '/settings', [ 'share_geo' => false ] ) );
+		$this->assertFalse( $data['settings']['share_geo'] );
+		$this->assertFalse( Settings::get()['share_geo'] );
 	}
 
 	public function test_get_without_key(): void {
@@ -182,6 +193,7 @@ final class SettingsControllerTest extends RestTestCase {
 			'bad strictness'     => [ [ 'strictness' => 'paranoid' ], 'trustorder_invalid_strictness' ],
 			'list not an array'  => [ [ 'hidden_gateways' => 'cod' ], 'trustorder_invalid_list' ],
 			'enabled not a bool' => [ [ 'enabled' => 'maybe' ], 'trustorder_invalid_enabled' ],
+			'share_geo "yes"'    => [ [ 'share_geo' => 'yes' ], 'trustorder_invalid_share_geo' ],
 		];
 	}
 

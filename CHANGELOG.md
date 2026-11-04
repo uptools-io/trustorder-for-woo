@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2] - 2026-11-04
+
+### Added
+- Settings: "Share country and postcode" (on by default, can be turned off) sends only the country and postcode of each new order, without any customer data, for anonymous order statistics. Also available as `wp trustorder settings set share-geo on|off`, and described in the suggested privacy policy text.
+
+### Fixed
+- A full refund now withdraws the delivered report; a refused report is never withdrawn by a refund, and partial refunds change nothing. This applies to orders refunded from 1.0.2 on; earlier refunds are not withdrawn.
+
 ## [1.0.1] - 2026-11-04
 
 ### Added

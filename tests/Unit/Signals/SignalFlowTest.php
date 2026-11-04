@@ -110,26 +110,6 @@ final class SignalFlowTest extends SignalTestCase {
 		$this->assertSame( $before, CacheGeneration::current() );
 	}
 
-	public function test_completed_refunded_completed_sends_one_delivered(): void {
-		$o = $this->order();
-		$this->transition( $o, 'completed' );
-		$this->transition( $o, 'refunded' );
-		$this->transition( $o, 'completed' );
-
-		$this->assertCount( 1, $this->calls() );
-		$this->assertSame( 'PUT', $this->calls()[0][0] );
-		$this->assertSame( 'delivered', $this->state( $o )['outcome'] );
-	}
-
-	public function test_refunded_does_not_retract_and_schedules_nothing(): void {
-		$o = $this->order();
-		$this->transition( $o, 'completed' );
-		$GLOBALS['trustorder_test']['as'] = [];
-		$this->transition( $o, 'refunded', false );
-
-		$this->assertSame( [], $this->pending() );
-	}
-
 	public function test_refused_then_completed_sends_delivered(): void {
 		$o = $this->order();
 		$this->transition( $o, 'to-refused' );
@@ -174,10 +154,10 @@ final class SignalFlowTest extends SignalTestCase {
 		$this->assertSame( [ 'PUT', 'DELETE' ], array_column( $this->calls(), 0 ) );
 	}
 
-	public function test_completed_refunded_processing_retracts(): void {
+	public function test_completed_cancelled_processing_retracts(): void {
 		$o = $this->order();
 		$this->transition( $o, 'completed' );
-		$this->transition( $o, 'refunded' );
+		$this->transition( $o, 'cancelled' );
 		$this->transition( $o, 'processing' );
 
 		$this->assertSame( [ 'PUT', 'DELETE' ], array_column( $this->calls(), 0 ) );
@@ -314,7 +294,7 @@ final class SignalFlowTest extends SignalTestCase {
 		$o = $this->order();
 		$this->transition( $o, 'completed' );               // PUT live.
 		\LightweightPlugins\TrustOrder\Settings::update( [ 'api_key' => self::TEST_KEY ] );
-		$this->transition( $o, 'refunded' );
+		$this->transition( $o, 'cancelled' );
 		$this->transition( $o, 'completed' );               // PUT test (the meta now says test).
 		\LightweightPlugins\TrustOrder\Settings::update( [ 'api_key' => self::LIVE_KEY ] );
 		$this->transition( $o, 'processing' );              // Must DELETE in live.

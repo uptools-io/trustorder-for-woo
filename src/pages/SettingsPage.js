@@ -58,6 +58,36 @@ const gatewayOptions = ( gateways ) =>
 	} ) );
 
 /**
+ * Card-header on/off switch with a screen-reader label and a visible state.
+ *
+ * @param {Object}   props
+ * @param {string}   props.label    Accessible label.
+ * @param {boolean}  props.checked  Current value.
+ * @param {Function} props.onChange Called with the new boolean.
+ */
+function HeaderToggle( { label, checked, onChange } ) {
+	const id = useInstanceId( HeaderToggle, 'to-toggle' );
+
+	return (
+		<span className="to-switch">
+			<label htmlFor={ id } className="screen-reader-text">
+				{ label }
+			</label>
+			<FormToggle
+				id={ id }
+				checked={ checked }
+				onChange={ ( event ) => onChange( event.target.checked ) }
+			/>
+			<span className="to-switch__state">
+				{ checked
+					? __( 'On', 'trustorder-for-woo' )
+					: __( 'Off', 'trustorder-for-woo' ) }
+			</span>
+		</span>
+	);
+}
+
+/**
  * Beállítások: key, on/off, strictness, gateways, pickup methods.
  *
  * @param {Object} props
@@ -65,7 +95,6 @@ const gatewayOptions = ( gateways ) =>
  */
 export default function SettingsPage( { store } ) {
 	const { settings, update } = store;
-	const toggleId = useInstanceId( SettingsPage, 'to-enabled' );
 	const strictness = STRICTNESS.find(
 		( s ) => s.value === settings.strictness
 	);
@@ -102,26 +131,14 @@ export default function SettingsPage( { store } ) {
 							)
 				}
 				actions={
-					<span className="to-switch">
-						<label
-							htmlFor={ toggleId }
-							className="screen-reader-text"
-						>
-							{ __( 'Checks at checkout', 'trustorder-for-woo' ) }
-						</label>
-						<FormToggle
-							id={ toggleId }
-							checked={ !! settings.enabled }
-							onChange={ ( event ) =>
-								update( { enabled: event.target.checked } )
-							}
-						/>
-						<span className="to-switch__state">
-							{ settings.enabled
-								? __( 'On', 'trustorder-for-woo' )
-								: __( 'Off', 'trustorder-for-woo' ) }
-						</span>
-					</span>
+					<HeaderToggle
+						label={ __(
+							'Checks at checkout',
+							'trustorder-for-woo'
+						) }
+						checked={ !! settings.enabled }
+						onChange={ ( value ) => update( { enabled: value } ) }
+					/>
 				}
 			>
 				<SettingRow
@@ -220,6 +237,26 @@ export default function SettingsPage( { store } ) {
 					}
 				/>
 			</Section>
+			<Section
+				title={ __(
+					'Share country and postcode',
+					'trustorder-for-woo'
+				) }
+				description={ __(
+					'Sends only the country and postcode of every new order, without any customer data, for anonymous order statistics.',
+					'trustorder-for-woo'
+				) }
+				actions={
+					<HeaderToggle
+						label={ __(
+							'Share country and postcode',
+							'trustorder-for-woo'
+						) }
+						checked={ !! settings.share_geo }
+						onChange={ ( value ) => update( { share_geo: value } ) }
+					/>
+				}
+			/>
 		</>
 	);
 }

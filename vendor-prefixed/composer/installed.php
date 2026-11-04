@@ -4,7 +4,7 @@
     'name' => 'uptools-io/trustorder-for-woo',
     'pretty_version' => 'dev-main',
     'version' => 'dev-main',
-    'reference' => 'b51092ee207585ca93770f88963ee8eab83d9275',
+    'reference' => 'aba6b9263c2549a91f519fa9732205054c3ca59e',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 

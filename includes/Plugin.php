@@ -96,6 +96,7 @@ final class Plugin {
 		Order\RefusedStatus::register();
 		Signals\SignalRouter::register();
 		Signals\Backfill::register();
+		Geo\GeoRouter::register();
 		I18n::register();
 		Rest\Routes::register();
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {

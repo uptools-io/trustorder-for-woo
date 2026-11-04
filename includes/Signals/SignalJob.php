@@ -85,14 +85,19 @@ final class SignalJob {
 	 * @param string    $env   Current env.
 	 */
 	private static function process( \WC_Order $order, string $env ): void {
-		$want  = Outcome::forStatus( (string) $order->get_status() );
-		$state = SignalState::read( $order );
-		$held  = SignalState::held( $state, $env );
+		$want   = Outcome::forStatus( (string) $order->get_status() );
+		$state  = SignalState::read( $order );
+		$held   = SignalState::held( $state, $env );
+		$refund = Outcome::REFUND === $want;
+		if ( $refund ) {
+			// Even an unconfirmed PUT is deleted: its response may have been lost (404 = fine).
+			$want = Outcome::onRefund( $state );
+		}
 
 		if ( Outcome::NONE === $want || SignalState::voided( $state, $env ) ) {
 			return;
 		}
-		if ( Outcome::RETRACT === $want && null === $held && ! self::mustDelete( $state, $env ) ) {
+		if ( Outcome::RETRACT === $want && null === $held && ! $refund && ! self::mustDelete( $state, $env ) ) {
 			if ( $env === $state['env'] && SignalState::PENDING === $state['status'] ) {
 				// An unsent PUT retry is cancelled: nothing is held on the backend.
 				SignalState::write( $order, self::next( $state, $env, null, SignalState::RETRACTED, Outcome::RETRACT ) );
@@ -100,7 +105,7 @@ final class SignalJob {
 			return;
 		}
 		if ( $want === $held && SignalState::SENT === $state['status'] ) {
-			return; // Already sent (e.g. completed → refunded → completed).
+			return; // Already sent (e.g. completed → cancelled → completed).
 		}
 
 		$same     = $env === $state['env'] && $want === $state['target'];

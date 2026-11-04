@@ -44,6 +44,7 @@ final class SettingsCommandTest extends CliTestCase {
 		$this->assertSame( 'normal', $rows['strictness'] );
 		$this->assertSame( 'cod', $rows['hidden-gateways'] );
 		$this->assertSame( 'yes', $rows['enabled'] );
+		$this->assertSame( 'yes', $rows['share-geo'] );
 		$this->assertStringNotContainsString( self::LIVE_KEY, $this->output() );
 	}
 
@@ -66,6 +67,11 @@ final class SettingsCommandTest extends CliTestCase {
 		$this->assertSame( 0, $this->exec( fn() => $this->cmd->set( [ 'enabled', 'off' ], [] ) ) );
 		$this->assertFalse( Settings::get()['enabled'] );
 
+		$this->assertSame( 0, $this->exec( fn() => $this->cmd->set( [ 'share-geo', 'on' ], [] ) ) );
+		$this->assertTrue( Settings::get()['share_geo'] );
+		$this->assertSame( 0, $this->exec( fn() => $this->cmd->set( [ 'share-geo', 'false' ], [] ) ) );
+		$this->assertFalse( Settings::get()['share_geo'] );
+
 		$this->assertSame( 0, $this->exec( fn() => $this->cmd->set( [ 'pickup-methods', 'local_pickup, vp_pont' ], [] ) ) );
 		$this->assertSame( [ 'local_pickup', 'vp_pont' ], Settings::get()['pickup_methods'] );
 
@@ -78,6 +84,7 @@ final class SettingsCommandTest extends CliTestCase {
 
 		$this->assertSame( 1, $this->exec( fn() => $this->cmd->set( [ 'strictness', 'extreme' ], [] ) ) );
 		$this->assertSame( 1, $this->exec( fn() => $this->cmd->set( [ 'enabled', 'maybe' ], [] ) ) );
+		$this->assertSame( 1, $this->exec( fn() => $this->cmd->set( [ 'share-geo', 'yes please' ], [] ) ) );
 		$this->assertSame( 1, $this->exec( fn() => $this->cmd->set( [ 'hidden-gateways', 'made_up' ], [] ) ) );
 		$this->assertSame( 1, $this->exec( fn() => $this->cmd->set( [ 'colour', 'red' ], [] ) ) );
 		$this->assertSame( 1, $this->exec( fn() => $this->cmd->set( [ 'strictness' ], [] ) ) );

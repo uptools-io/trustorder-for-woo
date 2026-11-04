@@ -106,7 +106,7 @@ final class AdminPageTest extends TestCase {
 
 		[ $title, $text ] = $GLOBALS['trustorder_test']['privacy'][0];
 		$this->assertSame( 'TrustOrder for WooCommerce', $title );
-		foreach ( [ 'e-mail address', 'phone number', 'shipping address', 'e-mail domain', 'can receive mail', 'picked up', 'date', 'order number', 'past 3 years', 'legitimate interest', '3 years', 'contact point' ] as $needle ) {
+		foreach ( [ 'e-mail address', 'phone number', 'shipping address', 'e-mail domain', 'can receive mail', 'picked up', 'date', 'order number', 'past 3 years', 'legitimate interest', '3 years', 'contact point', 'Share country and postcode', 'country and postcode of each new order', 'anonymous order statistics' ] as $needle ) {
 			$this->assertStringContainsString( $needle, $text );
 		}
 		$this->assertStringStartsWith( '<p>', $text );

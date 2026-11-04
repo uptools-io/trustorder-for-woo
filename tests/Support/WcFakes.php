@@ -162,6 +162,10 @@ namespace {
 			$this->meta[ $key ] = $value;
 		}
 
+		public function delete_meta_data( $key ) {
+			unset( $this->meta[ $key ] );
+		}
+
 		public function save() {
 			++$this->saved;
 			return $this->get_id();

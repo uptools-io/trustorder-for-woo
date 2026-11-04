@@ -75,10 +75,12 @@ final class Address {
 	/**
 	 * Postcode: no whitespace, lowercase, trailing dots and "<cc>-" / "h-" prefix dropped.
 	 *
+	 * Only [a-z0-9-] may remain, with at least one [a-z0-9]; null otherwise.
+	 *
 	 * @param string $postcode Raw postcode.
 	 * @param string $cc       Normalised country code.
 	 */
-	private static function postcode( string $postcode, string $cc ): ?string {
+	public static function postcode( string $postcode, string $cc ): ?string {
 		$n = Unicode::nfc( $postcode );
 		if ( null === $n ) {
 			return null;

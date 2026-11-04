@@ -105,6 +105,9 @@ final class ClientTest extends TestCase {
 		$c->batchSignals( [ [ 'order_ref' => '1', 'outcome' => 'refused' ] ] );
 		$this->assertSame( [ 'POST', self::BASE . '/signals/batch' ], $this->method_url() );
 		$this->assertSame( [ 'signals' => [ [ 'order_ref' => '1', 'outcome' => 'refused' ] ] ], json_decode( $this->last_request()['args']['body'], true ) );
+		$c->postGeo( [ 'country' => 'HU', 'postcode' => '1051' ] );
+		$this->assertSame( [ 'POST', self::BASE . '/geo' ], $this->method_url() );
+		$this->assertSame( '{"country":"HU","postcode":"1051"}', $this->last_request()['args']['body'] );
 		$c->putException( [ 'kind' => 'email', 'identity_hash' => $hash, 'action' => 'deny' ] );
 		$this->assertSame( [ 'PUT', self::BASE . '/exceptions' ], $this->method_url() );
 		$c->deleteException( 'email', $hash );

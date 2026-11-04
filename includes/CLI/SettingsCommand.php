@@ -28,7 +28,10 @@ class SettingsCommand {
 		'fallback-gateways' => 'fallback_gateways',
 		'pickup-methods'    => 'pickup_methods',
 		'enabled'           => 'enabled',
+		'share-geo'         => 'share_geo',
 	];
+
+	private const FLAGS = [ 'enabled', 'share-geo' ];
 
 	private const KEY_MESSAGE = 'The API key is read only from piped STDIN (a terminal or no input within 5 seconds is refused): printf \'%s\' "$KEY" | wp trustorder settings set api-key -';
 
@@ -40,7 +43,7 @@ class SettingsCommand {
 	 * ## OPTIONS
 	 *
 	 * [<key>]
-	 * : One of api-key, strictness, hidden-gateways, fallback-gateways, pickup-methods, enabled.
+	 * : One of api-key, strictness, hidden-gateways, fallback-gateways, pickup-methods, enabled, share-geo.
 	 *
 	 * [--format=<format>]
 	 * : table (default) or json.
@@ -72,10 +75,10 @@ class SettingsCommand {
 	 * ## OPTIONS
 	 *
 	 * <key>
-	 * : One of api-key, strictness, hidden-gateways, fallback-gateways, pickup-methods, enabled.
+	 * : One of api-key, strictness, hidden-gateways, fallback-gateways, pickup-methods, enabled, share-geo.
 	 *
 	 * [<value>]
-	 * : lenient|normal|strict; a comma-separated list of ids; true|false. For api-key use `-` and pipe the key on STDIN (never as an argument); an empty STDIN removes the key.
+	 * : lenient|normal|strict; a comma-separated list of ids; for `enabled` and `share-geo`: true|false, on|off, yes|no or 1|0. For api-key use `-` and pipe the key on STDIN (never as an argument); an empty STDIN removes the key.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -156,10 +159,10 @@ class SettingsCommand {
 		if ( in_array( $name, self::LISTS, true ) ) {
 			return array_values( array_filter( array_map( 'trim', explode( ',', $raw ) ), static fn( string $id ): bool => '' !== $id ) );
 		}
-		if ( 'enabled' === $name ) {
+		if ( in_array( $name, self::FLAGS, true ) ) {
 			$bool = filter_var( $raw, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 
-			return null === $bool ? new WP_Error( 'trustorder_invalid_enabled', 'Use true or false.' ) : $bool;
+			return null === $bool ? new WP_Error( 'trustorder_invalid_' . self::KEYS[ $name ], 'Use true or false.' ) : $bool;
 		}
 
 		return $raw;
@@ -180,6 +183,7 @@ class SettingsCommand {
 			'fallback-gateways' => $s['fallback_gateways'],
 			'pickup-methods'    => $s['pickup_methods'],
 			'enabled'           => $s['enabled'],
+			'share-geo'         => $s['share_geo'],
 		];
 	}
 
