@@ -14,6 +14,7 @@ use LightweightPlugins\TrustOrder\Checkout\QuotaGuard;
 use LightweightPlugins\TrustOrder\Order\Labels;
 use LightweightPlugins\TrustOrder\Order\OrderColumn;
 use LightweightPlugins\TrustOrder\Order\OrderMetabox;
+use LightweightPlugins\TrustOrder\Settings;
 use PHPUnit\Framework\TestCase;
 
 final class OrderAdminTest extends TestCase {
@@ -54,6 +55,7 @@ final class OrderAdminTest extends TestCase {
 	}
 
 	public function test_column_on_both_order_screens(): void {
+		Settings::update( [ 'api_key' => 'to_test_0123456789abcdefABCDEF0123456789' ] );
 		OrderColumn::register();
 		$cols = [ 'cb' => '', 'order_number' => 'Order', 'order_status' => 'Status', 'order_total' => 'Total' ];
 
@@ -64,6 +66,7 @@ final class OrderAdminTest extends TestCase {
 	}
 
 	public function test_column_is_titled_cod_check_at_the_end(): void {
+		Settings::update( [ 'api_key' => 'to_test_0123456789abcdefABCDEF0123456789' ] );
 		$cols = OrderColumn::addColumn( [ 'cb' => '', 'order_status' => 'Status', 'order_total' => 'Total', 'wc_actions' => 'Actions' ] );
 
 		$this->assertSame( [ 'cb', 'order_status', 'order_total', 'wc_actions', OrderColumn::COLUMN ], array_keys( $cols ) );
@@ -84,6 +87,14 @@ final class OrderAdminTest extends TestCase {
 		$some = [ 'verdict' => 'allow', 'level' => 'unknown', 'score' => 80, 'reasons' => [] ];
 		$this->assertStringContainsString( 'trustorder-level-unknown', Labels::badge( $some ) );
 		$this->assertStringContainsString( 'Unknown', Labels::badge( $some ) );
+	}
+
+	public function test_a_result_without_score_shows_the_level_only(): void {
+		$html = Labels::badge( [ 'verdict' => 'allow', 'level' => 'trusted', 'reasons' => [] ] );
+
+		$this->assertStringContainsString( 'trustorder-level-trusted', $html );
+		$this->assertStringNotContainsString( 'trustorder-score', $html );
+		$this->assertStringContainsString( 'trustorder-score', Labels::badge( [ 'verdict' => 'allow', 'level' => 'trusted', 'score' => 0, 'reasons' => [] ] ) );
 	}
 
 	public function test_risky_and_blocked_badges_are_coloured(): void {

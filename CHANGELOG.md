@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.4] - 2026-11-05
+
+### Changed
+- Orders list: without an API key the COD check column is hidden, and the orders list shows a warning with a link to the API key setting instead.
+- Orders: a stored result without a score (for example one imported from an earlier tool) shows its level without a number.
+
+### Fixed
+- Backfill: with a persistent object cache (e.g. Redis) a started backfill could look stopped ("There is no running backfill") until the cache was flushed; the backfill state is now always read from the database.
+
 ## [1.0.3] - 2026-11-04
 
 ### Added

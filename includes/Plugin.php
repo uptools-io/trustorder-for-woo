@@ -107,6 +107,7 @@ final class Plugin {
 			Admin\NoticeIsolation::register();
 			Admin\Privacy::register();
 			Admin\CapNotice::register();
+			Admin\KeyNotice::register();
 			Order\OrderColumn::register();
 			Order\OrderMetabox::register();
 		}

@@ -133,8 +133,7 @@ final class Backfill {
 	 * @return bool Whether the state was saved (and the run continues).
 	 */
 	private static function merge( string $env, array $s ): bool {
-		wp_cache_delete( BackfillState::option( $env ), 'options' );
-		$fresh = BackfillState::load( $env );
+		$fresh = BackfillState::load( $env ); // Reads past the object cache.
 		if ( $fresh['started_at'] !== $s['started_at'] ) {
 			return false;
 		}

@@ -115,11 +115,14 @@ final class Labels {
 				. esc_html__( 'New customer', 'trustorder-for-woo' ) . '</span>';
 		}
 		$level = isset( $result['level'] ) && is_string( $result['level'] ) && isset( self::ICONS[ $result['level'] ] ) ? $result['level'] : 'unknown';
-		$score = isset( $result['score'] ) && is_int( $result['score'] ) ? $result['score'] : 0;
+		// A result imported without a score (e.g. from an earlier tool) shows the level only.
+		$score = isset( $result['score'] ) && is_int( $result['score'] )
+			? ' <span class="trustorder-score">' . esc_html( (string) $result['score'] ) . '</span>'
+			: '';
 
 		return '<span class="trustorder-badge trustorder-level-' . esc_attr( $level ) . '" style="' . esc_attr( self::style( $level ) ) . '">'
 			. self::icon( self::ICONS[ $level ] )
-			. esc_html( self::level( $level ) ) . ' <span class="trustorder-score">' . esc_html( (string) $score ) . '</span></span>';
+			. esc_html( self::level( $level ) ) . $score . '</span>';
 	}
 
 	/**

@@ -72,6 +72,19 @@ final class BackfillTest extends SignalTestCase {
 		);
 	}
 
+	public function test_a_stale_notoptions_cache_does_not_hide_a_running_backfill(): void {
+		$this->batchAnswer();
+		$this->orders( 3 );
+		Backfill::start( 'test' );
+		// Another request wrote back an older "does not exist" list (persistent object cache).
+		$GLOBALS['trustorder_test']['cache']['options']['notoptions'] = [ 'trustorder_backfill_test' => true, 'other_option' => true ];
+
+		$this->assertTrue( Backfill::status( 'test' )['running'] );
+		$this->assertSame( [ 'other_option' => true ], $GLOBALS['trustorder_test']['cache']['options']['notoptions'] );
+		$this->drain();
+		$this->assertSame( 3, Backfill::status( 'test' )['sent'] );
+	}
+
 	public function test_pages_of_200_by_id_until_done(): void {
 		$this->batchAnswer();
 		$this->orders( 450 );

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-04T21:22:13+00:00\n"
+"POT-Creation-Date: 2026-11-05T06:27:24+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -103,6 +103,18 @@ msgstr ""
 "ékezetes vagy más nem ASCII karaktert tartalmazó e-mail- és szállítási címek "
 "nincsenek ellenőrizve. Kérd meg a tárhelyszolgáltatódat, hogy kapcsolja be "
 "az intl és az mbstring kiegészítőt."
+
+#: includes/Admin/KeyNotice.php:52
+msgid ""
+"TrustOrder: no API key is set, so buyers are not checked and the COD check "
+"column is hidden."
+msgstr ""
+"TrustOrder: nincs beállítva API-kulcs, ezért a vásárlók ellenőrzése nem fut, "
+"és az Utánvét ellenőrzés oszlop rejtve van."
+
+#: includes/Admin/KeyNotice.php:53
+msgid "Set up the API key"
+msgstr "API-kulcs beállítása"
 
 #: includes/Admin/Privacy.php:39
 msgid ""
@@ -246,7 +258,7 @@ msgstr "Nem ellenőrzött"
 msgid "New customer"
 msgstr "Új vásárló"
 
-#: includes/Order/OrderColumn.php:42
+#: includes/Order/OrderColumn.php:45
 msgid "COD check"
 msgstr "Utánvét ellenőrzés"
 

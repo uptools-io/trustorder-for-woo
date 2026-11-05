@@ -148,6 +148,9 @@ function apply_filters( $hook, $value, ...$args ) {
 }
 
 function get_option( $name, $default = false ) {
+	if ( isset( $GLOBALS['trustorder_test']['cache']['options']['notoptions'][ $name ] ) ) {
+		return $default; // WordPress trusts the cached "does not exist" list.
+	}
 	return array_key_exists( $name, $GLOBALS['trustorder_test']['options'] ) ? $GLOBALS['trustorder_test']['options'][ $name ] : $default;
 }
 
@@ -177,6 +180,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = null ) {
 
 function wp_cache_delete( $key, $group = '' ) {
 	$GLOBALS['trustorder_test']['cache_deletes'][] = [ $key, $group ];
+	unset( $GLOBALS['trustorder_test']['cache'][ $group ][ $key ] );
 	return true;
 }
 
@@ -435,6 +439,11 @@ function wp_unslash( $value ) {
 
 function wp_using_ext_object_cache( $using = null ) {
 	return ! empty( $GLOBALS['trustorder_test']['ext_cache'] );
+}
+
+function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
+	$GLOBALS['trustorder_test']['cache'][ $group ][ $key ] = $data;
+	return true;
 }
 
 function wp_cache_get( $key, $group = '', $force = false, &$found = null ) {

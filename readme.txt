@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -103,6 +103,11 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.4 =
+* Change: Orders list: without an API key the COD check column is hidden, and the orders list shows a warning with a link to the API key setting instead.
+* Change: Orders: a stored result without a score (for example one imported from an earlier tool) shows its level without a number.
+* Fix: Backfill: with a persistent object cache (e.g. Redis) a started backfill could look stopped ("There is no running backfill") until the cache was flushed; the backfill state is now always read from the database.
 
 = 1.0.3 =
 * New: The API key can be set with the `TRUSTORDER_API_KEY` constant (wp-config.php or Bedrock .env). It overrides the saved key; the admin screen then shows only its beginning, and the admin, REST and WP-CLI cannot change it.

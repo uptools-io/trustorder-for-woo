@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: TrustOrder for WooCommerce 1.0.3\n"
+"Project-Id-Version: TrustOrder for WooCommerce 1.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-woo\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-04T21:22:13+00:00\n"
+"POT-Creation-Date: 2026-11-05T06:27:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: trustorder-for-woo\n"
@@ -68,6 +68,14 @@ msgstr ""
 
 #: includes/Admin/IntlNotice.php:50
 msgid "TrustOrder: the PHP intl or mbstring extension is missing, so e-mail and shipping addresses with accented or other non-ASCII characters are not checked. Ask your host to enable intl and mbstring."
+msgstr ""
+
+#: includes/Admin/KeyNotice.php:52
+msgid "TrustOrder: no API key is set, so buyers are not checked and the COD check column is hidden."
+msgstr ""
+
+#: includes/Admin/KeyNotice.php:53
+msgid "Set up the API key"
 msgstr ""
 
 #: includes/Admin/Privacy.php:39
@@ -167,7 +175,7 @@ msgstr ""
 msgid "New customer"
 msgstr ""
 
-#: includes/Order/OrderColumn.php:42
+#: includes/Order/OrderColumn.php:45
 msgid "COD check"
 msgstr ""
 

@@ -44,6 +44,7 @@ final class BackfillState {
 	 * @return array{running: bool, processed: int, sent: int, failed: int, cursor: int, started_at: string|null, finished_at: string|null, attempts: int}
 	 */
 	public static function load( string $env ): array {
+		self::forgetCache( $env );
 		$raw = get_option( self::option( $env ), [] );
 		$raw = is_array( $raw ) ? $raw : [];
 		$int = static fn( string $k ): int => isset( $raw[ $k ] ) && is_int( $raw[ $k ] ) ? max( 0, $raw[ $k ] ) : 0;
@@ -70,6 +71,24 @@ final class BackfillState {
 	public static function save( string $env, array $s ): void {
 		$keep = array_intersect_key( $s, array_flip( array_merge( self::KEYS, [ 'attempts' ] ) ) );
 		update_option( self::option( $env ), $keep, false );
+	}
+
+	/**
+	 * Drop the cached copy and a stale "option does not exist" entry, so the
+	 * read goes to the database. With a persistent object cache another
+	 * request can write back an older `notoptions` list that still names
+	 * this option after it was created; the run would then look stopped.
+	 *
+	 * @param string $env Env.
+	 */
+	private static function forgetCache( string $env ): void {
+		$name = self::option( $env );
+		wp_cache_delete( $name, 'options' );
+		$not = wp_cache_get( 'notoptions', 'options' );
+		if ( is_array( $not ) && isset( $not[ $name ] ) ) {
+			unset( $not[ $name ] );
+			wp_cache_set( 'notoptions', $not, 'options' );
+		}
 	}
 
 	/**
