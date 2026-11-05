@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.5] - 2026-11-05
+
+### Changed
+- Orders: the badge for a buyer with one or two delivered orders and no recent refusal reads "Limited history" (Hungarian: "Kevés előzmény") instead of "Unknown".
+
+### Fixed
+- Admin quick search: moving the mouse over a result no longer breaks the dialog (a console error, and Enter or the arrow keys stopped working); the result under the pointer becomes the selected one.
+
 ## [1.0.4] - 2026-11-05
 
 ### Changed

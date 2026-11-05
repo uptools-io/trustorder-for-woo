@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-05T06:27:24+00:00\n"
+"POT-Creation-Date: 2026-11-05T11:01:08+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -202,9 +202,9 @@ msgstr "Ehhez a rendeléshez válassz másik fizetési módot."
 msgid "Trusted"
 msgstr "Megbízható"
 
-#: includes/Order/Labels.php:55 build/index.js:7
-msgid "Unknown"
-msgstr "Ismeretlen"
+#: includes/Order/Labels.php:55
+msgid "Limited history"
+msgstr "Kevés előzmény"
 
 #: includes/Order/Labels.php:57 build/index.js:7
 msgid "Risky"
@@ -795,6 +795,10 @@ msgstr "Kivételek"
 #: build/index.js:7
 msgid "Load more"
 msgstr "Továbbiak betöltése"
+
+#: build/index.js:7
+msgid "Unknown"
+msgstr "Ismeretlen"
 
 #: build/index.js:7 build/index.js:8
 msgid "Checks at checkout"

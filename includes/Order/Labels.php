@@ -52,7 +52,7 @@ final class Labels {
 			case 'trusted':
 				return __( 'Trusted', 'trustorder-for-woo' );
 			case 'unknown':
-				return __( 'Unknown', 'trustorder-for-woo' );
+				return __( 'Limited history', 'trustorder-for-woo' );
 			case 'risky':
 				return __( 'Risky', 'trustorder-for-woo' );
 			case 'blocked':

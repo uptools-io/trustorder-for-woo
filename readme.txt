@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -103,6 +103,10 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.5 =
+* Change: Orders: the badge for a buyer with one or two delivered orders and no recent refusal reads "Limited history" (Hungarian: "Kevés előzmény") instead of "Unknown".
+* Fix: Admin quick search: moving the mouse over a result no longer breaks the dialog (a console error, and Enter or the arrow keys stopped working); the result under the pointer becomes the selected one.
 
 = 1.0.4 =
 * Change: Orders list: without an API key the COD check column is hidden, and the orders list shows a warning with a link to the API key setting instead.
