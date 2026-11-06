@@ -10,37 +10,10 @@ import { __ } from '@wordpress/i18n';
  */
 import CheckList from '../components/CheckList';
 import Section from '../components/Section';
-import Segmented from '../components/Segmented';
 import SettingRow from '../components/SettingRow';
 import ApiKeyCard from './ApiKeyCard';
-import { LevelGuide, StrictnessRules } from './StrictnessRules';
-
-const STRICTNESS = [
-	{
-		value: 'lenient',
-		label: __( 'Lenient', 'trustorder-for-woo' ),
-		help: __(
-			'Hides cash on delivery only for Blocked buyers.',
-			'trustorder-for-woo'
-		),
-	},
-	{
-		value: 'normal',
-		label: __( 'Normal', 'trustorder-for-woo' ),
-		help: __(
-			'Recommended. Hides it for Blocked buyers and flags the Risky order (a note on the order).',
-			'trustorder-for-woo'
-		),
-	},
-	{
-		value: 'strict',
-		label: __( 'Strict', 'trustorder-for-woo' ),
-		help: __(
-			'Hides cash on delivery for Risky buyers too.',
-			'trustorder-for-woo'
-		),
-	},
-];
+import CheckoutPreview from './settings/CheckoutPreview';
+import StrictnessCards from './settings/StrictnessCards';
 
 /**
  * Gateway options with a note for disabled ones.
@@ -95,9 +68,6 @@ function HeaderToggle( { label, checked, onChange } ) {
  */
 export default function SettingsPage( { store } ) {
 	const { settings, update } = store;
-	const strictness = STRICTNESS.find(
-		( s ) => s.value === settings.strictness
-	);
 	// Only installed methods are listed; stored ids of absent ones stay in
 	// the value (CheckList only adds or removes the ids it shows).
 	const shipping = store.shippingMethods.map( ( m ) => ( {
@@ -140,80 +110,86 @@ export default function SettingsPage( { store } ) {
 						onChange={ ( value ) => update( { enabled: value } ) }
 					/>
 				}
+			/>
+			<Section
+				title={ __( 'Strictness', 'trustorder-for-woo' ) }
+				description={ __(
+					'What happens to cash on delivery at each level. Trusted, new and limited-data buyers always keep it.',
+					'trustorder-for-woo'
+				) }
 			>
-				<SettingRow
-					title={ __( 'Strictness', 'trustorder-for-woo' ) }
-					help={ strictness?.help }
-				>
-					<Segmented
-						label={ __( 'Strictness', 'trustorder-for-woo' ) }
-						options={ STRICTNESS }
-						value={ settings.strictness }
-						onChange={ ( value ) =>
-							update( { strictness: value } )
-						}
-					/>
-					<StrictnessRules strictness={ settings.strictness } />
-				</SettingRow>
-				<SettingRow
-					stacked
-					title={ __(
-						'What do the levels mean?',
-						'trustorder-for-woo'
-					) }
-				>
-					<LevelGuide />
-				</SettingRow>
+				<StrictnessCards
+					value={ settings.strictness }
+					onChange={ ( value ) => update( { strictness: value } ) }
+				/>
+				<p className="to-help__note">
+					<a href="#help">
+						{ __(
+							'What do the levels mean? See Help',
+							'trustorder-for-woo'
+						) }
+					</a>
+				</p>
 			</Section>
-			<Section title={ __( 'Payment methods', 'trustorder-for-woo' ) }>
-				<SettingRow
-					stacked
-					title={ __(
-						'Hide for risky buyers',
-						'trustorder-for-woo'
-					) }
-					help={ __(
-						'Usually cash on delivery. Only enabled payment methods are listed.',
-						'trustorder-for-woo'
-					) }
-				>
-					<CheckList
-						legend={ __(
+			<Section
+				title={ __( 'Payment methods', 'trustorder-for-woo' ) }
+				className="to-pay"
+			>
+				<div className="to-pay__cols">
+					<SettingRow
+						stacked
+						title={ __(
 							'Hide for risky buyers',
 							'trustorder-for-woo'
 						) }
-						options={ gatewayOptions( store.gateways ) }
-						value={ hidden }
-						onChange={ setHidden }
-					/>
-				</SettingRow>
-				<SettingRow
-					stacked
-					title={ __(
-						'Fallback payment methods',
-						'trustorder-for-woo'
-					) }
-					help={ __(
-						'At least one of these must stay visible, otherwise nothing is hidden. With none selected, any remaining method counts.',
-						'trustorder-for-woo'
-					) }
-				>
-					<CheckList
-						legend={ __(
+						help={ __(
+							'Usually cash on delivery. Only enabled payment methods are listed.',
+							'trustorder-for-woo'
+						) }
+					>
+						<CheckList
+							legend={ __(
+								'Hide for risky buyers',
+								'trustorder-for-woo'
+							) }
+							options={ gatewayOptions( store.gateways ) }
+							value={ hidden }
+							onChange={ setHidden }
+						/>
+					</SettingRow>
+					<SettingRow
+						stacked
+						title={ __(
 							'Fallback payment methods',
 							'trustorder-for-woo'
 						) }
-						options={ gatewayOptions(
-							store.gateways.filter(
-								( g ) => ! hidden.includes( g.id )
-							)
+						help={ __(
+							'At least one of these must stay visible, otherwise nothing is hidden. With none selected, any remaining method counts.',
+							'trustorder-for-woo'
 						) }
-						value={ settings.fallback_gateways || [] }
-						onChange={ ( value ) =>
-							update( { fallback_gateways: value } )
-						}
-					/>
-				</SettingRow>
+					>
+						<CheckList
+							legend={ __(
+								'Fallback payment methods',
+								'trustorder-for-woo'
+							) }
+							options={ gatewayOptions(
+								store.gateways.filter(
+									( g ) => ! hidden.includes( g.id )
+								)
+							) }
+							value={ settings.fallback_gateways || [] }
+							onChange={ ( value ) =>
+								update( { fallback_gateways: value } )
+							}
+						/>
+					</SettingRow>
+				</div>
+				<CheckoutPreview
+					gateways={ store.gateways }
+					hidden={ hidden }
+					fallback={ settings.fallback_gateways || [] }
+				/>
 			</Section>
 			<Section
 				title={ __(

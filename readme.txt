@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -104,6 +104,11 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.8 =
+* New: Settings: a live preview under the payment methods shows which methods a Blocked buyer sees at checkout with the settings on screen, and warns when nothing would be hidden because no fallback method stays visible.
+* Change: Settings: strictness is chosen on three cards that show what happens to cash on delivery for a Blocked and a Risky buyer; checks at checkout has its own card.
+* Change: Hungarian: "vásárló" (buyer) everywhere instead of the mixed "vevő".
 
 = 1.0.7 =
 * New: Help page in the TrustOrder admin: a sample orders list showing where the badges appear, what each badge means and what it did to cash on delivery at your strictness, the 0–100 score, how a buyer's reputation recovers over time, which order statuses to set after delivery, the reasons on the order page, and what data leaves the shop. The quick search finds its content.

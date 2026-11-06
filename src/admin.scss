@@ -1439,3 +1439,166 @@ body.trustorder-screen {
 		gap: 4px;
 	}
 }
+
+// Settings: strictness cards, payment columns, checkout preview -------------
+.to-modes {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: $gap-lg;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.to-mode {
+	position: relative;
+	display: grid;
+	gap: $gap-md;
+	align-content: start;
+	padding: 20px;
+	border: 2px solid $stroke;
+	border-radius: 10px;
+	background: $surface;
+	cursor: pointer;
+
+	&.is-on {
+		border-color: $ink;
+		box-shadow: 0 0 0 1px $ink;
+	}
+
+	&:focus-within {
+		outline: 2px solid $ink;
+		outline-offset: 2px;
+	}
+
+	&__input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	&__head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: $gap-sm;
+	}
+
+	&__name {
+		font-size: 17px;
+		font-weight: 700;
+	}
+
+	&__rec {
+		padding: 2px 8px;
+		border-radius: 999px;
+		background: $accent;
+		color: $accent-ink;
+		font-size: 11px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	&__help {
+		color: $muted;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	&__row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: $gap-sm;
+		flex-wrap: wrap;
+	}
+}
+
+.to-pay__cols {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: $gap-xl;
+	align-items: start;
+}
+
+.to-preview {
+	margin-top: $gap-xl;
+	padding: 20px 24px;
+	border: 1px solid #f0e3a8;
+	border-radius: 10px;
+	background: #fcfaf2;
+
+	&__title {
+		display: flex;
+		align-items: center;
+		gap: $gap-sm;
+		flex-wrap: wrap;
+		margin: 0 0 $gap-md;
+		font-size: 15px;
+	}
+
+	&__kicker {
+		font-size: 12px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	&__list {
+		display: grid;
+		gap: $gap-sm;
+		max-width: 420px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			display: flex;
+			align-items: center;
+			gap: $gap-md;
+			margin: 0;
+			padding: 10px 14px;
+			border: 1px solid $stroke;
+			border-radius: $radius-lg;
+			background: $surface;
+
+			&.is-gone {
+				border-style: dashed;
+				background: #f6f6f6;
+				color: $muted;
+
+				.to-preview__name {
+					text-decoration: line-through;
+				}
+			}
+		}
+	}
+
+	&__radio {
+		flex: none;
+		width: 16px;
+		height: 16px;
+		border: 2px solid #757575;
+		border-radius: 50%;
+	}
+
+	&__tag {
+		margin-left: auto;
+		color: $error;
+		font-size: 13px;
+		font-weight: 600;
+	}
+
+	&__warn {
+		margin: $gap-md 0 0;
+		color: $warning;
+	}
+}
+
+@media (max-width: 782px) {
+	.to-modes,
+	.to-pay__cols {
+		grid-template-columns: 1fr;
+	}
+}

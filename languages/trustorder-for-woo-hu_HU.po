@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-06T07:01:19+00:00\n"
+"POT-Creation-Date: 2026-11-06T07:10:32+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -34,7 +34,7 @@ msgid ""
 "Cash-on-delivery buyer reputation for WooCommerce: hides cash on delivery "
 "for risky buyers, based on hashed identities shared across shops."
 msgstr ""
-"Utánvétes vásárlói reputáció WooCommerce-hez: a kockázatos vevők elől "
+"Utánvétes vásárlói reputáció WooCommerce-hez: a kockázatos vásárlók elől "
 "elrejti az utánvétet, a boltok között megosztott, hash-elt azonosítók "
 "alapján."
 
@@ -63,8 +63,8 @@ msgid ""
 "limit with the trustorder_hourly_check_limit filter."
 msgstr ""
 "A TrustOrder az elmúlt órában elérte az óránkénti ellenőrzési keretét. Amíg "
-"a keret betelt, a még nem ellenőrzött vevők minden fizetési módot láttak a "
-"pénztár kitöltése közben. Ha a boltodban tényleg ennyi pénztár-munkamenet "
+"a keret betelt, a még nem ellenőrzött vásárlók minden fizetési módot láttak "
+"a pénztár kitöltése közben. Ha a boltodban tényleg ennyi pénztár-munkamenet "
 "van, emeld a keretet a trustorder_hourly_check_limit szűrővel."
 
 #: includes/Admin/CapNotice.php:41
@@ -77,7 +77,7 @@ msgid ""
 msgstr ""
 "A TrustOrder az elmúlt órában egy látogatói hálózatnál elérte a "
 "rendelésleadási ellenőrzési keretet. Ezeknél a rendeléseknél a kockázatos "
-"fizetési módok rejtve maradtak. Ha sok vevő osztozik egy címen (például "
+"fizetési módok rejtve maradtak. Ha sok vásárló osztozik egy címen (például "
 "proxy mögött), add meg a valódi látogatói címet a trustorder_client_ip "
 "szűrővel, vagy emeld a keretet a trustorder_submit_ip_check_limit szűrővel."
 
@@ -123,8 +123,8 @@ msgid ""
 "webshops."
 msgstr ""
 "Annak eldöntéséhez, hogy felajánlható-e az utánvét, a webáruház az upTools "
-"Kft. (uptools.io) TrustOrder szolgáltatását használja, amelyet a résztvevő "
-"webáruházak közösen használnak."
+"Kft. (uptools.io) TrustOrder szolgáltatását használja, amelyet a "
+"résztvásárló webáruházak közösen használnak."
 
 #: includes/Admin/Privacy.php:40
 msgid ""
@@ -159,8 +159,9 @@ msgid ""
 "unless \"Share country and postcode\" is turned off."
 msgstr ""
 "A webáruház minden új rendelés országát és irányítószámát is továbbítja az "
-"uptools.io részére névtelen rendelési statisztikához, bármilyen más vevőadat "
-"nélkül, kivéve, ha az „Ország és irányítószám megosztása” ki van kapcsolva."
+"uptools.io részére névtelen rendelési statisztikához, bármilyen más vásárlói "
+"adat nélkül, kivéve, ha az „Ország és irányítószám megosztása” ki van "
+"kapcsolva."
 
 #: includes/Admin/Privacy.php:43
 msgid ""
@@ -170,7 +171,7 @@ msgid ""
 "payment methods stay available."
 msgstr ""
 "Cél: az utánvétes rendelések kockázatának felmérése ugyanannak a vásárlónak "
-"a résztvevő webáruházakban szerzett kézbesítési előzményei (átvette vagy "
+"a résztvásárló webáruházakban szerzett kézbesítési előzményei (átvette vagy "
 "sem) alapján. Az eredmény alapján a webáruház elrejtheti az utánvétet; a "
 "többi fizetési mód elérhető marad."
 
@@ -180,9 +181,9 @@ msgid ""
 "webshops in preventing losses from parcels that are not picked up (GDPR "
 "Article 6(1)(f))."
 msgstr ""
-"Jogalap: a webáruház és a résztvevő webáruházak jogos érdeke az át nem vett "
-"csomagokból eredő veszteségek megelőzésében (GDPR 6. cikk (1) bekezdés f) "
-"pont)."
+"Jogalap: a webáruház és a résztvásárló webáruházak jogos érdeke az át nem "
+"vett csomagokból eredő veszteségek megelőzésében (GDPR 6. cikk (1) bekezdés "
+"f) pont)."
 
 #: includes/Admin/Privacy.php:45
 msgid ""
@@ -488,8 +489,8 @@ msgid ""
 "A risky buyer would have had no payment method left, so nothing was hidden. "
 "Set a fallback payment method."
 msgstr ""
-"Egy kockázatos vevőnek egyetlen fizetési módja sem maradt volna, ezért semmi "
-"nem lett elrejtve. Állíts be tartalék fizetési módot."
+"Egy kockázatos vásárlónek egyetlen fizetési módja sem maradt volna, ezért "
+"semmi nem lett elrejtve. Állíts be tartalék fizetési módot."
 
 #: build/index.js:1
 msgid ""
@@ -510,7 +511,7 @@ msgid ""
 "buyers were not checked."
 msgstr ""
 "Betelt egy helyi ellenőrzési keret (munkamenetenként vagy látogatói "
-"hálózatonként); ezek a vevők nem lettek ellenőrizve."
+"hálózatonként); ezek a vásárlók nem lettek ellenőrizve."
 
 #: build/index.js:1
 msgid "The service did not find the requested item."
@@ -1033,45 +1034,15 @@ msgstr ""
 
 #: build/index.js:7
 msgid "Blocked buyer"
-msgstr "Tiltott vevő"
+msgstr "Tiltott vásárló"
 
 #: build/index.js:7
 msgid "Risky buyer"
-msgstr "Kockázatos vevő"
+msgstr "Kockázatos vásárló"
 
 #: build/index.js:7
 msgid "Trusted and new customers"
 msgstr "Megbízható és új vásárló"
-
-#: build/index.js:7
-msgid ""
-"In the last 12 months at least 2 established shops (or 4 new shops) reported "
-"that the buyer did not pick up the parcel, and the score is below 60."
-msgstr ""
-"Az elmúlt 12 hónapban legalább 2 bevált bolt (vagy 4 új bolt) jelezte, hogy "
-"nem vette át a csomagot, és a pontszáma 60 alatt van."
-
-#: build/index.js:7
-msgid ""
-"The buyer picked up 1 or 2 parcels and has not refused one recently, but "
-"that is not yet enough to be trusted. Cash on delivery stays."
-msgstr ""
-"A vásárló 1-2 csomagot átvett, és nemrég nem utasított vissza egyet sem, de "
-"ez még nem elég ahhoz, hogy megbízható legyen. Az utánvét megmarad."
-
-#: build/index.js:7
-msgid "No history yet: starts at 75 points, cash on delivery always stays."
-msgstr "Még nincs előzménye: 75 pontról indul, az utánvét mindig marad."
-
-#: build/index.js:7
-msgid ""
-"Score 0–100. One parcel not picked up at one new shop gives about 67 points "
-"(Risky). Picked up parcels raise it, and older cases count less and less "
-"over time."
-msgstr ""
-"Pontszám 0–100. Egy nem átvett csomag egy új boltnál kb. 67 pont "
-"(Kockázatos). Az átvett csomagok felfelé húzzák, a régi esetek idővel egyre "
-"kevesebbet számítanak."
 
 #: build/index.js:7
 msgid "Unknown"
@@ -1083,7 +1054,7 @@ msgstr "Ellenőrzés a pénztárban"
 
 #: build/index.js:7
 msgid "Risky buyers do not see the hidden payment methods."
-msgstr "A kockázatos vevők nem látják az elrejtett fizetési módokat."
+msgstr "A kockázatos vásárlók nem látják az elrejtett fizetési módokat."
 
 #: build/index.js:7
 msgid "Turned off in Settings: every payment method stays available."
@@ -1162,8 +1133,8 @@ msgstr "Óránkénti ellenőrzési keret"
 msgid ""
 "Reached in the last hour: buyers not checked yet kept every payment method."
 msgstr ""
-"Az elmúlt órában betelt: a még nem ellenőrzött vevők minden fizetési módot "
-"megtartottak."
+"Az elmúlt órában betelt: a még nem ellenőrzött vásárlók minden fizetési "
+"módot megtartottak."
 
 #: build/index.js:7
 msgid "Not reached in the last hour."
@@ -1259,7 +1230,39 @@ msgid ""
 "no order outcome is reported."
 msgstr ""
 "Törlöd az elmentett API-kulcsot? Amíg nem adsz meg újra kulcsot, egyetlen "
-"vevő sincs ellenőrizve, és rendelés-kimenetel sem megy ki."
+"vásárló sincs ellenőrizve, és rendelés-kimenetel sem megy ki."
+
+#: build/index.js:7
+msgid "Preview"
+msgstr "Előnézet"
+
+#: build/index.js:7
+msgid "What a buyer sees at checkout:"
+msgstr "Ezt látja a pénztárban egy vásárló:"
+
+#: build/index.js:7
+msgid "hidden"
+msgstr "elrejtve"
+
+#: build/index.js:7
+msgid ""
+"Nothing is hidden now: no fallback method would stay visible. Pick a "
+"fallback method that is not hidden."
+msgstr ""
+"Most semmi nem tűnik el: egyetlen tartalék fizetési mód sem maradna látható. "
+"Válassz olyan tartalék módot, ami nincs elrejtve."
+
+#: build/index.js:7
+msgid "Hidden"
+msgstr "Eltűnik"
+
+#: build/index.js:7
+msgid "Stays, flagged"
+msgstr "Marad, megjelölve"
+
+#: build/index.js:7
+msgid "Stays"
+msgstr "Marad"
 
 #: build/index.js:7 build/index.js:9
 msgid "Lenient"
@@ -1267,19 +1270,15 @@ msgstr "Engedékeny"
 
 #: build/index.js:7
 msgid "Hides cash on delivery only for Blocked buyers."
-msgstr "Csak a Tiltott vevőknél rejti el az utánvétet."
+msgstr "Csak a Tiltott vásárlóknél rejti el az utánvétet."
 
 #: build/index.js:7 build/index.js:9
 msgid "Normal"
 msgstr "Normál"
 
 #: build/index.js:7
-msgid ""
-"Recommended. Hides it for Blocked buyers and flags the Risky order (a note "
-"on the order)."
-msgstr ""
-"Ajánlott. A Tiltott vevőknél elrejti, a Kockázatos rendelést megjelöli "
-"(megjegyzés a rendelésen)."
+msgid "Hidden for Blocked buyers, the Risky order gets a note."
+msgstr "A tiltottaknál eltűnik, a kockázatos rendelés megjegyzést kap."
 
 #: build/index.js:7 build/index.js:9
 msgid "Strict"
@@ -1287,7 +1286,15 @@ msgstr "Szigorú"
 
 #: build/index.js:7
 msgid "Hides cash on delivery for Risky buyers too."
-msgstr "Már a Kockázatos vevőknél is elrejti az utánvétet."
+msgstr "Már a Kockázatos vásárlóknél is elrejti az utánvétet."
+
+#: build/index.js:7 build/index.js:8
+msgid "Strictness"
+msgstr "Szigorúság"
+
+#: build/index.js:7
+msgid "Recommended"
+msgstr "Ajánlott"
 
 #: build/index.js:7
 msgid "Turned off in WooCommerce"
@@ -1320,7 +1327,8 @@ msgstr "Beállítások"
 
 #: build/index.js:8
 msgid "On: risky buyers do not see the payment methods below."
-msgstr "Bekapcsolva: a kockázatos vevők nem látják a lenti fizetési módokat."
+msgstr ""
+"Bekapcsolva: a kockázatos vásárlók nem látják a lenti fizetési módokat."
 
 #: build/index.js:8
 msgid ""
@@ -1331,12 +1339,16 @@ msgstr ""
 "teljesített és a nem átvett rendeléseket ilyenkor is jelentjük."
 
 #: build/index.js:8
-msgid "Strictness"
-msgstr "Szigorúság"
+msgid ""
+"What happens to cash on delivery at each level. Trusted, new and limited-"
+"data buyers always keep it."
+msgstr ""
+"Mi történjen az utánvéttel az egyes szinteknél. A megbízható, új és kevés "
+"adatú vásárlóknál mindig marad."
 
 #: build/index.js:8
-msgid "What do the levels mean?"
-msgstr "Mit jelentenek a szintek?"
+msgid "What do the levels mean? See Help"
+msgstr "Mit jelentenek a szintek? Lásd a Súgót"
 
 #: build/index.js:8
 msgid "Payment methods"
@@ -1344,7 +1356,7 @@ msgstr "Fizetési módok"
 
 #: build/index.js:8
 msgid "Hide for risky buyers"
-msgstr "Elrejtés kockázatos vevőknél"
+msgstr "Elrejtés kockázatos vásárlóknél"
 
 #: build/index.js:8
 msgid "Usually cash on delivery. Only enabled payment methods are listed."
@@ -1383,7 +1395,7 @@ msgid ""
 "data, for anonymous order statistics."
 msgstr ""
 "Minden új rendelésből csak az országot és az irányítószámot küldi el, "
-"vevőadat nélkül, névtelen rendelési statisztikához."
+"vásárlói adat nélkül, névtelen rendelési statisztikához."
 
 #: build/index.js:8
 msgid "Shop exceptions"
@@ -1752,6 +1764,43 @@ msgstr "API-kulcs törölve."
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."
+
+#~ msgid ""
+#~ "In the last 12 months at least 2 established shops (or 4 new shops) "
+#~ "reported that the buyer did not pick up the parcel, and the score is "
+#~ "below 60."
+#~ msgstr ""
+#~ "Az elmúlt 12 hónapban legalább 2 bevált bolt (vagy 4 új bolt) jelezte, "
+#~ "hogy nem vette át a csomagot, és a pontszáma 60 alatt van."
+
+#~ msgid ""
+#~ "The buyer picked up 1 or 2 parcels and has not refused one recently, but "
+#~ "that is not yet enough to be trusted. Cash on delivery stays."
+#~ msgstr ""
+#~ "A vásárló 1-2 csomagot átvett, és nemrég nem utasított vissza egyet sem, "
+#~ "de ez még nem elég ahhoz, hogy megbízható legyen. Az utánvét megmarad."
+
+#~ msgid "No history yet: starts at 75 points, cash on delivery always stays."
+#~ msgstr "Még nincs előzménye: 75 pontról indul, az utánvét mindig marad."
+
+#~ msgid ""
+#~ "Score 0–100. One parcel not picked up at one new shop gives about 67 "
+#~ "points (Risky). Picked up parcels raise it, and older cases count less "
+#~ "and less over time."
+#~ msgstr ""
+#~ "Pontszám 0–100. Egy nem átvett csomag egy új boltnál kb. 67 pont "
+#~ "(Kockázatos). Az átvett csomagok felfelé húzzák, a régi esetek idővel "
+#~ "egyre kevesebbet számítanak."
+
+#~ msgid ""
+#~ "Recommended. Hides it for Blocked buyers and flags the Risky order (a "
+#~ "note on the order)."
+#~ msgstr ""
+#~ "Ajánlott. A Tiltott vevőknél elrejti, a Kockázatos rendelést megjelöli "
+#~ "(megjegyzés a rendelésen)."
+
+#~ msgid "What do the levels mean?"
+#~ msgstr "Mit jelentenek a szintek?"
 
 #~ msgid "How TrustOrder works"
 #~ msgstr "Hogyan működik a TrustOrder"

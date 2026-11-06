@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.8] - 2026-11-06
+
+### Added
+- Settings: a live preview under the payment methods shows which methods a Blocked buyer sees at checkout with the settings on screen, and warns when nothing would be hidden because no fallback method stays visible.
+
+### Changed
+- Settings: strictness is chosen on three cards that show what happens to cash on delivery for a Blocked and a Risky buyer; checks at checkout has its own card.
+- Hungarian: "vásárló" (buyer) everywhere instead of the mixed "vevő".
+
 ## [1.0.7] - 2026-11-06
 
 ### Added

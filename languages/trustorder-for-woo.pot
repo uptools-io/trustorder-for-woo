@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T07:01:19+00:00\n"
+"POT-Creation-Date: 2026-11-06T07:10:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: trustorder-for-woo\n"
@@ -845,22 +845,6 @@ msgid "Trusted and new customers"
 msgstr ""
 
 #: build/index.js:7
-msgid "In the last 12 months at least 2 established shops (or 4 new shops) reported that the buyer did not pick up the parcel, and the score is below 60."
-msgstr ""
-
-#: build/index.js:7
-msgid "The buyer picked up 1 or 2 parcels and has not refused one recently, but that is not yet enough to be trusted. Cash on delivery stays."
-msgstr ""
-
-#: build/index.js:7
-msgid "No history yet: starts at 75 points, cash on delivery always stays."
-msgstr ""
-
-#: build/index.js:7
-msgid "Score 0–100. One parcel not picked up at one new shop gives about 67 points (Risky). Picked up parcels raise it, and older cases count less and less over time."
-msgstr ""
-
-#: build/index.js:7
 msgid "Unknown"
 msgstr ""
 
@@ -1026,6 +1010,34 @@ msgid "Remove the saved API key? Until you add a key again, no buyer is checked 
 msgstr ""
 
 #: build/index.js:7
+msgid "Preview"
+msgstr ""
+
+#: build/index.js:7
+msgid "What a buyer sees at checkout:"
+msgstr ""
+
+#: build/index.js:7
+msgid "hidden"
+msgstr ""
+
+#: build/index.js:7
+msgid "Nothing is hidden now: no fallback method would stay visible. Pick a fallback method that is not hidden."
+msgstr ""
+
+#: build/index.js:7
+msgid "Hidden"
+msgstr ""
+
+#: build/index.js:7
+msgid "Stays, flagged"
+msgstr ""
+
+#: build/index.js:7
+msgid "Stays"
+msgstr ""
+
+#: build/index.js:7
 #: build/index.js:9
 msgid "Lenient"
 msgstr ""
@@ -1040,7 +1052,7 @@ msgid "Normal"
 msgstr ""
 
 #: build/index.js:7
-msgid "Recommended. Hides it for Blocked buyers and flags the Risky order (a note on the order)."
+msgid "Hidden for Blocked buyers, the Risky order gets a note."
 msgstr ""
 
 #: build/index.js:7
@@ -1050,6 +1062,15 @@ msgstr ""
 
 #: build/index.js:7
 msgid "Hides cash on delivery for Risky buyers too."
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:8
+msgid "Strictness"
+msgstr ""
+
+#: build/index.js:7
+msgid "Recommended"
 msgstr ""
 
 #: build/index.js:7
@@ -1092,11 +1113,11 @@ msgid "Off: no check runs, every payment method stays available. Completed and n
 msgstr ""
 
 #: build/index.js:8
-msgid "Strictness"
+msgid "What happens to cash on delivery at each level. Trusted, new and limited-data buyers always keep it."
 msgstr ""
 
 #: build/index.js:8
-msgid "What do the levels mean?"
+msgid "What do the levels mean? See Help"
 msgstr ""
 
 #: build/index.js:8
