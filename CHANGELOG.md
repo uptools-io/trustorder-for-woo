@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.6] - 2026-11-06
+
+### Changed
+- Orders: the badge for a buyer with one or two delivered orders and no recent refusal reads "Limited data" (Hungarian: "Kevés adat") instead of "Limited history" ("Kevés előzmény").
+
 ## [1.0.5] - 2026-11-05
 
 ### Changed

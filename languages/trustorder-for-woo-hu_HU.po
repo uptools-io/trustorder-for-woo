@@ -203,8 +203,8 @@ msgid "Trusted"
 msgstr "Megbízható"
 
 #: includes/Order/Labels.php:55
-msgid "Limited history"
-msgstr "Kevés előzmény"
+msgid "Limited data"
+msgstr "Kevés adat"
 
 #: includes/Order/Labels.php:57 build/index.js:7
 msgid "Risky"

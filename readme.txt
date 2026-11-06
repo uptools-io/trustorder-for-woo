@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -103,6 +103,9 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.6 =
+* Change: Orders: the badge for a buyer with one or two delivered orders and no recent refusal reads "Limited data" (Hungarian: "Kevés adat") instead of "Limited history" ("Kevés előzmény").
 
 = 1.0.5 =
 * Change: Orders: the badge for a buyer with one or two delivered orders and no recent refusal reads "Limited history" (Hungarian: "Kevés előzmény") instead of "Unknown".

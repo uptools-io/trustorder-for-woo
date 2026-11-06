@@ -83,10 +83,10 @@ final class OrderAdminTest extends TestCase {
 		$this->assertStringContainsString( 'background:#e7f5e9', $html );
 		$this->assertStringNotContainsString( '75', $html );
 
-		// Some history, too few deliveries: "Limited history".
+		// Some history, too few deliveries: "Limited data".
 		$some = [ 'verdict' => 'allow', 'level' => 'unknown', 'score' => 80, 'reasons' => [] ];
 		$this->assertStringContainsString( 'trustorder-level-unknown', Labels::badge( $some ) );
-		$this->assertStringContainsString( 'Limited history', Labels::badge( $some ) );
+		$this->assertStringContainsString( 'Limited data', Labels::badge( $some ) );
 	}
 
 	public function test_a_result_without_score_shows_the_level_only(): void {
