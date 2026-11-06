@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.7] - 2026-11-06
+
+### Added
+- Help page in the TrustOrder admin: a sample orders list showing where the badges appear, what each badge means and what it did to cash on delivery at your strictness, the 0–100 score, how a buyer's reputation recovers over time, which order statuses to set after delivery, the reasons on the order page, and what data leaves the shop. The quick search finds its content.
+
+### Changed
+- Settings: the level guide lists "Limited data" too.
+
 ## [1.0.6] - 2026-11-06
 
 ### Changed

@@ -91,6 +91,14 @@ export function LevelGuide() {
 		},
 		{
 			kind: KEEP,
+			name: __( 'Limited data', 'trustorder-for-woo' ),
+			text: __(
+				'The buyer picked up 1 or 2 parcels and has not refused one recently, but that is not yet enough to be trusted. Cash on delivery stays.',
+				'trustorder-for-woo'
+			),
+		},
+		{
+			kind: KEEP,
 			name: __( 'New customer', 'trustorder-for-woo' ),
 			text: __(
 				'No history yet: starts at 75 points, cash on delivery always stays.',

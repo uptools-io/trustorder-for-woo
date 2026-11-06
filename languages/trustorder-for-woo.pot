@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: TrustOrder for WooCommerce 1.0.6\n"
+"Project-Id-Version: TrustOrder for WooCommerce 1.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-woo\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T06:29:06+00:00\n"
+"POT-Creation-Date: 2026-11-06T07:01:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: trustorder-for-woo\n"
@@ -116,6 +116,7 @@ msgid "Trusted"
 msgstr ""
 
 #: includes/Order/Labels.php:55
+#: build/index.js:7
 msgid "Limited data"
 msgstr ""
 
@@ -130,34 +131,42 @@ msgid "Blocked"
 msgstr ""
 
 #: includes/Order/Labels.php:72
+#: build/index.js:9
 msgid "Refused orders at several shops"
 msgstr ""
 
 #: includes/Order/Labels.php:73
+#: build/index.js:9
 msgid "Recently refused an order"
 msgstr ""
 
 #: includes/Order/Labels.php:74
+#: build/index.js:9
 msgid "Low score"
 msgstr ""
 
 #: includes/Order/Labels.php:75
+#: build/index.js:9
 msgid "Disposable e-mail address"
 msgstr ""
 
 #: includes/Order/Labels.php:76
+#: build/index.js:9
 msgid "E-mail domain cannot receive mail"
 msgstr ""
 
 #: includes/Order/Labels.php:77
+#: build/index.js:9
 msgid "First-time customer"
 msgstr ""
 
 #: includes/Order/Labels.php:78
+#: build/index.js:9
 msgid "Allowed by your exception list"
 msgstr ""
 
 #: includes/Order/Labels.php:79
+#: build/index.js:9
 msgid "Denied by your exception list"
 msgstr ""
 
@@ -166,6 +175,7 @@ msgid "Not checked (limit reached)"
 msgstr ""
 
 #: includes/Order/Labels.php:110
+#: build/index.js:7
 msgid "Not checked"
 msgstr ""
 
@@ -175,6 +185,7 @@ msgid "New customer"
 msgstr ""
 
 #: includes/Order/OrderColumn.php:45
+#: build/index.js:7
 msgid "COD check"
 msgstr ""
 
@@ -229,6 +240,7 @@ msgid "Change status to not picked up"
 msgstr ""
 
 #: includes/Order/RefusedStatus.php:103
+#: build/index.js:8
 msgctxt "Order status"
 msgid "Not picked up"
 msgstr ""
@@ -642,6 +654,213 @@ msgid "Load more"
 msgstr ""
 
 #: build/index.js:7
+msgid "Cash on delivery hidden"
+msgstr ""
+
+#: build/index.js:7
+msgid "Stays, order flagged"
+msgstr ""
+
+#: build/index.js:7
+msgid "Every method stays"
+msgstr ""
+
+#: build/index.js:7
+msgid "Cash on delivery stays"
+msgstr ""
+
+#: build/index.js:7
+msgid "No shop in the network has data on this buyer yet."
+msgstr ""
+
+#: build/index.js:7
+msgid "Picked up 1 or 2 parcels and has not refused one recently, but that is not yet enough to be trusted."
+msgstr ""
+
+#: build/index.js:7
+msgid "At least 3 picked up cash-on-delivery parcels, with no recent refusal."
+msgstr ""
+
+#: build/index.js:7
+msgid "In the last 12 months the buyer did not pick up at least 1 parcel, or the score is below 60, or the e-mail address is disposable or cannot receive mail."
+msgstr ""
+
+#: build/index.js:7
+msgid "Several shops reported parcels this buyer did not pick up in the last 12 months, and the score is below 60."
+msgstr ""
+
+#: build/index.js:7
+msgid "The service could not be reached at checkout, or the daily check limit ran out. Look at this order yourself."
+msgstr ""
+
+#: build/index.js:7
+msgid "What the badges mean"
+msgstr ""
+
+#: build/index.js:7
+msgid "Next to each badge: what happened to cash on delivery at checkout, with your current strictness."
+msgstr ""
+
+#: build/index.js:7
+msgid "A dash means no check ran for the order: it was placed before TrustOrder was set up, or it was created outside the checkout. A badge without a number was imported from an earlier tool."
+msgstr ""
+
+#: build/index.js:7
+msgid "Anna Sample"
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:8
+msgid "Processing"
+msgstr ""
+
+#: build/index.js:7
+msgid "Ben Example"
+msgstr ""
+
+#: build/index.js:7
+msgid "Clara Test"
+msgstr ""
+
+#: build/index.js:7
+msgid "Pending payment"
+msgstr ""
+
+#: build/index.js:7
+msgid "Dan Demo"
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:8
+msgid "Completed"
+msgstr ""
+
+#: build/index.js:7
+msgid "Where you see it"
+msgstr ""
+
+#: build/index.js:7
+msgid "The last column of WooCommerce → Orders is COD check. Every order gets a badge about the buyer."
+msgstr ""
+
+#: build/index.js:7
+msgid "Sample orders list"
+msgstr ""
+
+#: build/index.js:7
+msgid "Order"
+msgstr ""
+
+#: build/index.js:7
+msgid "Buyer"
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:8
+msgid "Status"
+msgstr ""
+
+#: build/index.js:7
+msgid "Now"
+msgstr ""
+
+#: build/index.js:7
+msgid "Did not pick up a parcel."
+msgstr ""
+
+#: build/index.js:7
+msgid "Picked up parcels"
+msgstr ""
+
+#: build/index.js:7
+msgid "↑ score"
+msgstr ""
+
+#: build/index.js:7
+msgid "Every picked up cash-on-delivery parcel raises the score, at any shop."
+msgstr ""
+
+#: build/index.js:7
+msgid "After 12 months"
+msgstr ""
+
+#: build/index.js:7
+msgid "With no new refusal and a score above 60, no longer risky. From 3 picked up parcels, trusted."
+msgstr ""
+
+#: build/index.js:7
+msgid "After 3 years"
+msgstr ""
+
+#: build/index.js:7
+msgid "deleted"
+msgstr ""
+
+#: build/index.js:7
+msgid "The old case is removed from the service completely."
+msgstr ""
+
+#: build/index.js:7
+msgid "Reputation can improve"
+msgstr ""
+
+#: build/index.js:7
+msgid "A parcel not picked up is not a mark forever. If the buyer picks up their parcels after that, their level recovers step by step."
+msgstr ""
+
+#: build/index.js:7
+msgid "The weight of old cases halves every year, so recent behaviour always counts more. It works the other way too: a trusted buyer can fall back if they stop picking up their parcels."
+msgstr ""
+
+#: build/index.js:7
+msgid "The score"
+msgstr ""
+
+#: build/index.js:7
+msgid "From 0 to 100: the higher, the more reliable. Picked up parcels raise it, and older cases count less and less over time. A new customer starts at 75."
+msgstr ""
+
+#: build/index.js:7
+msgid "75 · start"
+msgstr ""
+
+#: build/index.js:7
+msgid "Below 60 the buyer is risky; if several shops reported parcels not picked up, blocked."
+msgstr ""
+
+#: build/index.js:7
+msgid "Above 60, with no refusal in the last 12 months, the number of picked up parcels decides: 1 or 2 is limited data, from 3 trusted."
+msgstr ""
+
+#: build/index.js:7
+msgid "Blocked buyer"
+msgstr ""
+
+#: build/index.js:7
+msgid "Risky buyer"
+msgstr ""
+
+#: build/index.js:7
+msgid "Trusted and new customers"
+msgstr ""
+
+#: build/index.js:7
+msgid "In the last 12 months at least 2 established shops (or 4 new shops) reported that the buyer did not pick up the parcel, and the score is below 60."
+msgstr ""
+
+#: build/index.js:7
+msgid "The buyer picked up 1 or 2 parcels and has not refused one recently, but that is not yet enough to be trusted. Cash on delivery stays."
+msgstr ""
+
+#: build/index.js:7
+msgid "No history yet: starts at 75 points, cash on delivery always stays."
+msgstr ""
+
+#: build/index.js:7
+msgid "Score 0–100. One parcel not picked up at one new shop gives about 67 points (Risky). Picked up parcels raise it, and older cases count less and less over time."
+msgstr ""
+
+#: build/index.js:7
 msgid "Unknown"
 msgstr ""
 
@@ -807,50 +1026,7 @@ msgid "Remove the saved API key? Until you add a key again, no buyer is checked 
 msgstr ""
 
 #: build/index.js:7
-msgid "Blocked buyer"
-msgstr ""
-
-#: build/index.js:7
-msgid "Risky buyer"
-msgstr ""
-
-#: build/index.js:7
-msgid "Trusted and new customers"
-msgstr ""
-
-#: build/index.js:7
-msgid "Cash on delivery hidden"
-msgstr ""
-
-#: build/index.js:7
-msgid "Stays, order flagged"
-msgstr ""
-
-#: build/index.js:7
-msgid "Cash on delivery stays"
-msgstr ""
-
-#: build/index.js:7
-msgid "In the last 12 months at least 2 established shops (or 4 new shops) reported that the buyer did not pick up the parcel, and the score is below 60."
-msgstr ""
-
-#: build/index.js:7
-msgid "In the last 12 months the buyer did not pick up at least 1 parcel, or the score is below 60, or the e-mail address is disposable or cannot receive mail."
-msgstr ""
-
-#: build/index.js:7
-msgid "At least 3 picked up cash-on-delivery parcels, with no recent refusal."
-msgstr ""
-
-#: build/index.js:7
-msgid "No history yet: starts at 75 points, cash on delivery always stays."
-msgstr ""
-
-#: build/index.js:7
-msgid "Score 0–100. One parcel not picked up at one new shop gives about 67 points (Risky). Picked up parcels raise it, and older cases count less and less over time."
-msgstr ""
-
-#: build/index.js:7
+#: build/index.js:9
 msgid "Lenient"
 msgstr ""
 
@@ -859,6 +1035,7 @@ msgid "Hides cash on delivery only for Blocked buyers."
 msgstr ""
 
 #: build/index.js:7
+#: build/index.js:9
 msgid "Normal"
 msgstr ""
 
@@ -867,6 +1044,7 @@ msgid "Recommended. Hides it for Blocked buyers and flags the Risky order (a not
 msgstr ""
 
 #: build/index.js:7
+#: build/index.js:9
 msgid "Strict"
 msgstr ""
 
@@ -901,10 +1079,7 @@ msgid "No error so far."
 msgstr ""
 
 #: build/index.js:8
-msgid "Status"
-msgstr ""
-
-#: build/index.js:8
+#: build/index.js:9
 msgid "Settings"
 msgstr ""
 
@@ -1057,87 +1232,213 @@ msgid "Refused by the service, not retried"
 msgstr ""
 
 #: build/index.js:8
+msgid "Help"
+msgstr ""
+
+#: build/index.js:8
+msgid "What the badges on the orders mean, and what you need to do so that TrustOrder works well."
+msgstr ""
+
+#: build/index.js:8
+msgid "How it works"
+msgstr ""
+
+#: build/index.js:8
+msgid "At checkout"
+msgstr ""
+
+#: build/index.js:8
+msgid "TrustOrder looks up the buyer’s e-mail address, phone number and address in the shared network of shops."
+msgstr ""
+
+#: build/index.js:8
+msgid "Decision"
+msgstr ""
+
+#: build/index.js:8
+msgid "Based on the level and your strictness, cash on delivery stays, is hidden, or stays and the order gets a note."
+msgstr ""
+
+#: build/index.js:8
+msgid "On the order"
+msgstr ""
+
+#: build/index.js:8
+msgid "You see the result in the orders list and in the TrustOrder box on the order page."
+msgstr ""
+
+#: build/index.js:8
+msgid "After delivery"
+msgstr ""
+
+#: build/index.js:8
+msgid "The status you set is feedback to the network: every buyer’s reputation is built from it."
+msgstr ""
+
+#: build/index.js:8
+msgid "What you need to do"
+msgstr ""
+
+#: build/index.js:8
+msgid "The report goes out from the order status. If the status is right, the network is right."
+msgstr ""
+
+#: build/index.js:8
+msgid "The buyer picked up the parcel."
+msgstr ""
+
+#: build/index.js:8
+msgid "The parcel came back. For several orders at once, use the bulk action in the orders list."
+msgstr ""
+
+#: build/index.js:8
+msgid "Made a mistake? Set it back, and TrustOrder withdraws its report. A refund after Completed withdraws it too."
+msgstr ""
+
+#: build/index.js:8
+msgid "You know a buyer personally: allow or deny them."
+msgstr ""
+
+#. translators: %s: strictness name (Lenient, Normal, Strict).
+#: build/index.js:9
+#, js-format
+msgid "Your strictness: %s"
+msgstr ""
+
+#: build/index.js:9
+msgid "You can change it under Settings."
+msgstr ""
+
+#: build/index.js:9
+msgid "Reasons on the order page"
+msgstr ""
+
+#: build/index.js:9
+msgid "The TrustOrder box on the order page lists why the buyer got their level."
+msgstr ""
+
+#: build/index.js:9
+msgid "No order data on this buyer in the network."
+msgstr ""
+
+#: build/index.js:9
+msgid "A shop reported a parcel not picked up in the last 12 months."
+msgstr ""
+
+#: build/index.js:9
+msgid "More than one shop reported parcels not picked up."
+msgstr ""
+
+#: build/index.js:9
+msgid "The score is below 60."
+msgstr ""
+
+#: build/index.js:9
+msgid "The address belongs to a throwaway e-mail service."
+msgstr ""
+
+#: build/index.js:9
+msgid "The e-mail domain has no mail server, so the address is probably mistyped or made up."
+msgstr ""
+
+#: build/index.js:9
+msgid "You allowed this buyer on the Exceptions page, so cash on delivery stays."
+msgstr ""
+
+#: build/index.js:9
+msgid "You denied this buyer on the Exceptions page, so cash on delivery is hidden."
+msgstr ""
+
+#: build/index.js:9
+msgid "Privacy"
+msgstr ""
+
+#: build/index.js:9
+msgid "Names, e-mail addresses, phone numbers and addresses never leave your shop. TrustOrder sends only one-way codes made from them, which cannot be turned back into data. If “Share country and postcode” is on in Settings, the country and postcode of new orders are sent too, without any customer data."
+msgstr ""
+
+#: build/index.js:9
 msgid "Recent"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Sections"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Go to"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Quick search"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Search sections and settings"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Results"
 msgstr ""
 
 #. translators: %s: the search text.
-#: build/index.js:9
+#: build/index.js:10
 #, js-format
 msgid "No results for “%s”."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "to navigate"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "to open"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Quick search…"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "upTools (opens in a new tab)"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "TrustOrder overview"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "TrustOrder sections"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Documentation"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "(opens in a new tab)"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Unsaved changes"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Discard"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Save"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Settings saved."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "API key removed."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""

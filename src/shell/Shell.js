@@ -30,17 +30,17 @@ export default function Shell( { store } ) {
 	useUnsavedWarning( store.hasEdits );
 	useSaveShortcut( store.save, store.hasEdits && ! store.isSaving );
 
-	// The quick search indexes only Settings (rendered from the store in
-	// memory). The other pages load from the service on mount, so they are
-	// found by name only.
+	// The quick search indexes Settings and Help (both render from memory).
+	// The other pages load from the service on mount, so they are found by
+	// name only.
 	const searchPages = useCallback(
 		() =>
-			PAGES.filter( ( item ) => item.id === 'settings' ).map(
-				( item ) => ( {
-					tab: item,
-					element: <item.Component store={ store } />,
-				} )
-			),
+			PAGES.filter( ( item ) =>
+				[ 'settings', 'help' ].includes( item.id )
+			).map( ( item ) => ( {
+				tab: item,
+				element: <item.Component store={ store } />,
+			} ) ),
 		[ store ]
 	);
 

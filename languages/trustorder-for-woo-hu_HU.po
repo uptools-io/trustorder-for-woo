@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-05T11:01:08+00:00\n"
+"POT-Creation-Date: 2026-11-06T07:01:19+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -202,7 +202,7 @@ msgstr "Ehhez a rendeléshez válassz másik fizetési módot."
 msgid "Trusted"
 msgstr "Megbízható"
 
-#: includes/Order/Labels.php:55
+#: includes/Order/Labels.php:55 build/index.js:7
 msgid "Limited data"
 msgstr "Kevés adat"
 
@@ -214,35 +214,35 @@ msgstr "Kockázatos"
 msgid "Blocked"
 msgstr "Tiltott"
 
-#: includes/Order/Labels.php:72
+#: includes/Order/Labels.php:72 build/index.js:9
 msgid "Refused orders at several shops"
 msgstr "Több boltban sem vette át a rendelést"
 
-#: includes/Order/Labels.php:73
+#: includes/Order/Labels.php:73 build/index.js:9
 msgid "Recently refused an order"
 msgstr "Nemrég nem vett át egy rendelést"
 
-#: includes/Order/Labels.php:74
+#: includes/Order/Labels.php:74 build/index.js:9
 msgid "Low score"
 msgstr "Alacsony pontszám"
 
-#: includes/Order/Labels.php:75
+#: includes/Order/Labels.php:75 build/index.js:9
 msgid "Disposable e-mail address"
 msgstr "Eldobható e-mail-cím"
 
-#: includes/Order/Labels.php:76
+#: includes/Order/Labels.php:76 build/index.js:9
 msgid "E-mail domain cannot receive mail"
 msgstr "Az e-mail-domain nem fogad leveleket"
 
-#: includes/Order/Labels.php:77
+#: includes/Order/Labels.php:77 build/index.js:9
 msgid "First-time customer"
 msgstr "Első alkalommal vásárol"
 
-#: includes/Order/Labels.php:78
+#: includes/Order/Labels.php:78 build/index.js:9
 msgid "Allowed by your exception list"
 msgstr "A kivétellistád engedélyezi"
 
-#: includes/Order/Labels.php:79
+#: includes/Order/Labels.php:79 build/index.js:9
 msgid "Denied by your exception list"
 msgstr "A kivétellistád tiltja"
 
@@ -250,7 +250,7 @@ msgstr "A kivétellistád tiltja"
 msgid "Not checked (limit reached)"
 msgstr "Nem ellenőrzött (betelt a keret)"
 
-#: includes/Order/Labels.php:110
+#: includes/Order/Labels.php:110 build/index.js:7
 msgid "Not checked"
 msgstr "Nem ellenőrzött"
 
@@ -258,7 +258,7 @@ msgstr "Nem ellenőrzött"
 msgid "New customer"
 msgstr "Új vásárló"
 
-#: includes/Order/OrderColumn.php:45
+#: includes/Order/OrderColumn.php:45 build/index.js:7
 msgid "COD check"
 msgstr "Utánvét ellenőrzés"
 
@@ -323,7 +323,7 @@ msgstr[1] "Rendelést nem vette át <span class=\"count\">(%s)</span>"
 msgid "Change status to not picked up"
 msgstr "Állapot módosítása: Rendelést nem vette át"
 
-#: includes/Order/RefusedStatus.php:103
+#: includes/Order/RefusedStatus.php:103 build/index.js:8
 msgctxt "Order status"
 msgid "Not picked up"
 msgstr "Rendelést nem vette át"
@@ -797,6 +797,283 @@ msgid "Load more"
 msgstr "Továbbiak betöltése"
 
 #: build/index.js:7
+msgid "Cash on delivery hidden"
+msgstr "Utánvét elrejtve"
+
+#: build/index.js:7
+msgid "Stays, order flagged"
+msgstr "Marad, megjelölve"
+
+#: build/index.js:7
+msgid "Every method stays"
+msgstr "Minden fizetési mód marad"
+
+#: build/index.js:7
+msgid "Cash on delivery stays"
+msgstr "Utánvét marad"
+
+#: build/index.js:7
+msgid "No shop in the network has data on this buyer yet."
+msgstr "A hálózatban még egyik webshopnak sincs adata erről a vásárlóról."
+
+#: build/index.js:7
+msgid ""
+"Picked up 1 or 2 parcels and has not refused one recently, but that is not "
+"yet enough to be trusted."
+msgstr ""
+"1-2 csomagot már átvett, és nemrég nem utasított vissza egyet sem, de ez még "
+"kevés ahhoz, hogy megbízható legyen."
+
+#: build/index.js:7
+msgid "At least 3 picked up cash-on-delivery parcels, with no recent refusal."
+msgstr "Legalább 3 átvett utánvétes csomag, friss elutasítás nélkül."
+
+#: build/index.js:7
+msgid ""
+"In the last 12 months the buyer did not pick up at least 1 parcel, or the "
+"score is below 60, or the e-mail address is disposable or cannot receive "
+"mail."
+msgstr ""
+"Az elmúlt 12 hónapban legalább 1 csomagot nem vett át, vagy a pontszáma 60 "
+"alatt van, vagy az e-mail címe eldobható, illetve nem tud levelet fogadni."
+
+#: build/index.js:7
+msgid ""
+"Several shops reported parcels this buyer did not pick up in the last 12 "
+"months, and the score is below 60."
+msgstr ""
+"Az elmúlt 12 hónapban több webshop is jelezte, hogy nem vette át a "
+"csomagját, és a pontszáma 60 alatt van."
+
+#: build/index.js:7
+msgid ""
+"The service could not be reached at checkout, or the daily check limit ran "
+"out. Look at this order yourself."
+msgstr ""
+"A pénztárnál a szolgáltatás nem volt elérhető, vagy elfogyott a napi "
+"ellenőrzési keret. Ezt a rendelést nézd meg magad."
+
+#: build/index.js:7
+msgid "What the badges mean"
+msgstr "Mit jelent a jelölés?"
+
+#: build/index.js:7
+msgid ""
+"Next to each badge: what happened to cash on delivery at checkout, with your "
+"current strictness."
+msgstr ""
+"Minden jelölés mellett látod, mi történt az utánvéttel a pénztárban, a "
+"jelenlegi szigorúságod szerint."
+
+#: build/index.js:7
+msgid ""
+"A dash means no check ran for the order: it was placed before TrustOrder was "
+"set up, or it was created outside the checkout. A badge without a number was "
+"imported from an earlier tool."
+msgstr ""
+"A „–” azt jelenti, hogy a rendelésnél nem volt ellenőrzés: a TrustOrder "
+"beállítása előtt érkezett, vagy nem a pénztárban készült. A szám nélküli "
+"jelölés egy korábbi eszközből lett átvéve."
+
+#: build/index.js:7
+msgid "Anna Sample"
+msgstr "Minta Anna"
+
+#: build/index.js:7 build/index.js:8
+msgid "Processing"
+msgstr "Feldolgozás alatt"
+
+#: build/index.js:7
+msgid "Ben Example"
+msgstr "Példa Béla"
+
+#: build/index.js:7
+msgid "Clara Test"
+msgstr "Teszt Csilla"
+
+#: build/index.js:7
+msgid "Pending payment"
+msgstr "Fizetésre vár"
+
+#: build/index.js:7
+msgid "Dan Demo"
+msgstr "Próba Dénes"
+
+#: build/index.js:7 build/index.js:8
+msgid "Completed"
+msgstr "Teljesítve"
+
+#: build/index.js:7
+msgid "Where you see it"
+msgstr "Így látod a rendeléslistában"
+
+#: build/index.js:7
+msgid ""
+"The last column of WooCommerce → Orders is COD check. Every order gets a "
+"badge about the buyer."
+msgstr ""
+"A WooCommerce → Rendelések lista utolsó oszlopa az Utánvét ellenőrzés. "
+"Minden rendelés kap egy jelölést a vásárlóról."
+
+#: build/index.js:7
+msgid "Sample orders list"
+msgstr "Minta rendeléslista"
+
+#: build/index.js:7
+msgid "Order"
+msgstr "Rendelés"
+
+#: build/index.js:7
+msgid "Buyer"
+msgstr "Vásárló"
+
+#: build/index.js:7 build/index.js:8
+msgid "Status"
+msgstr "Állapot"
+
+#: build/index.js:7
+msgid "Now"
+msgstr "Most"
+
+#: build/index.js:7
+msgid "Did not pick up a parcel."
+msgstr "Nem vett át egy csomagot."
+
+#: build/index.js:7
+msgid "Picked up parcels"
+msgstr "Átvett csomagok"
+
+#: build/index.js:7
+msgid "↑ score"
+msgstr "↑ pontszám"
+
+#: build/index.js:7
+msgid "Every picked up cash-on-delivery parcel raises the score, at any shop."
+msgstr ""
+"Minden átvett utánvétes csomag növeli a pontszámot, bármelyik webshopnál."
+
+#: build/index.js:7
+msgid "After 12 months"
+msgstr "12 hónap múlva"
+
+#: build/index.js:7
+msgid ""
+"With no new refusal and a score above 60, no longer risky. From 3 picked up "
+"parcels, trusted."
+msgstr ""
+"Ha közben nem utasított vissza újabbat, és a pontszáma 60 fölött van, már "
+"nem kockázatos. 3 átvett csomagtól megbízható."
+
+#: build/index.js:7
+msgid "After 3 years"
+msgstr "3 év múlva"
+
+#: build/index.js:7
+msgid "deleted"
+msgstr "törlődik"
+
+#: build/index.js:7
+msgid "The old case is removed from the service completely."
+msgstr "A régi eset teljesen kikerül a rendszerből."
+
+#: build/index.js:7
+msgid "Reputation can improve"
+msgstr "A megítélés javulhat"
+
+#: build/index.js:7
+msgid ""
+"A parcel not picked up is not a mark forever. If the buyer picks up their "
+"parcels after that, their level recovers step by step."
+msgstr ""
+"Egy át nem vett csomag nem bélyeg örökre. Ha a vásárló ezután rendesen "
+"átveszi a csomagjait, a szintje fokozatosan visszajavul."
+
+#: build/index.js:7
+msgid ""
+"The weight of old cases halves every year, so recent behaviour always counts "
+"more. It works the other way too: a trusted buyer can fall back if they stop "
+"picking up their parcels."
+msgstr ""
+"A régi esetek súlya évente a felére csökken, így a friss viselkedés mindig "
+"többet számít. Ez fordítva is igaz: egy megbízható vásárló is visszaeshet, "
+"ha nem veszi át a csomagjait."
+
+#: build/index.js:7
+msgid "The score"
+msgstr "A pontszám"
+
+#: build/index.js:7
+msgid ""
+"From 0 to 100: the higher, the more reliable. Picked up parcels raise it, "
+"and older cases count less and less over time. A new customer starts at 75."
+msgstr ""
+"0 és 100 között: minél magasabb, annál megbízhatóbb. Az átvett csomagok "
+"növelik, a régi esetek idővel egyre kevésbé számítanak. Új vásárló 75-ről "
+"indul."
+
+#: build/index.js:7
+msgid "75 · start"
+msgstr "75 · indulás"
+
+#: build/index.js:7
+msgid ""
+"Below 60 the buyer is risky; if several shops reported parcels not picked "
+"up, blocked."
+msgstr ""
+"60 alatt a vásárló kockázatos; ha több webshopnál sem vette át a csomagot, "
+"tiltott."
+
+#: build/index.js:7
+msgid ""
+"Above 60, with no refusal in the last 12 months, the number of picked up "
+"parcels decides: 1 or 2 is limited data, from 3 trusted."
+msgstr ""
+"60 fölött, ha az elmúlt 12 hónapban nem utasított vissza csomagot, az átvett "
+"csomagok száma dönt: 1-2 kevés adat, 3-tól megbízható."
+
+#: build/index.js:7
+msgid "Blocked buyer"
+msgstr "Tiltott vevő"
+
+#: build/index.js:7
+msgid "Risky buyer"
+msgstr "Kockázatos vevő"
+
+#: build/index.js:7
+msgid "Trusted and new customers"
+msgstr "Megbízható és új vásárló"
+
+#: build/index.js:7
+msgid ""
+"In the last 12 months at least 2 established shops (or 4 new shops) reported "
+"that the buyer did not pick up the parcel, and the score is below 60."
+msgstr ""
+"Az elmúlt 12 hónapban legalább 2 bevált bolt (vagy 4 új bolt) jelezte, hogy "
+"nem vette át a csomagot, és a pontszáma 60 alatt van."
+
+#: build/index.js:7
+msgid ""
+"The buyer picked up 1 or 2 parcels and has not refused one recently, but "
+"that is not yet enough to be trusted. Cash on delivery stays."
+msgstr ""
+"A vásárló 1-2 csomagot átvett, és nemrég nem utasított vissza egyet sem, de "
+"ez még nem elég ahhoz, hogy megbízható legyen. Az utánvét megmarad."
+
+#: build/index.js:7
+msgid "No history yet: starts at 75 points, cash on delivery always stays."
+msgstr "Még nincs előzménye: 75 pontról indul, az utánvét mindig marad."
+
+#: build/index.js:7
+msgid ""
+"Score 0–100. One parcel not picked up at one new shop gives about 67 points "
+"(Risky). Picked up parcels raise it, and older cases count less and less "
+"over time."
+msgstr ""
+"Pontszám 0–100. Egy nem átvett csomag egy új boltnál kb. 67 pont "
+"(Kockázatos). Az átvett csomagok felfelé húzzák, a régi esetek idővel egyre "
+"kevesebbet számítanak."
+
+#: build/index.js:7
 msgid "Unknown"
 msgstr "Ismeretlen"
 
@@ -984,66 +1261,7 @@ msgstr ""
 "Törlöd az elmentett API-kulcsot? Amíg nem adsz meg újra kulcsot, egyetlen "
 "vevő sincs ellenőrizve, és rendelés-kimenetel sem megy ki."
 
-#: build/index.js:7
-msgid "Blocked buyer"
-msgstr "Tiltott vevő"
-
-#: build/index.js:7
-msgid "Risky buyer"
-msgstr "Kockázatos vevő"
-
-#: build/index.js:7
-msgid "Trusted and new customers"
-msgstr "Megbízható és új vásárló"
-
-#: build/index.js:7
-msgid "Cash on delivery hidden"
-msgstr "Utánvét elrejtve"
-
-#: build/index.js:7
-msgid "Stays, order flagged"
-msgstr "Marad, megjelölve"
-
-#: build/index.js:7
-msgid "Cash on delivery stays"
-msgstr "Utánvét marad"
-
-#: build/index.js:7
-msgid ""
-"In the last 12 months at least 2 established shops (or 4 new shops) reported "
-"that the buyer did not pick up the parcel, and the score is below 60."
-msgstr ""
-"Az elmúlt 12 hónapban legalább 2 bevált bolt (vagy 4 új bolt) jelezte, hogy "
-"nem vette át a csomagot, és a pontszáma 60 alatt van."
-
-#: build/index.js:7
-msgid ""
-"In the last 12 months the buyer did not pick up at least 1 parcel, or the "
-"score is below 60, or the e-mail address is disposable or cannot receive "
-"mail."
-msgstr ""
-"Az elmúlt 12 hónapban legalább 1 csomagot nem vett át, vagy a pontszáma 60 "
-"alatt van, vagy az e-mail címe eldobható, illetve nem tud levelet fogadni."
-
-#: build/index.js:7
-msgid "At least 3 picked up cash-on-delivery parcels, with no recent refusal."
-msgstr "Legalább 3 átvett utánvétes csomag, friss elutasítás nélkül."
-
-#: build/index.js:7
-msgid "No history yet: starts at 75 points, cash on delivery always stays."
-msgstr "Még nincs előzménye: 75 pontról indul, az utánvét mindig marad."
-
-#: build/index.js:7
-msgid ""
-"Score 0–100. One parcel not picked up at one new shop gives about 67 points "
-"(Risky). Picked up parcels raise it, and older cases count less and less "
-"over time."
-msgstr ""
-"Pontszám 0–100. Egy nem átvett csomag egy új boltnál kb. 67 pont "
-"(Kockázatos). Az átvett csomagok felfelé húzzák, a régi esetek idővel egyre "
-"kevesebbet számítanak."
-
-#: build/index.js:7
+#: build/index.js:7 build/index.js:9
 msgid "Lenient"
 msgstr "Engedékeny"
 
@@ -1051,7 +1269,7 @@ msgstr "Engedékeny"
 msgid "Hides cash on delivery only for Blocked buyers."
 msgstr "Csak a Tiltott vevőknél rejti el az utánvétet."
 
-#: build/index.js:7
+#: build/index.js:7 build/index.js:9
 msgid "Normal"
 msgstr "Normál"
 
@@ -1063,7 +1281,7 @@ msgstr ""
 "Ajánlott. A Tiltott vevőknél elrejti, a Kockázatos rendelést megjelöli "
 "(megjegyzés a rendelésen)."
 
-#: build/index.js:7
+#: build/index.js:7 build/index.js:9
 msgid "Strict"
 msgstr "Szigorú"
 
@@ -1096,11 +1314,7 @@ msgstr "Naplózva: %s"
 msgid "No error so far."
 msgstr "Eddig nem volt hiba."
 
-#: build/index.js:8
-msgid "Status"
-msgstr "Állapot"
-
-#: build/index.js:8
+#: build/index.js:8 build/index.js:9
 msgid "Settings"
 msgstr "Beállítások"
 
@@ -1277,87 +1491,415 @@ msgid "Refused by the service, not retried"
 msgstr "A szolgáltatás elutasította, nincs újrapróbálás"
 
 #: build/index.js:8
+msgid "Help"
+msgstr "Súgó"
+
+#: build/index.js:8
+msgid ""
+"What the badges on the orders mean, and what you need to do so that "
+"TrustOrder works well."
+msgstr ""
+"Mit jelentenek a jelölések a rendeléseknél, és mi a teendőd, hogy a "
+"TrustOrder jól működjön."
+
+#: build/index.js:8
+msgid "How it works"
+msgstr "Így működik"
+
+#: build/index.js:8
+msgid "At checkout"
+msgstr "A pénztárban"
+
+#: build/index.js:8
+msgid ""
+"TrustOrder looks up the buyer’s e-mail address, phone number and address in "
+"the shared network of shops."
+msgstr ""
+"A TrustOrder megnézi a vásárló e-mail-címét, telefonszámát és címét a "
+"webshopok közös hálózatában."
+
+#: build/index.js:8
+msgid "Decision"
+msgstr "Döntés"
+
+#: build/index.js:8
+msgid ""
+"Based on the level and your strictness, cash on delivery stays, is hidden, "
+"or stays and the order gets a note."
+msgstr ""
+"A szint és a szigorúság alapján az utánvét marad, eltűnik, vagy marad, és a "
+"rendelés megjegyzést kap."
+
+#: build/index.js:8
+msgid "On the order"
+msgstr "A rendelésnél"
+
+#: build/index.js:8
+msgid ""
+"You see the result in the orders list and in the TrustOrder box on the order "
+"page."
+msgstr ""
+"Az eredményt a rendeléslistában és a rendelés oldalán, a TrustOrder dobozban "
+"látod."
+
+#: build/index.js:8
+msgid "After delivery"
+msgstr "Kiszállítás után"
+
+#: build/index.js:8
+msgid ""
+"The status you set is feedback to the network: every buyer’s reputation is "
+"built from it."
+msgstr ""
+"A beállított állapot visszajelzés a hálózatnak: ebből épül fel minden "
+"vásárló megítélése."
+
+#: build/index.js:8
+msgid "What you need to do"
+msgstr "Mi a te dolgod"
+
+#: build/index.js:8
+msgid ""
+"The report goes out from the order status. If the status is right, the "
+"network is right."
+msgstr ""
+"A jelzés a rendelés állapotából megy. Ha az állapot pontos, a hálózat is "
+"pontos."
+
+#: build/index.js:8
+msgid "The buyer picked up the parcel."
+msgstr "A vásárló átvette a csomagot."
+
+#: build/index.js:8
+msgid ""
+"The parcel came back. For several orders at once, use the bulk action in the "
+"orders list."
+msgstr ""
+"A csomag visszajött. Több rendelésnél egyszerre: csoportos művelet a "
+"rendeléslistában."
+
+#: build/index.js:8
+msgid ""
+"Made a mistake? Set it back, and TrustOrder withdraws its report. A refund "
+"after Completed withdraws it too."
+msgstr ""
+"Tévedtél? Állítsd vissza, és a TrustOrder visszavonja a jelzését. A "
+"Teljesítve utáni visszatérítés is visszavonja."
+
+#: build/index.js:8
+msgid "You know a buyer personally: allow or deny them."
+msgstr "Egy vásárlót személyesen ismersz: engedélyezd vagy tiltsd le."
+
+#. translators: %s: strictness name (Lenient, Normal, Strict).
+#: build/index.js:9
+msgid "Your strictness: %s"
+msgstr "A szigorúságod: %s"
+
+#: build/index.js:9
+msgid "You can change it under Settings."
+msgstr "A Beállításokban módosíthatod."
+
+#: build/index.js:9
+msgid "Reasons on the order page"
+msgstr "Okok a rendelés oldalán"
+
+#: build/index.js:9
+msgid ""
+"The TrustOrder box on the order page lists why the buyer got their level."
+msgstr ""
+"A rendelés oldalán a TrustOrder doboz felsorolja, miért kapta a vásárló a "
+"szintjét."
+
+#: build/index.js:9
+msgid "No order data on this buyer in the network."
+msgstr "A hálózatban nincs rendelési adat erről a vásárlóról."
+
+#: build/index.js:9
+msgid "A shop reported a parcel not picked up in the last 12 months."
+msgstr "Egy webshop az elmúlt 12 hónapban át nem vett csomagot jelzett."
+
+#: build/index.js:9
+msgid "More than one shop reported parcels not picked up."
+msgstr "Több webshop is át nem vett csomagot jelzett."
+
+#: build/index.js:9
+msgid "The score is below 60."
+msgstr "A pontszám 60 alatt van."
+
+#: build/index.js:9
+msgid "The address belongs to a throwaway e-mail service."
+msgstr "A cím egy eldobható e-mail-szolgáltatásé."
+
+#: build/index.js:9
+msgid ""
+"The e-mail domain has no mail server, so the address is probably mistyped or "
+"made up."
+msgstr ""
+"Az e-mail-domainnek nincs levelezőszervere, ezért a cím valószínűleg elírt "
+"vagy kitalált."
+
+#: build/index.js:9
+msgid ""
+"You allowed this buyer on the Exceptions page, so cash on delivery stays."
+msgstr ""
+"Ezt a vásárlót a Kivételek oldalon engedélyezted, ezért az utánvét megmarad."
+
+#: build/index.js:9
+msgid ""
+"You denied this buyer on the Exceptions page, so cash on delivery is hidden."
+msgstr ""
+"Ezt a vásárlót a Kivételek oldalon letiltottad, ezért az utánvét eltűnik."
+
+#: build/index.js:9
+msgid "Privacy"
+msgstr "Adatvédelem"
+
+#: build/index.js:9
+msgid ""
+"Names, e-mail addresses, phone numbers and addresses never leave your shop. "
+"TrustOrder sends only one-way codes made from them, which cannot be turned "
+"back into data. If “Share country and postcode” is on in Settings, the "
+"country and postcode of new orders are sent too, without any customer data."
+msgstr ""
+"A nevek, e-mail-címek, telefonszámok és címek soha nem hagyják el a "
+"webshopodat. A TrustOrder csak belőlük képzett, egyirányú kódokat küld, "
+"ezekből az adat nem fejthető vissza. Ha a Beállításokban be van kapcsolva az "
+"„Ország és irányítószám megosztása”, az új rendelések országa és "
+"irányítószáma is elmegy, vásárlói adat nélkül."
+
+#: build/index.js:9
 msgid "Recent"
 msgstr "Legutóbbiak"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Sections"
 msgstr "Menüpontok"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Go to"
 msgstr "Ugrás"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Quick search"
 msgstr "Gyorskeresés"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Search sections and settings"
 msgstr "Keresés a menüpontok és beállítások között"
 
-#: build/index.js:8
+#: build/index.js:9
 msgid "Results"
 msgstr "Találatok"
 
 #. translators: %s: the search text.
-#: build/index.js:9
+#: build/index.js:10
 msgid "No results for “%s”."
 msgstr "Nincs találat erre: „%s”."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "to navigate"
 msgstr "navigálás"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "to open"
 msgstr "megnyitás"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Quick search…"
 msgstr "Gyorskeresés…"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "upTools (opens in a new tab)"
 msgstr "upTools (új lapon nyílik meg)"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "TrustOrder overview"
 msgstr "TrustOrder áttekintés"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "TrustOrder sections"
 msgstr "TrustOrder szakaszok"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Documentation"
 msgstr "Dokumentáció"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "(opens in a new tab)"
 msgstr "(új lapon nyílik meg)"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Unsaved changes"
 msgstr "Mentetlen módosítások"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Discard"
 msgstr "Elvetés"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Save"
 msgstr "Mentés"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Settings saved."
 msgstr "Beállítások elmentve."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "API key removed."
 msgstr "API-kulcs törölve."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."
+
+#~ msgid "How TrustOrder works"
+#~ msgstr "Hogyan működik a TrustOrder"
+
+#~ msgid ""
+#~ "When the buyer fills in the checkout, TrustOrder looks up the e-mail "
+#~ "address, phone number and delivery address in the shared network of shops."
+#~ msgstr ""
+#~ "Amikor a vásárló kitölti a pénztárat, a TrustOrder megnézi az e-mail-"
+#~ "címét, a telefonszámát és a szállítási címét a webshopok közös "
+#~ "hálózatában."
+
+#~ msgid ""
+#~ "Based on the buyer’s level and your strictness, cash on delivery stays, "
+#~ "is hidden, or stays and the order gets a note."
+#~ msgstr ""
+#~ "A vásárló szintje és a beállított szigorúság alapján az utánvét megmarad, "
+#~ "eltűnik, vagy megmarad, és a rendelés megjegyzést kap."
+
+#~ msgid ""
+#~ "The result is saved with the order: you see it in the COD check column of "
+#~ "the orders list and in the TrustOrder box on the order page."
+#~ msgstr ""
+#~ "Az eredmény a rendeléssel együtt mentődik: a rendeléslista Utánvét "
+#~ "ellenőrzés oszlopában és a rendelés oldalán, a TrustOrder dobozban látod."
+
+#~ msgid ""
+#~ "When you set the order to Completed or Not picked up, TrustOrder reports "
+#~ "the outcome. These reports build every buyer’s reputation, at your shop "
+#~ "and at the others."
+#~ msgstr ""
+#~ "Amikor a rendelést Teljesítve vagy Rendelést nem vette át állapotra "
+#~ "állítod, a TrustOrder jelenti az eredményt. Ezekből a jelzésekből épül "
+#~ "fel minden vásárló megítélése, nálad és a többi webshopnál is."
+
+#~ msgid "Badges in the orders list"
+#~ msgstr "Jelölések a rendeléslistában"
+
+#~ msgid ""
+#~ "The number after the label is the buyer’s score from 0 to 100: the "
+#~ "higher, the more reliable. Picked up parcels raise it, and older cases "
+#~ "count less and less over time."
+#~ msgstr ""
+#~ "A felirat utáni szám a vásárló pontszáma 0 és 100 között: minél magasabb, "
+#~ "annál megbízhatóbb. Az átvett csomagok növelik, a régebbi esetek pedig "
+#~ "idővel egyre kevésbé számítanak."
+
+#~ msgid ""
+#~ "No shop in the network has data on this buyer yet. Cash on delivery stays."
+#~ msgstr ""
+#~ "A hálózatban még egyik webshopnak sincs adata erről a vásárlóról. Az "
+#~ "utánvét megmarad."
+
+#~ msgid ""
+#~ "In the last 12 months the buyer did not pick up at least 1 parcel, or the "
+#~ "score is below 60, or the e-mail address is disposable or cannot receive "
+#~ "mail. Depending on your strictness, cash on delivery is hidden, or it "
+#~ "stays and the order gets a note."
+#~ msgstr ""
+#~ "Az elmúlt 12 hónapban a vásárló legalább 1 csomagot nem vett át, vagy a "
+#~ "pontszáma 60 alatt van, vagy az e-mail-címe eldobható, illetve nem fogad "
+#~ "levelet. A szigorúságtól függően az utánvét eltűnik, vagy megmarad, és a "
+#~ "rendelés megjegyzést kap."
+
+#~ msgid ""
+#~ "Several shops reported parcels this buyer did not pick up in the last 12 "
+#~ "months, and the score is below 60. Cash on delivery is hidden at every "
+#~ "strictness."
+#~ msgstr ""
+#~ "Az elmúlt 12 hónapban több webshop is jelezte, hogy ez a vásárló nem "
+#~ "vette át a csomagját, és a pontszáma 60 alatt van. Az utánvét minden "
+#~ "szigorúságnál eltűnik."
+
+#~ msgid ""
+#~ "The service could not be reached at checkout, so every payment method "
+#~ "stayed available. Look at this order yourself."
+#~ msgstr ""
+#~ "A pénztárnál a szolgáltatás nem volt elérhető, ezért minden fizetési mód "
+#~ "megmaradt. Ezt a rendelést nézd meg magad."
+
+#~ msgid ""
+#~ "The daily check limit ran out, so this buyer was not checked. The payment "
+#~ "methods you chose in Settings for this case applied."
+#~ msgstr ""
+#~ "Elfogyott a napi ellenőrzési keret, ezért ezt a vásárlót nem "
+#~ "ellenőriztük. Az erre az esetre a Beállításokban kiválasztott fizetési "
+#~ "módok érvényesültek."
+
+#~ msgid "Dash"
+#~ msgstr "Gondolatjel"
+
+#~ msgid ""
+#~ "No check ran for this order: it was placed before TrustOrder was set up, "
+#~ "or it was created outside the checkout (for example in the admin)."
+#~ msgstr ""
+#~ "Ennél a rendelésnél nem volt ellenőrzés: a TrustOrder beállítása előtt "
+#~ "érkezett, vagy nem a pénztárban jött létre (például az adminban)."
+
+#~ msgid ""
+#~ "A badge without a number was imported from an earlier tool: it shows the "
+#~ "level only."
+#~ msgstr ""
+#~ "A szám nélküli jelölés egy korábbi eszközből lett átvéve: csak a szintet "
+#~ "mutatja."
+
+#~ msgid "What your strictness does"
+#~ msgstr "Mit csinál a szigorúság"
+
+#~ msgid "Your current strictness is %s. You can change it under Settings."
+#~ msgstr "A jelenlegi szigorúság: %s. A Beállításokban módosíthatod."
+
+#~ msgid "When the buyer picks up the parcel, set the order to Completed."
+#~ msgstr ""
+#~ "Ha a vásárló átvette a csomagot, állítsd a rendelést Teljesítve állapotra."
+
+#~ msgid ""
+#~ "When the parcel comes back, set the order to Not picked up. In the orders "
+#~ "list you can do this for several orders at once with the “Change status "
+#~ "to not picked up” bulk action."
+#~ msgstr ""
+#~ "Ha a csomag visszajött, állítsd a rendelést Rendelést nem vette át "
+#~ "állapotra. A rendeléslistában több rendelésnél egyszerre is megteheted az "
+#~ "„Állapot módosítása: Rendelést nem vette át” csoportos művelettel."
+
+#~ msgid ""
+#~ "Set a status by mistake? Set the order back to Processing: TrustOrder "
+#~ "withdraws its report. A refund after Completed withdraws it too."
+#~ msgstr ""
+#~ "Tévedésből állítottál be egy állapotot? Állítsd vissza a rendelést "
+#~ "Feldolgozás alatt állapotra, és a TrustOrder visszavonja a jelzését. A "
+#~ "Teljesítve utáni visszatérítés is visszavonja."
+
+#~ msgid ""
+#~ "For a buyer you know personally, add an exception on the Exceptions page: "
+#~ "allow keeps cash on delivery, deny always hides it."
+#~ msgstr ""
+#~ "Ha egy vásárlót személyesen ismersz, vedd fel a Kivételek oldalon: az "
+#~ "engedélyezés megtartja az utánvétet, a tiltás mindig elrejti."
+
+#~ msgid ""
+#~ "Names, e-mail addresses, phone numbers and addresses never leave your "
+#~ "shop. TrustOrder sends only one-way codes made from them, which the "
+#~ "service cannot turn back into data. If “Share country and postcode” is on "
+#~ "in Settings, the country and postcode of new orders are sent too, without "
+#~ "any customer data."
+#~ msgstr ""
+#~ "A nevek, e-mail-címek, telefonszámok és címek soha nem hagyják el a "
+#~ "webshopodat. A TrustOrder csak belőlük képzett, egyirányú kódokat küld, "
+#~ "amelyekből a szolgáltatás nem tudja visszafejteni az adatokat. Ha a "
+#~ "Beállításokban be van kapcsolva az „Ország és irányítószám megosztása”, "
+#~ "az új rendelések országa és irányítószáma is elmegy, vásárlói adat nélkül."

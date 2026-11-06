@@ -2,13 +2,14 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { backup, cog, home, shield } from '@wordpress/icons';
+import { backup, cog, help, home, shield } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
 import BackfillPage from './BackfillPage';
 import ExceptionsPage from './ExceptionsPage';
+import HelpPage from './HelpPage';
 import OverviewPage from './OverviewPage';
 import SettingsPage from './SettingsPage';
 
@@ -41,5 +42,12 @@ export const PAGES = [
 		title: __( 'Backfill past orders', 'trustorder-for-woo' ),
 		icon: backup,
 		Component: BackfillPage,
+	},
+	{
+		id: 'help',
+		label: __( 'Help', 'trustorder-for-woo' ),
+		title: __( 'Help', 'trustorder-for-woo' ),
+		icon: help,
+		Component: HelpPage,
 	},
 ];

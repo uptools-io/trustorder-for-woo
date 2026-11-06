@@ -53,6 +53,7 @@ WooCommerce → TrustOrder (`manage_woocommerce`), a React app with a top bar, s
 - **Settings:** API key (write-only: after saving only its first 12 characters are shown), checks on/off, strictness (with a numbered list of what each buyer level gets and a level guide with the thresholds), the payment methods to hide and the fallback ones (from the enabled methods), the pickup shipping methods that send no address, and the "Share country and postcode" switch.
 - **Exceptions:** always allow or always deny an e-mail, phone number or address in your shop. The value is hashed on your server and only the hash is sent; the list shows the type, rule, note, date and a short id, never the value. To remove an exception, type the value again.
 - **Backfill:** start or resume the backfill for the environment of the saved key, with progress.
+- **Help:** a sample orders list, what each badge (drawn as in the list) and reason means and what it did to cash on delivery at the current strictness, the score, how reputation recovers, which order statuses to set after delivery, and what data leaves the shop. The quick search indexes it.
 
 Privacy: a suggested section for Settings → Privacy → Policy guide (`wp_add_privacy_policy_content`). Translations: Hungarian (PHP + JS) in `languages/`.
 

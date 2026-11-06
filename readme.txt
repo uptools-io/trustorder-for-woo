@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -56,12 +56,13 @@ On by default; turn it off under Settings, "Share country and postcode" (or `wp 
 
 = Admin screen =
 
-WooCommerce → TrustOrder (shop managers, `manage_woocommerce`) has four sections:
+WooCommerce → TrustOrder (shop managers, `manage_woocommerce`) has five sections:
 
 * Overview: connection test (shop name, test mode badge for `to_test_` keys, account status including "awaiting approval", daily quota and today's checks), the last error in plain words, and the state of PHP intl, order storage, the checkout type and the check limits.
 * Settings: the API key (write-only: after saving only its first 12 characters are shown), checks on/off, strictness, the payment methods to hide and the fallback ones, the pickup shipping methods that send no address, and the "Share country and postcode" switch.
 * Exceptions: always allow or always deny an e-mail, phone number or address in your shop. The value is hashed on your server and only the hash is sent; the list shows the type, rule, note, date and a short id, never the value. To remove an exception, type the value again.
 * Backfill: start or resume the backfill for the environment of the saved key, with progress.
+* Help: where the badges appear, what each badge and reason means, the score, how a buyer's reputation recovers, which order statuses to set after delivery, and what data leaves the shop.
 
 = WP-CLI =
 
@@ -103,6 +104,10 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.7 =
+* New: Help page in the TrustOrder admin: a sample orders list showing where the badges appear, what each badge means and what it did to cash on delivery at your strictness, the 0–100 score, how a buyer's reputation recovers over time, which order statuses to set after delivery, the reasons on the order page, and what data leaves the shop. The quick search finds its content.
+* Change: Settings: the level guide lists "Limited data" too.
 
 = 1.0.6 =
 * Change: Orders: the badge for a buyer with one or two delivered orders and no recent refusal reads "Limited data" (Hungarian: "Kevés adat") instead of "Limited history" ("Kevés előzmény").
