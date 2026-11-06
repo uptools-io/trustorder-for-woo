@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -104,6 +104,9 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.9 =
+* Change: Help: the page starts like the other pages, with the yellow-striped first card.
 
 = 1.0.8 =
 * New: Settings: a live preview under the payment methods shows which methods a Blocked buyer sees at checkout with the settings on screen, and warns when nothing would be hidden because no fallback method stays visible.

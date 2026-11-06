@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-06T07:10:32+00:00\n"
+"POT-Creation-Date: 2026-11-06T07:54:57+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -1507,14 +1507,6 @@ msgid "Help"
 msgstr "Súgó"
 
 #: build/index.js:8
-msgid ""
-"What the badges on the orders mean, and what you need to do so that "
-"TrustOrder works well."
-msgstr ""
-"Mit jelentenek a jelölések a rendeléseknél, és mi a teendőd, hogy a "
-"TrustOrder jól működjön."
-
-#: build/index.js:8
 msgid "How it works"
 msgstr "Így működik"
 
@@ -1764,6 +1756,13 @@ msgstr "API-kulcs törölve."
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."
+
+#~ msgid ""
+#~ "What the badges on the orders mean, and what you need to do so that "
+#~ "TrustOrder works well."
+#~ msgstr ""
+#~ "Mit jelentenek a jelölések a rendeléseknél, és mi a teendőd, hogy a "
+#~ "TrustOrder jól működjön."
 
 #~ msgid ""
 #~ "In the last 12 months at least 2 established shops (or 4 new shops) "

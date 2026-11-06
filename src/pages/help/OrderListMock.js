@@ -44,7 +44,7 @@ export default function OrderListMock() {
 
 	return (
 		<Section
-			className="to-help-mock"
+			className="is-accent to-help-mock"
 			title={ __( 'Where you see it', 'trustorder-for-woo' ) }
 			description={ __(
 				'The last column of WooCommerce → Orders is COD check. Every order gets a badge about the buyer.',

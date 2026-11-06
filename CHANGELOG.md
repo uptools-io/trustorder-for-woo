@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.9] - 2026-11-06
+
+### Changed
+- Help: the page starts like the other pages, with the yellow-striped first card.
+
 ## [1.0.8] - 2026-11-06
 
 ### Added

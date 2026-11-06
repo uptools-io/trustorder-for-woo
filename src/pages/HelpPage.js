@@ -129,12 +129,6 @@ export default function HelpPage( { store } ) {
 
 	return (
 		<div className="to-help">
-			<p className="to-help__lead">
-				{ __(
-					'What the badges on the orders mean, and what you need to do so that TrustOrder works well.',
-					'trustorder-for-woo'
-				) }
-			</p>
 
 			<OrderListMock />
 			<BadgeGlossary strictness={ strictness } />
