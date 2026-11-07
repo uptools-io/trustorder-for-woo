@@ -72,6 +72,17 @@ final class OrderResultTest extends CheckoutTestCase {
 		$this->assertGreaterThan( 0, $o->saved );
 	}
 
+	public function test_silent_mode_stores_the_result_without_a_note(): void {
+		\LightweightPlugins\TrustOrder\Settings::update( [ 'silent' => true ] );
+		$this->answers = [ $this->verdict( 'flag', 'risky', 41, [ 'LOW_SCORE' ] ) ];
+		$o             = $this->order();
+
+		OrderResult::onOrder( $o );
+
+		$this->assertSame( [], $o->notes );
+		$this->assertSame( 'flag', OrderResult::read( $o )['verdict'] ?? null );
+	}
+
 	public function test_flag_adds_a_private_note_without_hashes(): void {
 		$this->answers = [ $this->verdict( 'flag', 'risky', 41, [ 'LOW_SCORE', 'NEGATIVE_RECENT' ] ) ];
 		$o             = $this->order();

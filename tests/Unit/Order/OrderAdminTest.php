@@ -134,6 +134,21 @@ final class OrderAdminTest extends TestCase {
 		$this->assertStringNotContainsString( 'dashicons', $this->capture( static fn() => do_action( 'manage_woocommerce_page_wc-orders_custom_column', 'trustorder', $o ) ) );
 	}
 
+	public function test_silent_mode_adds_no_column(): void {
+		Settings::update( [ 'api_key' => 'to_test_0123456789abcdefABCDEF0123456789', 'silent' => true ] );
+		$cols = [ 'cb' => '', 'order_status' => 'Status' ];
+
+		$this->assertSame( $cols, OrderColumn::addColumn( $cols ) );
+	}
+
+	public function test_silent_mode_adds_no_metabox(): void {
+		Settings::update( [ 'silent' => true ] );
+		OrderMetabox::register();
+		do_action( 'add_meta_boxes', 'woocommerce_page_wc-orders', null );
+
+		$this->assertSame( [], $GLOBALS['trustorder_test']['metaboxes'] ?? [] );
+	}
+
 	public function test_metabox_on_both_screens(): void {
 		OrderMetabox::register();
 		do_action( 'add_meta_boxes', 'woocommerce_page_wc-orders', null );

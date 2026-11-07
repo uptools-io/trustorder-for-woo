@@ -14,7 +14,7 @@ use LightweightPlugins\TrustOrder\Api\ApiKey;
 /**
  * Reads, sanitises and stores `trustorder_settings`.
  *
- * @phpstan-type SettingsArray array{api_key: string, strictness: string, hidden_gateways: list<string>, fallback_gateways: list<string>, pickup_methods: list<string>, enabled: bool, share_geo: bool}
+ * @phpstan-type SettingsArray array{api_key: string, strictness: string, hidden_gateways: list<string>, fallback_gateways: list<string>, pickup_methods: list<string>, enabled: bool, share_geo: bool, silent: bool}
  */
 final class Settings {
 
@@ -54,6 +54,7 @@ final class Settings {
 			'pickup_methods'    => self::DEFAULT_PICKUP_METHODS,
 			'enabled'           => true,
 			'share_geo'         => true,
+			'silent'            => false,
 		];
 	}
 
@@ -69,6 +70,14 @@ final class Settings {
 		}
 
 		return $out;
+	}
+
+	/**
+	 * Silent mode: checks and reports run, but the orders screens show nothing
+	 * (no column, no box, no notes).
+	 */
+	public static function silent(): bool {
+		return self::get()['silent'];
 	}
 
 	/**
@@ -151,7 +160,7 @@ final class Settings {
 			}
 		}
 
-		foreach ( [ 'enabled', 'share_geo' ] as $flag ) {
+		foreach ( [ 'enabled', 'share_geo', 'silent' ] as $flag ) {
 			if ( array_key_exists( $flag, $in ) ) {
 				$out[ $flag ] = self::to_bool( $in[ $flag ], $base[ $flag ] );
 			}

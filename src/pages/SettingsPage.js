@@ -214,6 +214,20 @@ export default function SettingsPage( { store } ) {
 				/>
 			</Section>
 			<Section
+				title={ __( 'Silent mode', 'trustorder-for-woo' ) }
+				description={ __(
+					'Checks at checkout and the reports keep working, but the orders show nothing from TrustOrder: no column in the orders list, no box and no notes on the order page.',
+					'trustorder-for-woo'
+				) }
+				actions={
+					<HeaderToggle
+						label={ __( 'Silent mode', 'trustorder-for-woo' ) }
+						checked={ !! settings.silent }
+						onChange={ ( value ) => update( { silent: value } ) }
+					/>
+				}
+			/>
+			<Section
 				title={ __(
 					'Share country and postcode',
 					'trustorder-for-woo'

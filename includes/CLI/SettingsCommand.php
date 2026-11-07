@@ -29,9 +29,10 @@ class SettingsCommand {
 		'pickup-methods'    => 'pickup_methods',
 		'enabled'           => 'enabled',
 		'share-geo'         => 'share_geo',
+		'silent'            => 'silent',
 	];
 
-	private const FLAGS = [ 'enabled', 'share-geo' ];
+	private const FLAGS = [ 'enabled', 'share-geo', 'silent' ];
 
 	private const KEY_MESSAGE = 'The API key is read only from piped STDIN (a terminal or no input within 5 seconds is refused): printf \'%s\' "$KEY" | wp trustorder settings set api-key -';
 
@@ -43,7 +44,7 @@ class SettingsCommand {
 	 * ## OPTIONS
 	 *
 	 * [<key>]
-	 * : One of api-key, strictness, hidden-gateways, fallback-gateways, pickup-methods, enabled, share-geo.
+	 * : One of api-key, strictness, hidden-gateways, fallback-gateways, pickup-methods, enabled, share-geo, silent.
 	 *
 	 * [--format=<format>]
 	 * : table (default) or json.
@@ -75,10 +76,10 @@ class SettingsCommand {
 	 * ## OPTIONS
 	 *
 	 * <key>
-	 * : One of api-key, strictness, hidden-gateways, fallback-gateways, pickup-methods, enabled, share-geo.
+	 * : One of api-key, strictness, hidden-gateways, fallback-gateways, pickup-methods, enabled, share-geo, silent.
 	 *
 	 * [<value>]
-	 * : lenient|normal|strict; a comma-separated list of ids; for `enabled` and `share-geo`: true|false, on|off, yes|no or 1|0. For api-key use `-` and pipe the key on STDIN (never as an argument); an empty STDIN removes the key.
+	 * : lenient|normal|strict; a comma-separated list of ids; for `enabled`, `share-geo` and `silent`: true|false, on|off, yes|no or 1|0. For api-key use `-` and pipe the key on STDIN (never as an argument); an empty STDIN removes the key.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -184,6 +185,7 @@ class SettingsCommand {
 			'pickup-methods'    => $s['pickup_methods'],
 			'enabled'           => $s['enabled'],
 			'share-geo'         => $s['share_geo'],
+			'silent'            => $s['silent'],
 		];
 	}
 

@@ -57,7 +57,7 @@ final class SettingsController {
 	 * Validate and store a partial update (shared with the WP-CLI commands):
 	 * the whole patch is refused when any field is invalid.
 	 *
-	 * @param array<string, mixed> $params Fields: api_key, strictness, hidden_gateways, fallback_gateways, pickup_methods, enabled, share_geo.
+	 * @param array<string, mixed> $params Fields: api_key, strictness, hidden_gateways, fallback_gateways, pickup_methods, enabled, share_geo, silent.
 	 * @return true|WP_Error
 	 */
 	public static function apply( array $params ) {
@@ -90,6 +90,7 @@ final class SettingsController {
 				'pickup_methods'    => $s['pickup_methods'],
 				'enabled'           => $s['enabled'],
 				'share_geo'         => $s['share_geo'],
+				'silent'            => $s['silent'],
 			],
 			'gateways'         => Choices::gateways( array_values( array_unique( array_merge( $s['hidden_gateways'], $s['fallback_gateways'] ) ) ) ),
 			'shipping_methods' => Choices::shippingMethods(),
@@ -174,6 +175,12 @@ final class SettingsController {
 				return ApiError::invalid( 'trustorder_invalid_share_geo', __( 'The share_geo flag must be true or false.', 'trustorder-for-woo' ) );
 			}
 			$patch['share_geo'] = $in['share_geo'];
+		}
+		if ( array_key_exists( 'silent', $in ) ) {
+			if ( ! is_bool( $in['silent'] ) ) {
+				return ApiError::invalid( 'trustorder_invalid_silent', __( 'The silent flag must be true or false.', 'trustorder-for-woo' ) );
+			}
+			$patch['silent'] = $in['silent'];
 		}
 
 		return $patch;

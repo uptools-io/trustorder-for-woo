@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.11] - 2026-11-07
+
+### Added
+- Settings: silent mode. When it is on, checks at checkout and the reports keep working, but the orders show nothing from TrustOrder: no column in the orders list, no box and no notes on the order page. Also `wp trustorder settings set silent on|off`.
+
 ## [1.0.10] - 2026-11-07
 
 ### Added

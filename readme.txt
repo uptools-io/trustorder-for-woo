@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.10
+Stable tag: 1.0.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -54,12 +54,16 @@ Deactivating the plugin cancels its pending background jobs. After reactivating,
 
 On by default; turn it off under Settings, "Share country and postcode" (or `wp trustorder settings set share-geo off`). While it is on, each order is sent once, the first time it enters processing, on hold or completed from another status: only its country and postcode, shipping address first and billing as the fallback, for anonymous order statistics. Nothing else is sent: no name, e-mail, phone, street, order number or amount. The service stores the country, the postcode, the shop and the hour, with no link to the order, and deletes it after 1095 days. Orders whose first paid status came while the setting was off, and orders from before the update, are never sent. Network errors, 429 and 5xx answers are retried; 400, 401 and 403 are not.
 
+= Silent mode =
+
+Off by default; turn it on under Settings, "Silent mode" (or `wp trustorder settings set silent on`). Checks at checkout, hiding cash on delivery and the outcome reports keep working, but the orders show nothing from TrustOrder: no "COD check" column in the orders list, no TrustOrder box and no notes on the order page. The results are still stored on the orders, so after turning silent mode off the column and the box show them again (orders checked while it was on get no note afterwards).
+
 = Admin screen =
 
 WooCommerce → TrustOrder (shop managers, `manage_woocommerce`) has five sections:
 
 * Overview: connection test (shop name, test mode badge for `to_test_` keys, account status including "awaiting approval", daily quota and today's checks), the last error in plain words, and the state of PHP intl, order storage, the checkout type and the check limits.
-* Settings: the API key (write-only: after saving only its first 12 characters are shown), checks on/off, strictness, the payment methods to hide and the fallback ones, the pickup shipping methods that send no address, and the "Share country and postcode" switch.
+* Settings: the API key (write-only: after saving only its first 12 characters are shown), checks on/off, strictness, the payment methods to hide and the fallback ones, the pickup shipping methods that send no address, and the "Silent mode" and "Share country and postcode" switches.
 * Exceptions: always allow or always deny an e-mail, phone number or address in your shop. The value is hashed on your server and only the hash is sent; the list shows the type, rule, note, date and a short id, never the value. To remove an exception, type the value again.
 * Backfill: start or resume the backfill for the environment of the saved key, with progress.
 * Help: where the badges appear, what each badge and reason means, the score, how a buyer's reputation recovers, which order statuses to set after delivery, and what data leaves the shop.
@@ -69,8 +73,8 @@ WooCommerce → TrustOrder (shop managers, `manage_woocommerce`) has five sectio
 Every admin function is also available as `wp trustorder` commands, using the same services as the admin screen. Exit status 0 means success; 1 means an API or validation error, and the message is then only the error code (or a fixed text), never your buyers' data or the API key.
 
 * `wp trustorder status [--format=table|json]` - the key (first 12 characters only), the connection test (shop, account status, daily quota, today's checks), the last error, the intl / order storage / checkout type checks and the backfill progress of both environments. Exit 1 if the service cannot be reached.
-* `wp trustorder settings get [<key>] [--format=table|json]` - show the settings. Keys: `api-key` (prefix only), `strictness`, `hidden-gateways`, `fallback-gateways`, `pickup-methods`, `enabled`, `share-geo`.
-* `wp trustorder settings set <key> <value>` - change one setting (lists are comma-separated; `enabled` and `share-geo` take true/false, on/off, yes/no or 1/0), validated exactly like the admin screen. The API key is read only from piped STDIN, so it never appears in the command line or the shell history: `printf '%s' "$KEY" | wp trustorder settings set api-key -` (any other value after `api-key`, `--api-key=...` and WP-CLI's `--prompt` are refused; a terminal or no input within 5 seconds is an error). An empty STDIN removes the key.
+* `wp trustorder settings get [<key>] [--format=table|json]` - show the settings. Keys: `api-key` (prefix only), `strictness`, `hidden-gateways`, `fallback-gateways`, `pickup-methods`, `enabled`, `share-geo`, `silent`.
+* `wp trustorder settings set <key> <value>` - change one setting (lists are comma-separated; `enabled`, `share-geo` and `silent` take true/false, on/off, yes/no or 1/0), validated exactly like the admin screen. The API key is read only from piped STDIN, so it never appears in the command line or the shell history: `printf '%s' "$KEY" | wp trustorder settings set api-key -` (any other value after `api-key`, `--api-key=...` and WP-CLI's `--prompt` are refused; a terminal or no input within 5 seconds is an error). An empty STDIN removes the key.
 * `wp trustorder check --email=<email> [--phone=<phone>] [--country=<ISO2>] [--postcode=<postcode>] [--address=<address>] [--strictness=lenient|normal|strict] [--format=table|json]` - ask the service about one buyer (verdict, level, score, reasons, check id). Admin tool: it skips the result cache and does not use the checkout limits. The values are hashed locally, only hashes are sent, and nothing is logged.
 * `wp trustorder backfill start [--env=live|test]` - start or resume the backfill for the environment of the saved key (another environment is refused). `backfill status [--format=table|json]` shows both environments. `backfill run [--limit=<orders>]` runs it in your terminal with a progress bar instead of in the background; a pending background step is taken over, and `--limit` pauses after the 200-order page in which that many orders were processed (`backfill start` resumes). When the service is unavailable the retry goes back to the background.
 * `wp trustorder signal send <order-id>... [--format=table|json]` - send the current outcome of the orders now (nothing is sent if the service already holds it); exit 1 if an order is missing or its report failed or waits for a retry. `wp trustorder signal status <order-id> [--format=table|json]` shows the stored state without a request, including the outcome wanted for the order's current status (`refund` for a refunded order).
@@ -105,6 +109,9 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.11 =
+* New: Settings: silent mode. When it is on, checks at checkout and the reports keep working, but the orders show nothing from TrustOrder: no column in the orders list, no box and no notes on the order page. Also `wp trustorder settings set silent on|off`.
 
 = 1.0.10 =
 * New: Settings: without an API key, the API key card walks through getting a free key in the upTools Console in three steps, with a button that opens the Console. The Overview links there too.

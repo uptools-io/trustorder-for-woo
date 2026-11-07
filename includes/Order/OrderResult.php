@@ -111,7 +111,7 @@ final class OrderResult {
 
 		$order->update_meta_data( self::META_RESULT, (string) wp_json_encode( $new ) );
 
-		if ( $decision->failedOpen() || $decision->isFallback() ) {
+		if ( $decision->failedOpen() || $decision->isFallback() || Settings::silent() ) {
 			return;
 		}
 		if ( null !== $old && empty( $old['failed_open'] ) && empty( $old['fallback'] ) && $old['verdict'] !== $new['verdict'] ) {

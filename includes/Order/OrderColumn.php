@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\TrustOrder\Order;
 
 use LightweightPlugins\TrustOrder\Admin\KeyNotice;
+use LightweightPlugins\TrustOrder\Settings;
 
 /**
  * HPOS: `manage_woocommerce_page_wc-orders_columns` / `..._custom_column`
@@ -33,13 +34,13 @@ final class OrderColumn {
 
 	/**
 	 * Append the column at the end (after Actions); no column without an API
-	 * key (KeyNotice warns instead).
+	 * key (KeyNotice warns instead) or in silent mode.
 	 *
 	 * @param mixed $columns Columns.
 	 * @return mixed
 	 */
 	public static function addColumn( $columns ) {
-		if ( ! is_array( $columns ) || ! KeyNotice::hasKey() ) {
+		if ( ! is_array( $columns ) || ! KeyNotice::hasKey() || Settings::silent() ) {
 			return $columns;
 		}
 		$columns[ self::COLUMN ] = __( 'COD check', 'trustorder-for-woo' );

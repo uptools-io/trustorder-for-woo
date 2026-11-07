@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-07T13:18:28+00:00\n"
+"POT-Creation-Date: 2026-11-07T14:20:50+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "uptools.io"
 msgstr "uptools.io"
 
-#: includes/Admin/AdminPage.php:50 includes/Order/OrderMetabox.php:33
+#: includes/Admin/AdminPage.php:50 includes/Order/OrderMetabox.php:38
 msgid "TrustOrder"
 msgstr "TrustOrder"
 
@@ -259,16 +259,16 @@ msgstr "Nem ellenőrzött"
 msgid "New customer"
 msgstr "Új vásárló"
 
-#: includes/Order/OrderColumn.php:45 build/index.js:7
+#: includes/Order/OrderColumn.php:46 build/index.js:7
 msgid "COD check"
 msgstr "Utánvét ellenőrzés"
 
-#: includes/Order/OrderMetabox.php:49
+#: includes/Order/OrderMetabox.php:54
 msgid "This order was not checked."
 msgstr "Ez a rendelés nem volt ellenőrizve."
 
 #. translators: %s: limit code
-#: includes/Order/OrderMetabox.php:61
+#: includes/Order/OrderMetabox.php:66
 #, php-format
 msgid ""
 "Risky payment methods stayed hidden (not checked: check limit reached, %s)."
@@ -277,7 +277,7 @@ msgstr ""
 "keret, %s)."
 
 #. translators: %s: limit code
-#: includes/Order/OrderMetabox.php:63
+#: includes/Order/OrderMetabox.php:68
 #, php-format
 msgid ""
 "Not checked: check limit reached (%s); every payment method stayed available."
@@ -285,12 +285,12 @@ msgstr ""
 "Nem ellenőrzött: betelt a keret (%s); minden fizetési mód elérhető maradt."
 
 #. translators: %s: error code
-#: includes/Order/OrderMetabox.php:70
+#: includes/Order/OrderMetabox.php:75
 #, php-format
 msgid "The check did not run (%s); the order was accepted."
 msgstr "Az ellenőrzés nem futott le (%s); a rendelés átment."
 
-#: includes/Order/OrderMetabox.php:85
+#: includes/Order/OrderMetabox.php:90
 msgid "Check id:"
 msgstr "Ellenőrzés azonosítója:"
 
@@ -365,18 +365,18 @@ msgstr "Ez a telefonszám a választott országban nem érvényes."
 msgid "The address needs a country, a postcode and a house number."
 msgstr "A címhez ország, irányítószám és házszám kell."
 
-#: includes/Rest/SettingsController.php:118
+#: includes/Rest/SettingsController.php:119
 msgid "Unknown payment method."
 msgstr "Ismeretlen fizetési mód."
 
 #. translators: %s: payment method id
-#: includes/Rest/SettingsController.php:127
+#: includes/Rest/SettingsController.php:128
 #, php-format
 msgid ""
 "The payment method \"%s\" cannot be hidden and a fallback at the same time."
 msgstr "A(z) „%s” fizetési mód nem lehet egyszerre elrejtett és tartalék."
 
-#: includes/Rest/SettingsController.php:143
+#: includes/Rest/SettingsController.php:144
 msgid ""
 "The API key is set by the TRUSTORDER_API_KEY constant (wp-config.php "
 "or .env) and cannot be changed here."
@@ -384,29 +384,33 @@ msgstr ""
 "Az API-kulcsot a TRUSTORDER_API_KEY konstans adja meg (wp-config.php "
 "vagy .env), ezért itt nem módosítható."
 
-#: includes/Rest/SettingsController.php:148
+#: includes/Rest/SettingsController.php:149
 msgid ""
 "This is not a valid TrustOrder API key. It starts with to_live_ or to_test_."
 msgstr ""
 "Ez nem érvényes TrustOrder API-kulcs. A kulcs to_live_ vagy to_test_ "
 "előtaggal kezdődik."
 
-#: includes/Rest/SettingsController.php:154
+#: includes/Rest/SettingsController.php:155
 msgid "Unknown strictness."
 msgstr "Ismeretlen szigorúság."
 
-#: includes/Rest/SettingsController.php:161
+#: includes/Rest/SettingsController.php:162
 msgid "A list of ids was expected."
 msgstr "Azonosítók listája kellett volna."
 
-#: includes/Rest/SettingsController.php:168
+#: includes/Rest/SettingsController.php:169
 msgid "The enabled flag must be true or false."
 msgstr "A bekapcsolás értéke csak igaz vagy hamis lehet."
 
-#: includes/Rest/SettingsController.php:174
+#: includes/Rest/SettingsController.php:175
 msgid "The share_geo flag must be true or false."
 msgstr ""
 "Az ország és irányítószám megosztásának értéke csak igaz vagy hamis lehet."
+
+#: includes/Rest/SettingsController.php:181
+msgid "The silent flag must be true or false."
+msgstr "A csendes mód értéke csak igaz vagy hamis lehet."
 
 #: build/index.js:1
 msgid "Loading…"
@@ -1453,6 +1457,20 @@ msgstr "Átvételi pontos és személyes átvételi módok"
 msgid ""
 "With these methods there is no delivery address, so no address is checked."
 msgstr "Ezeknél a módoknál nincs kézbesítési cím, ezért címet sem ellenőrzünk."
+
+#: build/index.js:8
+msgid "Silent mode"
+msgstr "Csendes mód"
+
+#: build/index.js:8
+msgid ""
+"Checks at checkout and the reports keep working, but the orders show nothing "
+"from TrustOrder: no column in the orders list, no box and no notes on the "
+"order page."
+msgstr ""
+"A pénztári ellenőrzés és a jelentések tovább működnek, de a rendeléseknél a "
+"TrustOrder semmit nem mutat: nincs oszlop a rendeléslistában, és nincs doboz "
+"és jegyzet a rendelés oldalán."
 
 #: build/index.js:8
 msgid "Share country and postcode"

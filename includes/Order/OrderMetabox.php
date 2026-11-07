@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\TrustOrder\Order;
 
+use LightweightPlugins\TrustOrder\Settings;
+
 /**
  * `add_meta_boxes` fires on both editors; HPOS passes a WC_Order, legacy a
  * WP_Post (src/Internal/Admin/Orders/Edit.php:170, WC 11.2.1).
@@ -28,6 +30,9 @@ final class OrderMetabox {
 	 * `woocommerce_page_wc-orders` or `admin_page_wc-orders`) and legacy `shop_order`.
 	 */
 	public static function add(): void {
+		if ( Settings::silent() ) {
+			return;
+		}
 		$current = function_exists( 'wc_get_page_screen_id' ) ? (string) wc_get_page_screen_id( 'shop-order' ) : '';
 		foreach ( array_unique( array_filter( [ $current, 'shop_order' ] ) ) as $screen ) {
 			add_meta_box( 'trustorder', __( 'TrustOrder', 'trustorder-for-woo' ), [ self::class, 'render' ], $screen, 'side', 'default' );

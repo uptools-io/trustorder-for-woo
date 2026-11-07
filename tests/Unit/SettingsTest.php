@@ -29,6 +29,7 @@ final class SettingsTest extends TestCase {
 		$this->assertSame( [], $s['fallback_gateways'] );
 		$this->assertTrue( $s['enabled'] );
 		$this->assertTrue( $s['share_geo'], 'sharing is on by default' );
+		$this->assertFalse( $s['silent'], 'silent mode is off by default' );
 		$this->assertContains( 'local_pickup', $s['pickup_methods'] );
 		$this->assertContains( 'pickup_location', $s['pickup_methods'] );
 		$this->assertSame( Settings::DEFAULT_PICKUP_METHODS, $s['pickup_methods'] );
@@ -63,6 +64,15 @@ final class SettingsTest extends TestCase {
 		$this->assertTrue( Settings::update( [ 'share_geo' => 'maybe' ] )['share_geo'], 'unrecognised value keeps the previous one' );
 		$this->assertFalse( Settings::update( [ 'share_geo' => false ] )['share_geo'] );
 		$this->assertTrue( Settings::update( [ 'share_geo' => '1' ] )['share_geo'] );
+	}
+
+	public function test_silent_is_a_bool_and_kept_on_unrelated_updates(): void {
+		$this->assertTrue( Settings::update( [ 'silent' => true ] )['silent'] );
+		$this->assertTrue( Settings::update( [ 'strictness' => 'strict' ] )['silent'] );
+		$this->assertTrue( Settings::update( [ 'silent' => 'maybe' ] )['silent'], 'unrecognised value keeps the previous one' );
+		$this->assertTrue( Settings::silent() );
+		$this->assertFalse( Settings::update( [ 'silent' => false ] )['silent'] );
+		$this->assertFalse( Settings::silent() );
 	}
 
 	public function test_invalid_strictness_falls_back_to_normal(): void {

@@ -72,6 +72,11 @@ final class SettingsCommandTest extends CliTestCase {
 		$this->assertSame( 0, $this->exec( fn() => $this->cmd->set( [ 'share-geo', 'false' ], [] ) ) );
 		$this->assertFalse( Settings::get()['share_geo'] );
 
+		$this->assertSame( 0, $this->exec( fn() => $this->cmd->set( [ 'silent', 'on' ], [] ) ) );
+		$this->assertTrue( Settings::get()['silent'] );
+		$this->assertSame( 0, $this->exec( fn() => $this->cmd->set( [ 'silent', 'off' ], [] ) ) );
+		$this->assertFalse( Settings::get()['silent'] );
+
 		$this->assertSame( 0, $this->exec( fn() => $this->cmd->set( [ 'pickup-methods', 'local_pickup, vp_pont' ], [] ) ) );
 		$this->assertSame( [ 'local_pickup', 'vp_pont' ], Settings::get()['pickup_methods'] );
 
