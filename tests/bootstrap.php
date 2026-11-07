@@ -23,7 +23,7 @@ require_once dirname( __DIR__ ) . '/vendor-prefixed/autoload.php';
 
 // Plugin constants (the main file defines them in a real install).
 foreach ( [
-	'TRUSTORDER_VERSION' => '1.0.11',
+	'TRUSTORDER_VERSION' => '1.0.12',
 	'TRUSTORDER_FILE'    => dirname( __DIR__ ) . '/trustorder-for-woo.php',
 	'TRUSTORDER_DIR'     => dirname( __DIR__ ) . '/',
 	'TRUSTORDER_URL'     => 'https://example.test/wp-content/plugins/trustorder-for-woo/',

@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.12] - 2026-11-07
+
+### Fixed
+- Hungarian: a typo in the notice shown when hiding would leave a risky buyer without a payment method.
+
 ## [1.0.11] - 2026-11-07
 
 ### Added

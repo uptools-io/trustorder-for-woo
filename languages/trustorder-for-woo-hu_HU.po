@@ -493,7 +493,7 @@ msgid ""
 "A risky buyer would have had no payment method left, so nothing was hidden. "
 "Set a fallback payment method."
 msgstr ""
-"Egy kockázatos vásárlónek egyetlen fizetési módja sem maradt volna, ezért "
+"Egy kockázatos vásárlónak egyetlen fizetési módja sem maradt volna, ezért "
 "semmi nem lett elrejtve. Állíts be tartalék fizetési módot."
 
 #: build/index.js:1
