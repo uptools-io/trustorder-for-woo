@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.13] - 2026-11-07
+
+### Changed
+- Admin: the Documentation link opens the WordPress guide on docs.uptools.io, in Hungarian when the admin is in Hungarian.
+
 ## [1.0.12] - 2026-11-07
 
 ### Fixed

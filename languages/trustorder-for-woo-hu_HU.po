@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-07T14:20:50+00:00\n"
+"POT-Creation-Date: 2026-11-07T15:19:11+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -552,7 +552,7 @@ msgstr "A kérés nem sikerült. Próbáld újra."
 msgid "Open the upTools Console"
 msgstr "Az upTools Console megnyitása"
 
-#: build/index.js:2 build/index.js:10
+#: build/index.js:2 build/index.js:11
 msgid "(opens in a new tab)"
 msgstr "(új lapon nyílik meg)"
 
@@ -1811,31 +1811,36 @@ msgstr "TrustOrder áttekintés"
 msgid "TrustOrder sections"
 msgstr "TrustOrder szakaszok"
 
-#: build/index.js:10
+#. translators: URL of the WordPress guide on docs.uptools.io; use the page in your language if there is one.
+#: build/index.js:11
+msgid "https://docs.uptools.io/trustorder/wordpress/install/"
+msgstr "https://docs.uptools.io/hu/trustorder/wordpress/install/"
+
+#: build/index.js:11
 msgid "Documentation"
 msgstr "Dokumentáció"
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "Unsaved changes"
 msgstr "Mentetlen módosítások"
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "Discard"
 msgstr "Elvetés"
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "Save"
 msgstr "Mentés"
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "Settings saved."
 msgstr "Beállítások elmentve."
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "API key removed."
 msgstr "API-kulcs törölve."
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."

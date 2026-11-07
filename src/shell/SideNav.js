@@ -17,7 +17,7 @@ import { Badge } from '@wordpress/ui';
  * Internal dependencies
  */
 import Mark from '../components/Mark';
-import { DOCS_URL, VERSION } from '../data/boot';
+import { VERSION } from '../data/boot';
 
 /**
  * Full-height left sidebar: plugin header, quick search, hash links
@@ -108,7 +108,13 @@ export default function SideNav( { pages, current, meta = {}, search } ) {
 			<div className="to-sidebar__foot">
 				<a
 					className="to-sidenav__item"
-					href={ DOCS_URL }
+					href={
+						/* translators: URL of the WordPress guide on docs.uptools.io; use the page in your language if there is one. */
+						__(
+							'https://docs.uptools.io/trustorder/wordpress/install/',
+							'trustorder-for-woo'
+						)
+					}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
