@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.10] - 2026-11-07
+
+### Added
+- Settings: without an API key, the API key card walks through getting a free key in the upTools Console in three steps, with a button that opens the Console. The Overview links there too.
+
+### Changed
+- Settings: with a saved key, the card fits on one line (key, environment, connection state) with Replace, Remove and a link to the keys in the Console.
+
 ## [1.0.9] - 2026-11-06
 
 ### Changed

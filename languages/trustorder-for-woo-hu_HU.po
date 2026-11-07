@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-06T07:54:57+00:00\n"
+"POT-Creation-Date: 2026-11-07T13:18:28+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -545,6 +545,45 @@ msgid "The request failed. Try again."
 msgstr "A kérés nem sikerült. Próbáld újra."
 
 #: build/index.js:2
+msgid "Open the upTools Console"
+msgstr "Az upTools Console megnyitása"
+
+#: build/index.js:2 build/index.js:10
+msgid "(opens in a new tab)"
+msgstr "(új lapon nyílik meg)"
+
+#: build/index.js:2
+msgid "Enable TrustOrder in the upTools Console"
+msgstr "Kapcsold be a TrustOrdert az upTools Console-ban"
+
+#: build/index.js:2
+msgid "Products → TrustOrder → Enable. No account yet? You can sign up there."
+msgstr ""
+"Termékek → TrustOrder → Bekapcsolás. Ha még nincs fiókod, ott "
+"regisztrálhatsz."
+
+#: build/index.js:2
+msgid "Add your webshop and create a key"
+msgstr "Add hozzá a webshopod, és készíts kulcsot"
+
+#: build/index.js:2
+msgid "Webshops and API keys"
+msgstr "Webshopok és API-kulcsok"
+
+#: build/index.js:2
+msgid "+ New key"
+msgstr "+ Új kulcs"
+
+#: build/index.js:2
+msgid "Paste it here and save"
+msgstr "Másold be ide, és mentsd"
+
+#: build/index.js:2
+msgid "The Console shows the key only once, so copy it right away."
+msgstr ""
+"A kulcs csak egyszer jelenik meg a Console-ban, ezért rögtön másold ki."
+
+#: build/index.js:2
 msgid "Test mode"
 msgstr "Teszt mód"
 
@@ -567,11 +606,13 @@ msgstr "Tesztelve: %s"
 
 #: build/index.js:3
 msgid ""
-"No API key yet. Add the key you got from upTools on the Settings page; until "
-"then every payment method stays available."
+"No API key yet. Until you add one, every payment method stays available. The "
+"key is free: create it in the upTools Console, then paste it on the Settings "
+"page."
 msgstr ""
-"Még nincs API-kulcs. Az upToolstól kapott kulcsot a Beállítások oldalon "
-"adhatod meg; addig minden fizetési mód elérhető marad."
+"Még nincs API-kulcs. Amíg nem adod meg, minden fizetési mód elérhető marad. "
+"A kulcs ingyenes: készítsd el az upTools Console-ban, majd illeszd be a "
+"Beállítások oldalon."
 
 #: build/index.js:3 build/index.js:8
 msgid "Go to Settings"
@@ -1165,6 +1206,22 @@ msgid "API key"
 msgstr "API-kulcs"
 
 #: build/index.js:7
+msgid "Hide key"
+msgstr "Kulcs elrejtése"
+
+#: build/index.js:7
+msgid "Show key"
+msgstr "Kulcs megjelenítése"
+
+#: build/index.js:7
+msgid "for the live shop"
+msgstr "éles boltnak"
+
+#: build/index.js:7
+msgid "for testing, into a separate database"
+msgstr "teszthez, külön adatbázisba"
+
+#: build/index.js:7
 msgid "Key from the configuration"
 msgstr "Kulcs a konfigurációból"
 
@@ -1181,44 +1238,56 @@ msgid "Not a valid key"
 msgstr "Nem érvényes kulcs"
 
 #: build/index.js:7
+msgid "Free"
+msgstr "Ingyenes"
+
+#: build/index.js:7
 msgid ""
-"A key starting with to_test_ works in test mode: checks and reports go to a "
-"separate test database."
+"TrustOrder connects to the network with the key. Without a key nothing is "
+"checked and every payment method stays available."
 msgstr ""
-"A to_test_ kezdetű kulcs teszt módban működik: az ellenőrzések és a "
-"jelentések külön teszt-adatbázisba mennek."
+"A TrustOrder a kulccsal kapcsolódik a hálózathoz. Kulcs nélkül nincs "
+"ellenőrzés, és minden fizetési mód elérhető marad."
 
 #: build/index.js:7
-msgid "Saved key"
-msgstr "Elmentett kulcs"
+msgid "Create a key in the Console"
+msgstr "Kulcs készítése a Console-ban"
 
 #: build/index.js:7
-msgid "For safety only the beginning of the key is shown."
-msgstr "Biztonsági okból csak a kulcs eleje látszik."
-
-#: build/index.js:7
-msgid "Remove key"
-msgstr "Kulcs törlése"
-
-#: build/index.js:7
-msgid "Replace the key"
-msgstr "Kulcs cseréje"
+msgid "Opens in a new tab, this page stays open."
+msgstr "Új lapon nyílik, ez az oldal nyitva marad."
 
 #: build/index.js:7
 msgid "Your API key"
 msgstr "Az API-kulcsod"
 
 #: build/index.js:7
-msgid "Paste the key you got from upTools, then save."
-msgstr "Illeszd be az upToolstól kapott kulcsot, majd mentsd."
+msgid "Paste it, then save."
+msgstr "Illeszd be, majd mentsd."
 
 #: build/index.js:7
-msgid "Hide key"
-msgstr "Kulcs elrejtése"
+msgid "Connection OK"
+msgstr "A kapcsolat rendben"
 
 #: build/index.js:7
-msgid "Show key"
-msgstr "Kulcs megjelenítése"
+msgid "Replace the key"
+msgstr "Kulcs cseréje"
+
+#: build/index.js:7
+msgid "Remove key"
+msgstr "Kulcs törlése"
+
+#: build/index.js:7
+msgid "Keys in the Console"
+msgstr "Kulcsok a Console-ban"
+
+#: build/index.js:7
+msgid "New key"
+msgstr "Új kulcs"
+
+#: build/index.js:7
+msgid "Paste the key from the upTools Console, then save."
+msgstr "Illeszd be a kulcsot az upTools Console-ból, majd mentsd."
 
 #: build/index.js:7
 msgid "Cancel"
@@ -1729,10 +1798,6 @@ msgid "Documentation"
 msgstr "Dokumentáció"
 
 #: build/index.js:10
-msgid "(opens in a new tab)"
-msgstr "(új lapon nyílik meg)"
-
-#: build/index.js:10
 msgid "Unsaved changes"
 msgstr "Mentetlen módosítások"
 
@@ -1756,6 +1821,38 @@ msgstr "API-kulcs törölve."
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."
+
+#~ msgid ""
+#~ "No key yet? TrustOrder is free. Enable it in the upTools Console, then on "
+#~ "the Webshops and API keys tab add your webshop and create a key with New "
+#~ "key."
+#~ msgstr ""
+#~ "Még nincs kulcsod? A TrustOrder ingyenes. Kapcsold be az upTools Console-"
+#~ "ban, majd a Webshopok és API-kulcsok fülön add hozzá a webshopodat, és az "
+#~ "Új kulcs gombbal készíts kulcsot."
+
+#~ msgid ""
+#~ "A key starting with to_test_ works in test mode: checks and reports go to "
+#~ "a separate test database."
+#~ msgstr ""
+#~ "A to_test_ kezdetű kulcs teszt módban működik: az ellenőrzések és a "
+#~ "jelentések külön teszt-adatbázisba mennek."
+
+#~ msgid "Saved key"
+#~ msgstr "Elmentett kulcs"
+
+#~ msgid "For safety only the beginning of the key is shown."
+#~ msgstr "Biztonsági okból csak a kulcs eleje látszik."
+
+#~ msgid ""
+#~ "No API key yet. Add the key you got from upTools on the Settings page; "
+#~ "until then every payment method stays available."
+#~ msgstr ""
+#~ "Még nincs API-kulcs. Az upToolstól kapott kulcsot a Beállítások oldalon "
+#~ "adhatod meg; addig minden fizetési mód elérhető marad."
+
+#~ msgid "Paste the key you got from upTools, then save."
+#~ msgstr "Illeszd be az upToolstól kapott kulcsot, majd mentsd."
 
 #~ msgid ""
 #~ "What the badges on the orders mean, and what you need to do so that "

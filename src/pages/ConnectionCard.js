@@ -14,6 +14,7 @@ import StatTile from '../components/StatTile';
 import StatusBadge from '../components/StatusBadge';
 import { SkeletonTiles } from '../components/skeleton';
 import { testConnection } from '../data/api';
+import { ConsoleButton } from './GetKeyNote';
 import { cached, remember } from '../data/pageCache';
 import { requestError } from '../data/errors';
 import { formatDate, formatNumber, percent } from '../data/format';
@@ -102,13 +103,22 @@ export default function ConnectionCard( { state } ) {
 		>
 			{ ! state.has_key && (
 				<Callout>
-					{ __(
-						'No API key yet. Add the key you got from upTools on the Settings page; until then every payment method stays available.',
-						'trustorder-for-woo'
-					) }{ ' ' }
-					<a href="#settings">
-						{ __( 'Go to Settings', 'trustorder-for-woo' ) }
-					</a>
+					<p className="to-callout__text">
+						{ __(
+							'No API key yet. Until you add one, every payment method stays available. The key is free: create it in the upTools Console, then paste it on the Settings page.',
+							'trustorder-for-woo'
+						) }
+					</p>
+					<div className="to-callout__actions">
+						<ConsoleButton />
+						<Button
+							__next40pxDefaultSize
+							variant="tertiary"
+							href="#settings"
+						>
+							{ __( 'Go to Settings', 'trustorder-for-woo' ) }
+						</Button>
+					</div>
 				</Callout>
 			) }
 			{ result.status === 'testing' && <SkeletonTiles count={ 3 } /> }

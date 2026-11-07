@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -90,8 +90,9 @@ English and Hungarian (PHP and the admin app) are bundled in `languages/`.
 
 1. Requirements: WordPress 6.6 or newer, WooCommerce 8.2 or newer, PHP 8.1 or newer. The PHP `intl` extension is recommended: without it (or without mbstring), values with non-ASCII characters, such as accented addresses or international e-mail domains, are not hashed, and an order whose e-mail contains such characters is not checked (the admin shows a notice).
 2. Upload the `trustorder-for-woo` folder to `wp-content/plugins/` (or install the ZIP under Plugins → Add New → Upload) and activate it.
-3. Under WooCommerce → TrustOrder → Settings, paste the API key you received from uptools.io (`to_test_` keys use the sandbox, `to_live_` keys the live service) and run the connection test on the Overview screen. Alternatively, set the key in `wp-config.php` with `define( 'TRUSTORDER_API_KEY', 'to_live_...' );` (on Bedrock: `TRUSTORDER_API_KEY` in `.env` and `Config::define( 'TRUSTORDER_API_KEY', env( 'TRUSTORDER_API_KEY' ) );` in `config/application.php`). The constant overrides the saved key, and the key then cannot be changed from the admin screen, REST or WP-CLI.
-4. If the shop runs behind a proxy or load balancer other than Cloudflare, return the real visitor address from the `trustorder_client_ip` filter (see "Visitor IP behind a proxy").
+3. Get a free API key: TrustOrder is free. Sign in to the upTools Console (https://console.uptools.io/), enable TrustOrder, then on the "Webshops and API keys" tab add your webshop and create a key with "New key".
+4. Under WooCommerce → TrustOrder → Settings, paste the API key (`to_test_` keys use the sandbox, `to_live_` keys the live service) and run the connection test on the Overview screen. Alternatively, set the key in `wp-config.php` with `define( 'TRUSTORDER_API_KEY', 'to_live_...' );` (on Bedrock: `TRUSTORDER_API_KEY` in `.env` and `Config::define( 'TRUSTORDER_API_KEY', env( 'TRUSTORDER_API_KEY' ) );` in `config/application.php`). The constant overrides the saved key, and the key then cannot be changed from the admin screen, REST or WP-CLI.
+5. If the shop runs behind a proxy or load balancer other than Cloudflare, return the real visitor address from the `trustorder_client_ip` filter (see "Visitor IP behind a proxy").
 
 == Frequently Asked Questions ==
 
@@ -104,6 +105,10 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.10 =
+* New: Settings: without an API key, the API key card walks through getting a free key in the upTools Console in three steps, with a button that opens the Console. The Overview links there too.
+* Change: Settings: with a saved key, the card fits on one line (key, environment, connection state) with Replace, Remove and a link to the keys in the Console.
 
 = 1.0.9 =
 * Change: Help: the page starts like the other pages, with the yellow-striped first card.

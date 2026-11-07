@@ -451,6 +451,17 @@ $canvas: var(--wpds-color-background-surface-neutral-weak, #f6f7f7);
 	}
 }
 
+.to-callout__text {
+	margin: 0;
+}
+
+.to-callout__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $gap-sm;
+	margin-top: $gap-sm;
+}
+
 // Sidebar toggle only exists on mobile.
 .to-sidebar__toggle {
 	display: none;
@@ -891,6 +902,158 @@ body.trustorder-screen {
 		span {
 			color: $muted;
 			font-size: 13px;
+		}
+	}
+}
+
+.to-keysteps {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	border: 1px solid $stroke;
+	border-radius: $radius-lg;
+	overflow: hidden;
+
+	&__step {
+		margin: 0;
+		padding: 18px 20px 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+
+		& + & {
+			border-left: 1px solid $stroke;
+		}
+
+		&.is-here {
+			background: #fffbe6;
+		}
+	}
+
+	&__num {
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		background: $text;
+		color: $surface;
+		display: grid;
+		place-items: center;
+		font-weight: 700;
+		font-size: 14px;
+	}
+
+	.is-here &__num {
+		background: $accent;
+		color: $accent-ink;
+	}
+
+	&__title {
+		margin: 0;
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 1.4;
+	}
+
+	&__desc {
+		margin: 0;
+		color: $muted;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	// Small replicas of the Console's tab and button.
+	&__tab,
+	&__btn {
+		display: inline-block;
+		border: 2px solid $accent-ink;
+		padding: 4px 10px;
+		font-size: 13px;
+		font-weight: 700;
+	}
+
+	&__tab {
+		border-bottom: 0;
+		background: $accent;
+		color: $accent-ink;
+	}
+
+	&__btn {
+		background: $accent-ink;
+		color: #fff;
+	}
+}
+
+.to-keycta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: $gap-lg;
+
+	&__hint {
+		color: $muted;
+	}
+}
+
+.to-keyenvs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px $gap-lg;
+	margin: $gap-sm 0 0;
+	color: $muted;
+}
+
+.to-keysaved {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: $gap-lg;
+
+	&__state,
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: $gap-md;
+	}
+
+	&__chip {
+		display: inline-flex;
+		align-items: center;
+		gap: $gap-sm;
+		padding: 8px 12px;
+		border: 1px solid $stroke;
+		border-radius: $radius;
+		background: $page;
+
+		.to-keyprefix {
+			font-size: 15px;
+		}
+	}
+
+	&__ok {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		color: $success;
+		font-weight: 600;
+
+		svg {
+			fill: currentColor;
+		}
+	}
+}
+
+@media (max-width: 782px) {
+	.to-keysteps {
+		grid-template-columns: 1fr;
+
+		&__step + &__step {
+			border-left: 0;
+			border-top: 1px solid $stroke;
 		}
 	}
 }
