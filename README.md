@@ -1,5 +1,7 @@
 # TrustOrder for WooCommerce
 
+> **Free to use.** You need an API key: enable TrustOrder in the [upTools Console](https://console.uptools.io/), then on the "Webshops and API keys" tab add your webshop and create a key with "New key". Paste it under WooCommerce → TrustOrder → Settings.
+
 Cash-on-delivery protection for WooCommerce by [uptools.io](https://uptools.io).
 At checkout it hashes the buyer's e-mail, phone number and address, and if the
 buyer has a history of refusing cash-on-delivery parcels, it hides cash on
@@ -9,7 +11,7 @@ delivery. Raw personal data never leaves the shop. The one exception, on by defa
 - Block and classic (shortcode) checkout, HPOS and legacy order storage.
 - Behind a proxy or load balancer other than Cloudflare, return the real visitor address from the `trustorder_client_ip` filter (see below).
 - Release ZIP: `bin/build-zip.sh` (built from `git archive HEAD`, without development files, into `dist/`).
-- Free to use with an API key from uptools.io (`to_test_` keys are for testing, `to_live_` keys for the live shop).
+- Free to use with an API key from the [upTools Console](https://console.uptools.io/) (`to_test_` keys are for testing, `to_live_` keys for the live shop).
 
 If the TrustOrder service is slow or unavailable (the check waits at most **1.5 seconds**) the plugin
 **fails open**: nothing is hidden and the order goes through.
