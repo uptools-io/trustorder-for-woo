@@ -50,6 +50,7 @@ final class IntlNotice {
 			. esc_html__( 'TrustOrder: the PHP intl or mbstring extension is missing, so e-mail and shipping addresses with accented or other non-ASCII characters are not checked. Ask your host to enable intl and mbstring.', 'trustorder-for-woo' )
 			. '</p><p><a href="' . esc_url( $url ) . '">'
 			. esc_html__( 'Dismiss', 'trustorder-for-woo' )
+			. '<span class="screen-reader-text"> ' . esc_html__( 'the TrustOrder notice', 'trustorder-for-woo' ) . '</span>'
 			. '</a></p></div>';
 	}
 

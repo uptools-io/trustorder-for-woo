@@ -49,6 +49,18 @@ final class RefusedStatusTest extends TestCase {
 		}
 	}
 
+	public function test_stock_is_restored_when_an_order_becomes_not_picked_up(): void {
+		$this->assertSame( 10, has_action( 'woocommerce_order_status_to-refused', 'wc_maybe_increase_stock_levels' ) );
+	}
+
+	public function test_left_out_of_analytics_revenue(): void {
+		$s = apply_filters( 'woocommerce_analytics_excluded_order_statuses', [ 'pending', 'to-refused' ] );
+
+		$this->assertSame( [ 'pending', 'to-refused' ], $s );
+		$this->assertSame( [ 'failed', 'to-refused' ], apply_filters( 'woocommerce_analytics_excluded_order_statuses', [ 'failed' ] ) );
+		$this->assertSame( 'x', RefusedStatus::analyticsExcluded( 'x' ) );
+	}
+
 	public function test_non_arrays_pass_through(): void {
 		$this->assertNull( RefusedStatus::orderStatuses( null ) );
 		$this->assertSame( 'x', RefusedStatus::postStatuses( 'x' ) );

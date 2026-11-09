@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.13
+Stable tag: 1.0.14
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -42,7 +42,7 @@ Without a persistent object cache, the counters are approximate under concurrenc
 
 = Outcome signals =
 
-The plugin adds the order status "Not picked up" (`wc-to-refused`), with a bulk action on both order lists. Changing an order to this status sends no e-mail to the buyer.
+The plugin adds the order status "Not picked up" (`wc-to-refused`), with a bulk action on both order lists. Changing an order to this status sends no e-mail to the buyer, and puts the order's reserved stock back.
 
 Every completed order, whatever the payment method, is reported to TrustOrder as delivered. An order in "Not picked up" is reported as refused. If you move a completed or "Not picked up" order back to processing, on hold or pending payment, the report is withdrawn. A fully refunded order withdraws its delivered report; a refused report is never withdrawn by a refund, and partial refunds change nothing; this applies to orders refunded from 1.0.2 on, earlier refunds are not withdrawn. Cancelled and failed orders change nothing, and deleting an order keeps its report. Only hashes are sent, in the background (Action Scheduler, group `trustorder`), with retries after 1, 5, 30 and 120 minutes when the API is busy or unreachable. Test and live keys keep separate reports. Switching keys does not withdraw reports already sent with the other key (that needs the other key); after a switch, moving an order back to processing, on hold or pending payment withdraws its report under the new key.
 
@@ -109,6 +109,17 @@ No raw data. E-mail addresses, phone numbers and addresses are normalised and ha
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.14 =
+* Fix: Compatibility: on PHP 8.3 and older, `mb_ucfirst()` and `mb_lcfirst()` no longer stop the site with a fatal error when another plugin or theme calls them.
+* Fix: Checkout: the payment method rules now apply to every WooCommerce checkout request.
+* Fix: Orders: moving an order to "Not picked up" puts the stock back.
+* Fix: Orders: "Not picked up" orders no longer count as revenue in WooCommerce Analytics. To correct earlier reports, re-import the Analytics data under Analytics > Settings.
+* Fix: Orders: paying for an existing order keeps the order's original check result.
+* Fix: Admin: the order status label is translated on WordPress 6.6 and 6.7.
+* Fix: Performance: lighter order locks and a targeted cache refresh on sites with a persistent object cache; API calls pause briefly while the API is unreachable.
+* Fix: Admin: accessibility improvements for keyboard focus, headings, labels and status announcements.
+* Change: Plugin: the plugin header has an Update URI, so WordPress.org never offers an update from another source for this plugin.
 
 = 1.0.13 =
 * Change: Admin: the Documentation link opens the WordPress guide on docs.uptools.io, in Hungarian when the admin is in Hungarian.

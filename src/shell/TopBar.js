@@ -5,6 +5,8 @@ import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { displayShortcut } from '@wordpress/keycodes';
 
+const IS_MAC = /Mac|iPhone|iPad/.test( window.navigator.platform || '' );
+
 /**
  * Main column header: page title left; Discard / Save on pages that edit
  * settings.
@@ -17,7 +19,9 @@ import { displayShortcut } from '@wordpress/keycodes';
 export default function TopBar( { title, store, saves } ) {
 	return (
 		<header className="to-topbar">
-			<h1 className="to-topbar__title">{ title }</h1>
+			<h1 className="to-topbar__title" tabIndex={ -1 }>
+				{ title }
+			</h1>
 			{ saves && (
 				<div className="to-topbar__actions">
 					{ store.hasEdits && (
@@ -44,9 +48,12 @@ export default function TopBar( { title, store, saves } ) {
 						isBusy={ store.isSaving }
 						disabled={ ! store.hasEdits || store.isSaving }
 						accessibleWhenDisabled
+						aria-keyshortcuts={ IS_MAC ? 'Meta+S' : 'Control+S' }
 						onClick={ () => store.save() }
 					>
-						<kbd>{ displayShortcut.primary( 's' ) }</kbd>
+						<kbd aria-hidden="true">
+							{ displayShortcut.primary( 's' ) }
+						</kbd>
 						{ __( 'Save', 'trustorder-for-woo' ) }
 					</Button>
 				</div>

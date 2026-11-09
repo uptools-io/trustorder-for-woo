@@ -58,7 +58,7 @@ final class PluginTest extends TestCase {
 		$this->assertSame( 10, has_action( 'trustorder_signal', [ \LightweightPlugins\TrustOrder\Signals\SignalJob::class, 'handle' ] ) );
 		$this->assertSame( 10, has_action( 'trustorder_backfill', [ \LightweightPlugins\TrustOrder\Signals\Backfill::class, 'tick' ] ) );
 		$this->assertSame( 10, has_action( 'rest_api_init', [ \LightweightPlugins\TrustOrder\Rest\Routes::class, 'registerRoutes' ] ) );
-		$this->assertSame( 10, has_action( 'init', [ \LightweightPlugins\TrustOrder\I18n::class, 'load' ] ) );
+		$this->assertSame( 0, has_action( 'init', [ \LightweightPlugins\TrustOrder\I18n::class, 'load' ] ) );
 	}
 
 	/**

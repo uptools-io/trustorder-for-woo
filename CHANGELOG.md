@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.14] - 2026-11-17
+
+### Fixed
+- Compatibility: on PHP 8.3 and older, `mb_ucfirst()` and `mb_lcfirst()` no longer stop the site with a fatal error when another plugin or theme calls them.
+- Checkout: the payment method rules now apply to every WooCommerce checkout request.
+- Orders: moving an order to "Not picked up" puts the stock back.
+- Orders: "Not picked up" orders no longer count as revenue in WooCommerce Analytics. To correct earlier reports, re-import the Analytics data under Analytics > Settings.
+- Orders: paying for an existing order keeps the order's original check result.
+- Admin: the order status label is translated on WordPress 6.6 and 6.7.
+- Performance: lighter order locks and a targeted cache refresh on sites with a persistent object cache; API calls pause briefly while the API is unreachable.
+- Admin: accessibility improvements for keyboard focus, headings, labels and status announcements.
+
+### Changed
+- Plugin: the plugin header has an Update URI, so WordPress.org never offers an update from another source for this plugin.
+
 ## [1.0.13] - 2026-11-07
 
 ### Changed

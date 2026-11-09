@@ -89,6 +89,37 @@ final class QuotaGuard {
 		if ( '' === $session_key ) {
 			return self::SESSION_QUOTA;
 		}
+
+		return self::take( self::browseBuckets( $session_key ) )[0];
+	}
+
+	/**
+	 * Whether browse() would deny now; read-only (takes nothing, logs and
+	 * marks nothing). A bucket whose counter is unavailable reads as empty,
+	 * as take() allows it too.
+	 *
+	 * @param string $session_key Session key ('' = denied).
+	 */
+	public static function browseWouldDeny( string $session_key ): ?string {
+		if ( '' === $session_key ) {
+			return self::SESSION_QUOTA;
+		}
+		foreach ( self::browseBuckets( $session_key ) as [ $bucket, $max, $window, $code ] ) {
+			if ( Counter::current( $bucket, $window ) >= $max ) {
+				return $code;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Browsing buckets.
+	 *
+	 * @param string $session_key Session key.
+	 * @return list<array{0: string, 1: int, 2: int, 3: string}>
+	 */
+	private static function browseBuckets( string $session_key ): array {
 		$buckets = [ [ $session_key, self::MAX, self::WINDOW, self::SESSION_QUOTA ] ];
 		$net     = ClientIp::bucket();
 		if ( '' !== $net ) {
@@ -96,7 +127,7 @@ final class QuotaGuard {
 		}
 		$buckets[] = [ 'shop', self::limit( 'trustorder_hourly_check_limit', self::SHOP_MAX ), self::SHOP_WINDOW, self::LOCAL_QUOTA ];
 
-		return self::take( $buckets )[0];
+		return $buckets;
 	}
 
 	/**

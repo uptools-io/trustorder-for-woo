@@ -251,7 +251,7 @@ export default function HelpPage( { store } ) {
 			<section className="to-help-privacy">
 				<Icon icon={ lock } size={ 28 } />
 				<div>
-					<h3>{ __( 'Privacy', 'trustorder-for-woo' ) }</h3>
+					<h2>{ __( 'Privacy', 'trustorder-for-woo' ) }</h2>
 					<p>
 						{ __(
 							'Names, e-mail addresses, phone numbers and addresses never leave your shop. TrustOrder sends only one-way codes made from them, which cannot be turned back into data. If “Share country and postcode” is on in Settings, the country and postcode of new orders are sent too, without any customer data.',

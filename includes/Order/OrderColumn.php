@@ -84,7 +84,7 @@ final class OrderColumn {
 	private static function cell( \WC_Order $order ): void {
 		$result = OrderResult::read( $order );
 		if ( null === $result ) {
-			echo '<span aria-hidden="true">&ndash;</span>';
+			echo '<span aria-hidden="true">&ndash;</span><span class="screen-reader-text">' . esc_html__( 'Not checked', 'trustorder-for-woo' ) . '</span>';
 			return;
 		}
 		echo Labels::badge( $result ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Labels::badge() escapes every part.

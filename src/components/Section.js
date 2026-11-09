@@ -36,7 +36,7 @@ export default function Section( {
 				<CardHeader>
 					<VStack spacing={ 1 }>
 						<HStack justify="flex-start" spacing={ 2 }>
-							<Heading level={ 3 } size={ 15 }>
+							<Heading level={ 2 } size={ 15 }>
 								{ title }
 							</Heading>
 							{ badge }

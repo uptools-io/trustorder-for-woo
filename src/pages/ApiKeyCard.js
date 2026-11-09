@@ -25,9 +25,10 @@ import { ConsoleButton, KeySteps } from './GetKeyNote';
  * The key field (write-only: never filled from the saved key).
  *
  * @param {Object} props
- * @param {Object} props.store useSettings() result.
+ * @param {Object} props.store       useSettings() result.
+ * @param {string} props.describedBy Id of the row help text.
  */
-function KeyInput( { store } ) {
+function KeyInput( { store, describedBy } ) {
 	const [ visible, setVisible ] = useState( false );
 
 	return (
@@ -38,6 +39,7 @@ function KeyInput( { store } ) {
 					__nextHasNoMarginBottom
 					label={ __( 'API key', 'trustorder-for-woo' ) }
 					hideLabelFromVision
+					aria-describedby={ describedBy }
 					type={ visible ? 'text' : 'password' }
 					placeholder="to_live_…"
 					autoComplete="off"
@@ -49,11 +51,7 @@ function KeyInput( { store } ) {
 					__next40pxDefaultSize
 					variant="secondary"
 					icon={ visible ? unseen : seen }
-					label={
-						visible
-							? __( 'Hide key', 'trustorder-for-woo' )
-							: __( 'Show key', 'trustorder-for-woo' )
-					}
+					label={ __( 'Show key', 'trustorder-for-woo' ) }
 					isPressed={ visible }
 					onClick={ () => setVisible( ! visible ) }
 				/>
@@ -150,7 +148,9 @@ export default function ApiKeyCard( { store } ) {
 					title={ __( 'Your API key', 'trustorder-for-woo' ) }
 					help={ __( 'Paste it, then save.', 'trustorder-for-woo' ) }
 				>
-					<KeyInput store={ store } />
+					{ ( { describedBy } ) => (
+						<KeyInput store={ store } describedBy={ describedBy } />
+					) }
 				</SettingRow>
 			</Section>
 		);
@@ -213,7 +213,9 @@ export default function ApiKeyCard( { store } ) {
 						'trustorder-for-woo'
 					) }
 				>
-					<KeyInput store={ store } />
+					{ ( { describedBy } ) => (
+						<KeyInput store={ store } describedBy={ describedBy } />
+					) }
 				</SettingRow>
 			) }
 			<ConfirmDialog

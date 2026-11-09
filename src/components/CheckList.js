@@ -7,12 +7,19 @@ import { CheckboxControl } from '@wordpress/components';
  * A set of checkboxes over { id, title, note } options, value = list of ids.
  *
  * @param {Object}   props
- * @param {string}   props.legend   Group name (screen readers).
- * @param {Array}    props.options  { id, title, note }.
- * @param {string[]} props.value    Selected ids.
- * @param {Function} props.onChange Receives the new id list.
+ * @param {string}   props.legend      Group name (screen readers).
+ * @param {Array}    props.options     { id, title, note }.
+ * @param {string[]} props.value       Selected ids.
+ * @param {Function} props.onChange    Receives the new id list.
+ * @param {string}   props.describedBy Optional id of the group's help text.
  */
-export default function CheckList( { legend, options, value, onChange } ) {
+export default function CheckList( {
+	legend,
+	options,
+	value,
+	onChange,
+	describedBy,
+} ) {
 	const toggle = ( id, checked ) =>
 		onChange(
 			checked
@@ -21,7 +28,7 @@ export default function CheckList( { legend, options, value, onChange } ) {
 		);
 
 	return (
-		<fieldset className="to-checks">
+		<fieldset className="to-checks" aria-describedby={ describedBy }>
 			<legend className="screen-reader-text">{ legend }</legend>
 			{ options.map( ( option ) => (
 				<CheckboxControl

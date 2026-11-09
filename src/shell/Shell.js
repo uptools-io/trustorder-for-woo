@@ -23,7 +23,10 @@ import useUnsavedWarning from './useUnsavedWarning';
  * @param {Object} props.store useSettings() result.
  */
 export default function Shell( { store } ) {
-	const id = useHashTab( PAGES.map( ( page ) => page.id ) );
+	const id = useHashTab(
+		PAGES.map( ( item ) => item.id ),
+		( tabId ) => PAGES.find( ( item ) => item.id === tabId )?.title
+	);
 	const page = PAGES.find( ( item ) => item.id === id );
 	const { Component } = page;
 

@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\TrustOrder\Tests\Unit\Signals;
 
+use LightweightPlugins\TrustOrder\Checkout\Decision;
+use LightweightPlugins\TrustOrder\Checkout\IdentityBuilder;
+use LightweightPlugins\TrustOrder\Checkout\ResultCache;
 use LightweightPlugins\TrustOrder\Settings;
 use LightweightPlugins\TrustOrder\Signals\Backfill;
 use LightweightPlugins\TrustOrder\Signals\SignalRouter;
@@ -177,5 +180,35 @@ abstract class SignalTestCase extends TestCase {
 	 */
 	protected function logged(): string {
 		return (string) json_encode( [ $GLOBALS['trustorder_test']['logs'], $GLOBALS['trustorder_test']['options']['trustorder_last_error'] ?? null ] );
+	}
+
+	/**
+	 * Cache a real /check result for the order's buyer under every strictness.
+	 */
+	protected function cacheResultFor( \WC_Order $order, string $env = 'test' ): void {
+		$d = Decision::fromArray(
+			[
+				'verdict'  => 'allow',
+				'level'    => 'unknown',
+				'score'    => 50,
+				'reasons'  => [ 'NO_HISTORY' ],
+				'check_id' => '01a1a17c-7e54-7032-95b4-ba478164249b',
+			]
+		);
+		$this->assertNotNull( $d );
+		foreach ( Settings::STRICTNESS as $s ) {
+			ResultCache::put( $env, IdentityBuilder::fromOrder( $order )->cacheKey(), $s, $d );
+		}
+	}
+
+	/**
+	 * Strictness values with a cached result for the order's buyer.
+	 *
+	 * @return list<string>
+	 */
+	protected function cachedFor( \WC_Order $order, string $env = 'test' ): array {
+		$key = IdentityBuilder::fromOrder( $order )->cacheKey();
+
+		return array_values( array_filter( Settings::STRICTNESS, static fn( string $s ): bool => null !== ResultCache::get( $env, $key, $s ) ) );
 	}
 }

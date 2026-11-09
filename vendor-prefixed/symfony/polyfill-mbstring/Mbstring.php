@@ -400,14 +400,14 @@ final class Mbstring
             $s = self::iconv($encoding, 'UTF-8', $s);
         }
 
-        if (\TRUSTORDER_VENDOR_MB_CASE_TITLE == $mode) {
+        if (\MB_CASE_TITLE == $mode) {
             static $titleRegexp = null;
             if (null === $titleRegexp) {
                 $titleRegexp = self::getData('titleCaseRegexp');
             }
             $s = preg_replace_callback($titleRegexp, [__CLASS__, 'title_case'], $s);
         } else {
-            if (\TRUSTORDER_VENDOR_MB_CASE_UPPER == $mode) {
+            if (\MB_CASE_UPPER == $mode) {
                 static $upper = null;
                 if (null === $upper) {
                     $upper = self::getData('upperCase');
@@ -703,12 +703,12 @@ final class Mbstring
 
     public static function mb_strtolower($s, $encoding = null)
     {
-        return self::mb_convert_case($s, \TRUSTORDER_VENDOR_MB_CASE_LOWER, $encoding);
+        return self::mb_convert_case($s, \MB_CASE_LOWER, $encoding);
     }
 
     public static function mb_strtoupper($s, $encoding = null)
     {
-        return self::mb_convert_case($s, \TRUSTORDER_VENDOR_MB_CASE_UPPER, $encoding);
+        return self::mb_convert_case($s, \MB_CASE_UPPER, $encoding);
     }
 
     public static function mb_substitute_character($c = null)
@@ -1028,7 +1028,7 @@ final class Mbstring
         }
 
         $firstChar = mb_substr($string, 0, 1, $encoding);
-        $firstChar = mb_convert_case($firstChar, \TRUSTORDER_VENDOR_MB_CASE_TITLE, $encoding);
+        $firstChar = mb_convert_case($firstChar, \MB_CASE_TITLE, $encoding);
 
         return $firstChar.mb_substr($string, 1, null, $encoding);
     }
@@ -1043,7 +1043,7 @@ final class Mbstring
         }
 
         $firstChar = mb_substr($string, 0, 1, $encoding);
-        $firstChar = mb_convert_case($firstChar, \TRUSTORDER_VENDOR_MB_CASE_LOWER, $encoding);
+        $firstChar = mb_convert_case($firstChar, \MB_CASE_LOWER, $encoding);
 
         return $firstChar.mb_substr($string, 1, null, $encoding);
     }
@@ -1382,7 +1382,7 @@ final class Mbstring
             $titleCase = self::getData('titleCase');
         }
 
-        return ($titleCase[$s[1]] ?? self::mb_convert_case($s[1], \TRUSTORDER_VENDOR_MB_CASE_UPPER, 'UTF-8')).self::mb_convert_case($s[2], \TRUSTORDER_VENDOR_MB_CASE_LOWER, 'UTF-8');
+        return ($titleCase[$s[1]] ?? self::mb_convert_case($s[1], \MB_CASE_UPPER, 'UTF-8')).self::mb_convert_case($s[2], \MB_CASE_LOWER, 'UTF-8');
     }
 
     private static function getData($file)

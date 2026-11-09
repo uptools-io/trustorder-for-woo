@@ -5,11 +5,11 @@ import { createRoot, flushSync } from '@wordpress/element';
 
 /**
  * Where the settings live in the rendered tabs. A card is a
- * `@wordpress/components` Card with an <h3> title; a setting is a row
+ * `@wordpress/components` Card with an <h2> title; a setting is a row
  * title, a switch label or a control label inside its body.
  */
 const CARD = '.components-card';
-const CARD_TITLE = '.components-card__header h3';
+const CARD_TITLE = '.components-card__header h2';
 // Each LW admin prefixes its own switch list (lw-px-switch, lw-lms-switch…);
 // core ToggleControl rows carry their label in a BaseControl.
 const ROW =

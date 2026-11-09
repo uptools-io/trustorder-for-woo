@@ -9,7 +9,7 @@ import {
 	useRef,
 	useState,
 } from '@wordpress/element';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import { Icon, arrowRight, backup, cog, search } from '@wordpress/icons';
 
 /**
@@ -168,6 +168,11 @@ export default function SearchDialog( {
 						type="text"
 						className="lw-qs-input"
 						value={ query }
+						aria-label={ __(
+							'Search sections and settings',
+							'trustorder-for-woo'
+						) }
+						aria-autocomplete="list"
 						placeholder={ __(
 							'Search sections and settings',
 							'trustorder-for-woo'
@@ -257,6 +262,8 @@ export default function SearchDialog( {
 							} ) }
 						</div>
 					) ) }
+				</div>
+				<div role="status" className="lw-qs-status">
 					{ ! flat.length && (
 						<p className="lw-qs-empty">
 							{ sprintf(
@@ -268,6 +275,20 @@ export default function SearchDialog( {
 								query.trim()
 							) }
 						</p>
+					) }
+					{ !! flat.length && !! words.length && (
+						<span className="screen-reader-text">
+							{ sprintf(
+								/* translators: %d: number of search results. */
+								_n(
+									'%d result',
+									'%d results',
+									flat.length,
+									'trustorder-for-woo'
+								),
+								flat.length
+							) }
+						</span>
 					) }
 				</div>
 				<div className="lw-qs-foot" aria-hidden="true">

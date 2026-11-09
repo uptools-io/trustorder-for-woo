@@ -12,6 +12,7 @@ namespace LightweightPlugins\TrustOrder\Order;
 use LightweightPlugins\TrustOrder\Checkout\Checker;
 use LightweightPlugins\TrustOrder\Checkout\Decision;
 use LightweightPlugins\TrustOrder\Checkout\IdentityBuilder;
+use LightweightPlugins\TrustOrder\Checkout\Scope;
 use LightweightPlugins\TrustOrder\Identity\IdentitySet;
 use LightweightPlugins\TrustOrder\Log;
 use LightweightPlugins\TrustOrder\Settings;
@@ -38,7 +39,8 @@ final class OrderResult {
 	}
 
 	/**
-	 * Order created at checkout. Never throws.
+	 * Order created at checkout (classic, or Store API `checkout` / `checkout/{id}`). On a
+	 * pay-for-order request only the hashes are stored. Never throws.
 	 *
 	 * @param mixed $order WC_Order.
 	 */
@@ -47,10 +49,16 @@ final class OrderResult {
 			return;
 		}
 		try {
+			$pay = Scope::orderPayId() > 0;
+			// Pay-for-order (classic order-pay or Store API `checkout/{id}`) keeps the stored result
+			// and the hashes it was computed from (see Scope::ORDER_PAY and OrderPayGate).
+			if ( $pay && '' !== (string) $order->get_meta( self::META_HASHES, true ) ) {
+				return;
+			}
 			$ids      = IdentityBuilder::fromOrder( $order );
 			$settings = Settings::get();
 			$decision = null;
-			if ( $settings['enabled'] && (float) $order->get_total() > 0 && $ids->hasEmail() ) {
+			if ( ! $pay && $settings['enabled'] && (float) $order->get_total() > 0 && $ids->hasEmail() ) {
 				// Same identity key as the place-order check: a memo hit, no extra unit.
 				$decision = Checker::current()->decideForSubmit( $ids, $settings['strictness'] );
 			}
@@ -78,7 +86,7 @@ final class OrderResult {
 			self::storeResult( $order, $decision );
 		}
 
-		$order->save();
+		$order->save_meta_data();
 	}
 
 	/**

@@ -32,6 +32,7 @@ function trustorder_test_reset(): void {
 		'wc'         => null,
 		'checkout'   => false,
 		'admin'      => false,
+		'ajax'       => false,
 		'endpoint'   => '',
 	];
 }

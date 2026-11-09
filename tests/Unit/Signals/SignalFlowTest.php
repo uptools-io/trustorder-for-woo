@@ -86,27 +86,53 @@ final class SignalFlowTest extends SignalTestCase {
 		$this->assertSame( '2026-10-02T11:00:00Z', $body['occurred_at'] );
 	}
 
-	public function test_a_sent_refusal_drops_the_cached_check_results(): void {
+	public function test_a_sent_refusal_starts_a_new_cache_generation(): void {
 		$before = CacheGeneration::current();
+
 		$this->transition( $this->order(), 'to-refused' );
 
-		$this->assertSame( $before + 1, CacheGeneration::current() );
+		$this->assertSame( $before + 1, CacheGeneration::current(), 'every cached variant of the buyer is dropped' );
 	}
 
-	public function test_a_retract_drops_the_cached_check_results(): void {
-		$o = $this->order();
-		$this->transition( $o, 'to-refused' );
+	public function test_a_sent_delivery_drops_only_the_buyers_cached_check_results(): void {
+		$o     = $this->order();
+		$other = new \WC_Order( [ 'id' => 99, 'billing_email' => 'other@example.com', 'billing_phone' => '+36307654321', 'billing_country' => 'HU' ] );
+		$this->cacheResultFor( $o );
+		$this->cacheResultFor( $other );
 		$before = CacheGeneration::current();
+
+		$this->transition( $o, 'completed' );
+
+		$this->assertSame( 'delivered', $this->calls()[0][2]['outcome'] );
+		$this->assertSame( [], $this->cachedFor( $o ), 'every strictness of the buyer is gone' );
+		$this->assertSame( [ 'lenient', 'normal', 'strict' ], $this->cachedFor( $other ), 'another buyer keeps the cache' );
+		$this->assertSame( $before, CacheGeneration::current(), 'no shop-wide generation bump' );
+	}
+
+	public function test_a_retract_drops_only_the_buyers_cached_check_results(): void {
+		$o     = $this->order();
+		$other = new \WC_Order( [ 'id' => 99, 'billing_email' => 'other@example.com', 'billing_phone' => '+36307654321', 'billing_country' => 'HU' ] );
+		$this->transition( $o, 'to-refused' );
+		$this->cacheResultFor( $o );
+		$this->cacheResultFor( $other );
+		$before = CacheGeneration::current();
+
 		$this->transition( $o, 'processing' );
 
-		$this->assertSame( $before + 1, CacheGeneration::current() );
+		$this->assertSame( 'DELETE', $this->calls()[1][0] );
+		$this->assertSame( [], $this->cachedFor( $o ) );
+		$this->assertSame( [ 'lenient', 'normal', 'strict' ], $this->cachedFor( $other ) );
+		$this->assertSame( $before, CacheGeneration::current() );
 	}
 
 	public function test_a_failed_send_keeps_the_cached_check_results(): void {
+		$o = $this->order();
+		$this->cacheResultFor( $o );
 		$before        = CacheGeneration::current();
 		$this->answers = [ self::problem( 503, 'UNAVAILABLE' ) ];
-		$this->transition( $this->order(), 'to-refused' );
+		$this->transition( $o, 'to-refused' );
 
+		$this->assertSame( [ 'lenient', 'normal', 'strict' ], $this->cachedFor( $o ) );
 		$this->assertSame( $before, CacheGeneration::current() );
 	}
 

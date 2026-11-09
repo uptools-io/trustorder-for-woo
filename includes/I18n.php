@@ -21,7 +21,9 @@ final class I18n {
 	 * Hook in.
 	 */
 	public static function register(): void {
-		add_action( 'init', [ self::class, 'load' ] );
+		// Priority 0: WooCommerce registers the order statuses at init 9 (class-wc-post-types.php),
+		// and RefusedStatus::label() translates then (WC 11.2.1).
+		add_action( 'init', [ self::class, 'load' ], 0 );
 	}
 
 	/**

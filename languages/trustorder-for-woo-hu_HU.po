@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-07T15:19:11+00:00\n"
+"POT-Creation-Date: 2026-11-09T14:06:24+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -84,6 +84,10 @@ msgstr ""
 #: includes/Admin/CapNotice.php:62 includes/Admin/IntlNotice.php:52
 msgid "Dismiss"
 msgstr "Elrejtés"
+
+#: includes/Admin/CapNotice.php:63 includes/Admin/IntlNotice.php:53
+msgid "the TrustOrder notice"
+msgstr "(TrustOrder-értesítés)"
 
 #: includes/Admin/Choices.php:96
 msgid "Local pickup (classic checkout)"
@@ -251,7 +255,8 @@ msgstr "A kivétellistád tiltja"
 msgid "Not checked (limit reached)"
 msgstr "Nem ellenőrzött (betelt a keret)"
 
-#: includes/Order/Labels.php:110 build/index.js:7
+#: includes/Order/Labels.php:110 includes/Order/OrderColumn.php:87
+#: build/index.js:7
 msgid "Not checked"
 msgstr "Nem ellenőrzött"
 
@@ -295,7 +300,7 @@ msgid "Check id:"
 msgstr "Ellenőrzés azonosítója:"
 
 #. translators: 1: risk level, 2: score 0-100, 3: comma-separated reason codes
-#: includes/Order/OrderResult.php:150
+#: includes/Order/OrderResult.php:158
 #, php-format
 msgid ""
 "TrustOrder result changed on a payment retry. Level: %1$s, score: %2$d, "
@@ -305,7 +310,7 @@ msgstr ""
 "%1$s, pontszám: %2$d, okok: %3$s."
 
 #. translators: 1: risk level, 2: score 0-100, 3: comma-separated reason codes
-#: includes/Order/OrderResult.php:152
+#: includes/Order/OrderResult.php:160
 #, php-format
 msgid "TrustOrder flagged this order. Level: %1$s, score: %2$d, reasons: %3$s."
 msgstr ""
@@ -313,18 +318,18 @@ msgstr ""
 "%3$s."
 
 #. translators: %s: number of orders
-#: includes/Order/RefusedStatus.php:54
+#: includes/Order/RefusedStatus.php:57
 #, php-format
 msgid "Not picked up <span class=\"count\">(%s)</span>"
 msgid_plural "Not picked up <span class=\"count\">(%s)</span>"
 msgstr[0] "Rendelést nem vette át <span class=\"count\">(%s)</span>"
 msgstr[1] "Rendelést nem vette át <span class=\"count\">(%s)</span>"
 
-#: includes/Order/RefusedStatus.php:94
+#: includes/Order/RefusedStatus.php:97
 msgid "Change status to not picked up"
 msgstr "Állapot módosítása: Rendelést nem vette át"
 
-#: includes/Order/RefusedStatus.php:103 build/index.js:8
+#: includes/Order/RefusedStatus.php:106 build/index.js:8
 msgctxt "Order status"
 msgid "Not picked up"
 msgstr "Rendelést nem vette át"
@@ -552,7 +557,7 @@ msgstr "A kérés nem sikerült. Próbáld újra."
 msgid "Open the upTools Console"
 msgstr "Az upTools Console megnyitása"
 
-#: build/index.js:2 build/index.js:11
+#: build/index.js:2 build/index.js:12
 msgid "(opens in a new tab)"
 msgstr "(új lapon nyílik meg)"
 
@@ -823,7 +828,8 @@ msgstr[0] "%d kivétel"
 msgstr[1] "%d kivétel"
 
 #. translators: %d: number of matching exceptions.
-#: build/index.js:6
+#. translators: %d: number of search results.
+#: build/index.js:6 build/index.js:11
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] "%d találat"
@@ -1208,10 +1214,6 @@ msgstr ""
 #: build/index.js:7
 msgid "API key"
 msgstr "API-kulcs"
-
-#: build/index.js:7
-msgid "Hide key"
-msgstr "Kulcs elrejtése"
 
 #: build/index.js:7
 msgid "Show key"
@@ -1787,63 +1789,70 @@ msgstr "Találatok"
 msgid "No results for “%s”."
 msgstr "Nincs találat erre: „%s”."
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "to navigate"
 msgstr "navigálás"
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "to open"
 msgstr "megnyitás"
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "Quick search…"
 msgstr "Gyorskeresés…"
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "upTools (opens in a new tab)"
 msgstr "upTools (új lapon nyílik meg)"
 
-#: build/index.js:10
+#: build/index.js:11
 msgid "TrustOrder overview"
 msgstr "TrustOrder áttekintés"
 
-#: build/index.js:10
+#: build/index.js:11
+msgid "Sections:"
+msgstr "Menüpontok:"
+
+#: build/index.js:11
 msgid "TrustOrder sections"
 msgstr "TrustOrder szakaszok"
 
 #. translators: URL of the WordPress guide on docs.uptools.io; use the page in your language if there is one.
-#: build/index.js:11
+#: build/index.js:12
 msgid "https://docs.uptools.io/trustorder/wordpress/install/"
 msgstr "https://docs.uptools.io/hu/trustorder/wordpress/install/"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "Documentation"
 msgstr "Dokumentáció"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "Unsaved changes"
 msgstr "Mentetlen módosítások"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "Discard"
 msgstr "Elvetés"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "Save"
 msgstr "Mentés"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "Settings saved."
 msgstr "Beállítások elmentve."
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "API key removed."
 msgstr "API-kulcs törölve."
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."
+
+#~ msgid "Hide key"
+#~ msgstr "Kulcs elrejtése"
 
 #~ msgid ""
 #~ "No key yet? TrustOrder is free. Enable it in the upTools Console, then on "

@@ -24,12 +24,27 @@ use LightweightPlugins\TrustOrder\Settings;
  * result cache TTL; older, only when the budget is spent. Otherwise see
  * fallbackFor(). Fail-open at place order only on API errors;
  * only an outage (isOutage()) gives the place-order unit back.
+ *
+ * Shop-wide browsing back-off: an outage sets the `API_DOWN_<env>` transient
+ * for API_DOWN_TTL seconds; meanwhile a browsing check of an unseen identity
+ * with budget left gets the outage decision (fail-open TIMEOUT) without a
+ * call or a spent unit. A spent budget keeps its usual fallback. Place order
+ * never backs off: its real check, unit and bounded outage refund keep the
+ * per-session / per-network limit on outage fail-opens. The first
+ * non-outage response in that env clears the flag.
  */
 final class Checker {
 
 	public const NO_EMAIL      = 'NO_EMAIL';
 	public const SESSION_QUOTA = QuotaGuard::SESSION_QUOTA;
 	public const EXCEPTION     = 'EXCEPTION';
+
+	/**
+	 * Transient prefix (+ `_<env>`), set while the API had an outage in that
+	 * env in the last API_DOWN_TTL seconds.
+	 */
+	public const API_DOWN     = 'trustorder_api_down';
+	public const API_DOWN_TTL = 60;
 
 	/**
 	 * Request-wide instance.
@@ -163,34 +178,56 @@ final class Checker {
 				return $this->fallback[ $slot ];
 			}
 
-			$taken  = [];
-			$denied = $submit ? QuotaGuard::submit( $this->session_key, $taken ) : QuotaGuard::browse( $this->session_key );
-			if ( null !== $denied ) {
-				// Budget spent: an older answer for this very identity beats a stand-in.
-				$seen = SessionMemory::get( $this->session_key, $key );
-				if ( null !== $seen ) {
-					$this->memo[ $key ] = $seen;
-					return $seen;
-				}
-				$this->fallback[ $slot ] = $this->fallbackFor( $denied, $submit );
-
-				return $this->fallback[ $slot ];
-			}
-
-			$outage   = false;
-			$decision = $this->ask( $ids, $strictness, $key, $outage );
-			if ( $submit && $outage ) {
-				QuotaGuard::refundSubmit( $this->session_key, $taken );
-			}
-
-			$this->memo[ $key ] = $decision;
-
-			return $decision;
+			return $this->check( $ids, $strictness, $key, $slot, $submit );
 		} catch ( \Throwable $e ) {
 			Log::error( 'checkout', [ 'code' => self::EXCEPTION ] );
 
 			return Decision::failOpen( self::EXCEPTION );
 		}
+	}
+
+	/**
+	 * Budgets, then POST /check (or the outage decision during the back-off).
+	 *
+	 * @param IdentitySet $ids        Identity hashes.
+	 * @param string      $strictness lenient|normal|strict.
+	 * @param string      $key        Identity key.
+	 * @param string      $slot       Fallback slot.
+	 * @param bool        $submit     Place-order budget.
+	 */
+	private function check( IdentitySet $ids, string $strictness, string $key, string $slot, bool $submit ): Decision {
+		if ( ! $submit && false !== get_transient( self::apiDown( $this->env ) ) && null === QuotaGuard::browseWouldDeny( $this->session_key ) ) {
+			// What ask() gives a browsing check on an outage, without taking a
+			// browsing unit. Kept in the browse slot, not the memo, so a place
+			// order later in this request (peek() reads the memo) still checks.
+			$this->fallback[ $slot ] = Decision::failOpen( Response::TIMEOUT );
+
+			return $this->fallback[ $slot ];
+		}
+
+		$taken  = [];
+		$denied = $submit ? QuotaGuard::submit( $this->session_key, $taken ) : QuotaGuard::browse( $this->session_key );
+		if ( null !== $denied ) {
+			// Budget spent: an older answer for this very identity beats a stand-in.
+			$seen = SessionMemory::get( $this->session_key, $key );
+			if ( null !== $seen ) {
+				$this->memo[ $key ] = $seen;
+				return $seen;
+			}
+			$this->fallback[ $slot ] = $this->fallbackFor( $denied, $submit );
+
+			return $this->fallback[ $slot ];
+		}
+
+		$outage   = false;
+		$decision = $this->ask( $ids, $strictness, $key, $outage );
+		if ( $submit && $outage ) {
+			QuotaGuard::refundSubmit( $this->session_key, $taken );
+		}
+
+		$this->memo[ $key ] = $decision;
+
+		return $decision;
 	}
 
 	/**
@@ -232,6 +269,12 @@ final class Checker {
 
 		$response = $this->client->check( $body );
 		$outage   = self::isOutage( $response );
+		$flagged  = false !== get_transient( self::apiDown( $this->env ) );
+		if ( $outage && ! $flagged ) {
+			set_transient( self::apiDown( $this->env ), time(), self::API_DOWN_TTL );
+		} elseif ( ! $outage && $flagged ) {
+			delete_transient( self::apiDown( $this->env ) );
+		}
 		$decision = Decision::fromResponse( $response );
 		if ( Decision::BAD_RESPONSE === $decision->errorCode() ) {
 			Log::error( 'checkout', [ 'code' => Decision::BAD_RESPONSE ] );
@@ -257,6 +300,15 @@ final class Checker {
 		}
 
 		return $r->status() >= 500 && $r->status() < 600;
+	}
+
+	/**
+	 * Back-off transient of an env (a test-key outage never affects live).
+	 *
+	 * @param string $env live|test.
+	 */
+	public static function apiDown( string $env ): string {
+		return self::API_DOWN . '_' . $env;
 	}
 
 	/**

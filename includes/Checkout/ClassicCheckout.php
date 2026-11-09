@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\TrustOrder\Checkout;
 
+use LightweightPlugins\TrustOrder\Api\ApiKey;
+use LightweightPlugins\TrustOrder\Settings;
+
 /**
  * Makes the e-mail and phone fields refresh the order review, and keeps the
  * review's serialised form for the gateway filter: `update_order_review` does
@@ -46,12 +49,18 @@ final class ClassicCheckout {
 	/**
 	 * `woocommerce_checkout_fields`: the form-row class is matched by the
 	 * descendant selector `.update_totals_on_change input.input-text`
-	 * (assets/js/frontend/checkout.js:206).
+	 * (assets/js/frontend/checkout.js:206). Only while checks can run
+	 * (enabled, usable key): otherwise every e-mail/phone change would
+	 * re-render the order review for nothing.
 	 *
 	 * @param mixed $fields Checkout fields.
 	 * @return mixed
 	 */
 	public static function addRefreshClass( $fields ) {
+		$settings = Settings::get();
+		if ( ! $settings['enabled'] || null === ApiKey::env( $settings['api_key'] ) ) {
+			return $fields;
+		}
 		if ( ! is_array( $fields ) || ! isset( $fields['billing'] ) || ! is_array( $fields['billing'] ) ) {
 			return $fields;
 		}

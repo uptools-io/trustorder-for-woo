@@ -54,7 +54,10 @@ export default function useSettings() {
 			createSuccessNotice( message, { type: 'snackbar' } );
 			return true;
 		} catch ( error ) {
-			createErrorNotice( requestError( error ), { type: 'snackbar' } );
+			createErrorNotice( requestError( error ), {
+				type: 'snackbar',
+				explicitDismiss: true,
+			} );
 			return false;
 		} finally {
 			setIsSaving( false );
@@ -78,7 +81,7 @@ export default function useSettings() {
 		send(
 			{ api_key: '' },
 			__( 'API key removed.', 'trustorder-for-woo' ),
-			( { api_key: dropped, ...rest } ) => rest // eslint-disable-line no-unused-vars
+			( { api_key: dropped, ...rest } ) => rest
 		);
 
 	return {

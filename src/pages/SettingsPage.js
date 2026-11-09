@@ -168,21 +168,24 @@ export default function SettingsPage( { store } ) {
 							'trustorder-for-woo'
 						) }
 					>
-						<CheckList
-							legend={ __(
-								'Fallback payment methods',
-								'trustorder-for-woo'
-							) }
-							options={ gatewayOptions(
-								store.gateways.filter(
-									( g ) => ! hidden.includes( g.id )
-								)
-							) }
-							value={ settings.fallback_gateways || [] }
-							onChange={ ( value ) =>
-								update( { fallback_gateways: value } )
-							}
-						/>
+						{ ( { describedBy } ) => (
+							<CheckList
+								legend={ __(
+									'Fallback payment methods',
+									'trustorder-for-woo'
+								) }
+								describedBy={ describedBy }
+								options={ gatewayOptions(
+									store.gateways.filter(
+										( g ) => ! hidden.includes( g.id )
+									)
+								) }
+								value={ settings.fallback_gateways || [] }
+								onChange={ ( value ) =>
+									update( { fallback_gateways: value } )
+								}
+							/>
+						) }
 					</SettingRow>
 				</div>
 				<CheckoutPreview

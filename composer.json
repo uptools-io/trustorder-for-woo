@@ -57,7 +57,6 @@
             "target_directory": "vendor-prefixed",
             "namespace_prefix": "LightweightPlugins\\TrustOrder\\Vendor\\",
             "classmap_prefix": "LightweightPlugins_TrustOrder_Vendor_",
-            "constant_prefix": "TRUSTORDER_VENDOR_",
             "packages": [
                 "giggsey/libphonenumber-for-php-lite"
             ],

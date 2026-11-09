@@ -22,7 +22,7 @@ use LightweightPlugins\TrustOrder\Settings;
  * - PEEK: other Store API routes (mini cart, cart block): cached results only.
  * - ORDER_PAY: pay-for-order (classic `order-pay` endpoint, Store API
  *   `checkout/{id}`): the order's stored result, no API call.
- * - OFF: admin, nothing to pay, disabled, no cart.
+ * - OFF: admin screens (not admin-ajax), nothing to pay, disabled, no cart.
  */
 final class Scope {
 
@@ -40,11 +40,15 @@ final class Scope {
 	private const STORE_ROUTE = '#^/wc/store/#i';
 
 	/**
-	 * REST route being dispatched (also inside /batch and REST preloads).
+	 * REST routes being dispatched, innermost last (also inside /batch, REST
+	 * preloads and a rest_do_request() from a callback); null = not a request.
+	 * WP_REST_Server::respond_to_request() always applies the after filter
+	 * once per before filter (wp-includes/rest-api/class-wp-rest-server.php:1256,1318, WP 7.1.4),
+	 * so a pop restores the outer route of a nested dispatch.
 	 *
-	 * @var string|null
+	 * @var list<string|null>
 	 */
-	private static ?string $route = null;
+	private static array $routes = [];
 
 	/**
 	 * Track the dispatched REST route.
@@ -63,7 +67,7 @@ final class Scope {
 	 * @return mixed
 	 */
 	public static function enterRoute( $response, $handler = null, $request = null ) {
-		self::$route = $request instanceof \WP_REST_Request ? self::normalise( (string) $request->get_route() ) : null;
+		self::$routes[] = $request instanceof \WP_REST_Request ? self::normalise( (string) $request->get_route() ) : null;
 
 		return $response;
 	}
@@ -75,18 +79,19 @@ final class Scope {
 	 * @return mixed
 	 */
 	public static function leaveRoute( $response ) {
-		self::$route = null;
+		array_pop( self::$routes );
 
 		return $response;
 	}
 
 	/**
-	 * Override the tracked route (tests).
+	 * Override the tracked route (tests): the stack becomes that one route,
+	 * or empty for null.
 	 *
 	 * @param string|null $route Route.
 	 */
 	public static function setRoute( ?string $route ): void {
-		self::$route = null === $route ? null : self::normalise( $route );
+		self::$routes = null === $route ? [] : [ self::normalise( $route ) ];
 	}
 
 	/**
@@ -107,7 +112,7 @@ final class Scope {
 	 * Tracked route.
 	 */
 	public static function route(): ?string {
-		return self::$route;
+		return [] === self::$routes ? null : self::$routes[ count( self::$routes ) - 1 ];
 	}
 
 	/**
@@ -115,8 +120,9 @@ final class Scope {
 	 * `checkout/{id}`), 0 otherwise.
 	 */
 	public static function orderPayId(): int {
-		$m = [];
-		if ( null !== self::$route && 1 === preg_match( self::PAY_ROUTE, self::$route, $m ) ) {
+		$m     = [];
+		$route = self::route();
+		if ( null !== $route && 1 === preg_match( self::PAY_ROUTE, $route, $m ) ) {
 			return absint( $m[1] );
 		}
 
@@ -127,7 +133,9 @@ final class Scope {
 	 * Pay-for-order request (classic endpoint or Store API `checkout/{id}`).
 	 */
 	private static function isOrderPay(): bool {
-		return ( null !== self::$route && 1 === preg_match( self::PAY_ROUTE, self::$route ) ) || self::isClassicOrderPay();
+		$route = self::route();
+
+		return ( null !== $route && 1 === preg_match( self::PAY_ROUTE, $route ) ) || self::isClassicOrderPay();
 	}
 
 	/**
@@ -141,7 +149,9 @@ final class Scope {
 	 * Current mode.
 	 */
 	public static function mode(): string {
-		if ( ! Settings::get()['enabled'] || is_admin() ) {
+		// admin-ajax.php defines WP_ADMIN, but WooCommerce also registers its checkout events
+		// as wp_ajax_nopriv_woocommerce_<event> (woocommerce/includes/class-wc-ajax.php:158, WC 11.2.1).
+		if ( ! Settings::get()['enabled'] || ( is_admin() && ! wp_doing_ajax() ) ) {
 			return self::OFF;
 		}
 		if ( self::isOrderPay() ) {
@@ -158,7 +168,7 @@ final class Scope {
 			return self::OFF;
 		}
 
-		$route = self::$route;
+		$route = self::route();
 		if ( null !== $route && 1 === preg_match( self::LIVE_ROUTE, $route ) ) {
 			return self::LIVE;
 		}

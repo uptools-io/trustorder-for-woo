@@ -24,14 +24,43 @@ import './quick-search.scss';
 
 const IS_MAC = /Mac|iPhone|iPad/.test( window.navigator.platform || '' );
 
+const FOCUSABLE =
+	'a[href], button:not([disabled]), input:not([type=hidden]):not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 /**
- * Show an entry on the page: scroll it into view, flash it and focus its
- * control. Waits a few frames for a tab switch to render.
+ * Move focus to a real target: for a tab the page heading, for a card or
+ * setting its first focusable element, else the card heading, else the
+ * trigger. Headings are made programmatically focusable.
+ *
+ * @param {?Element} target  Located card or row.
+ * @param {Object}   entry   Entry.
+ * @param {Object}   options { titleSelector, fallback }.
+ */
+function focusTarget( target, entry, options ) {
+	const { titleSelector, fallback } = options;
+	let el = null;
+	if ( entry.kind === 'tab' ) {
+		el = document.querySelector( titleSelector );
+	} else if ( target ) {
+		el =
+			target.querySelector( FOCUSABLE ) ||
+			target.querySelector( '.components-card__header h2' );
+		if ( el && ! el.matches( FOCUSABLE ) ) {
+			el.setAttribute( 'tabindex', '-1' );
+		}
+	}
+	( el || fallback )?.focus( { preventScroll: true } );
+}
+
+/**
+ * Show an entry on the page: scroll it into view, flash it and move focus.
+ * Waits a few frames for a tab switch to render.
  *
  * @param {Object} entry           Entry.
  * @param {string} contentSelector Page content root.
+ * @param {Object} options         Focus options (see focusTarget).
  */
-function reveal( entry, contentSelector ) {
+function reveal( entry, contentSelector, options ) {
 	let tries = 0;
 	const attempt = () => {
 		const scope = document.querySelector( contentSelector );
@@ -41,18 +70,16 @@ function reveal( entry, contentSelector ) {
 			window.setTimeout( attempt, 50 );
 			return;
 		}
-		if ( ! target ) {
-			return;
+		if ( target ) {
+			target.scrollIntoView( { block: 'center', behavior: 'smooth' } );
+			target.classList.add( 'lw-qs-flash' );
+			window.setTimeout(
+				() => target.classList.remove( 'lw-qs-flash' ),
+				1800
+			);
 		}
-		target.scrollIntoView( { block: 'center', behavior: 'smooth' } );
-		target.classList.add( 'lw-qs-flash' );
-		window.setTimeout(
-			() => target.classList.remove( 'lw-qs-flash' ),
-			1800
-		);
-		target
-			.querySelector( 'input:not([type=hidden]), textarea, select' )
-			?.focus( { preventScroll: true } );
+		// After the tab switch has moved focus to the page heading.
+		window.setTimeout( () => focusTarget( target, entry, options ), 100 );
 	};
 	window.setTimeout( attempt, 0 );
 }
@@ -65,12 +92,14 @@ function reveal( entry, contentSelector ) {
  * @param {() => ?Array} props.pages           Returns [{ tab, element }] to index; null while not ready.
  * @param {string}       props.storageKey      localStorage key of the recents.
  * @param {string}       props.contentSelector Page content root.
+ * @param {string}       props.titleSelector   Page heading (focus target for sections).
  */
 export default function QuickSearch( {
 	tabs,
 	pages,
 	storageKey,
 	contentSelector = '.to-content',
+	titleSelector = '.to-topbar__title',
 } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const [ index, setIndex ] = useState( [] );
@@ -134,7 +163,10 @@ export default function QuickSearch( {
 		if ( window.location.hash !== `#${ entry.tab }` ) {
 			window.location.hash = entry.tab;
 		}
-		reveal( entry, contentSelector );
+		reveal( entry, contentSelector, {
+			titleSelector,
+			fallback: trigger.current,
+		} );
 	};
 
 	return (

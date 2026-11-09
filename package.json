@@ -1,6 +1,6 @@
 {
 	"name": "trustorder-for-woo",
-	"version": "1.0.0",
+	"version": "1.0.14",
 	"private": true,
 	"description": "TrustOrder for WooCommerce admin app (WordPress components).",
 	"license": "GPL-2.0-or-later",

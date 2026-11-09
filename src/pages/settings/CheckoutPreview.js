@@ -85,14 +85,16 @@ export default function CheckoutPreview( { gateways, hidden, fallback } ) {
 					);
 				} ) }
 			</ul>
-			{ null === gone && (
-				<p className="to-preview__warn">
-					{ __(
-						'Nothing is hidden now: no fallback method would stay visible. Pick a fallback method that is not hidden.',
-						'trustorder-for-woo'
-					) }
-				</p>
-			) }
+			<div role="status">
+				{ null === gone && (
+					<p className="to-preview__warn">
+						{ __(
+							'Nothing is hidden now: no fallback method would stay visible. Pick a fallback method that is not hidden.',
+							'trustorder-for-woo'
+						) }
+					</p>
+				) }
+			</div>
 		</div>
 	);
 }

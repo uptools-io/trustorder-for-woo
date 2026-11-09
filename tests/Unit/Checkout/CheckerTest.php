@@ -96,6 +96,7 @@ final class CheckerTest extends CheckoutTestCase {
 	public function test_fail_open_results_are_not_cached(): void {
 		$this->answers = [ $this->http( 503, '{"code":"INTERNAL"}' ), $this->verdict( 'block', 'blocked' ) ];
 		$this->assertTrue( $this->checker()->decide( $this->ids(), 'normal' )->failedOpen() );
+		delete_transient( Checker::apiDown( 'test' ) ); // After the 60 s back-off.
 
 		$this->assertSame( 'block', $this->checker()->decide( $this->ids(), 'normal' )->verdict() );
 		$this->assertSame( 2, $this->checks() );

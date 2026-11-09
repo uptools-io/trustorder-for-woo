@@ -69,7 +69,8 @@ final class OrderResultTest extends CheckoutTestCase {
 		$this->assertSame( '01a1a17c-7e54-7032-95b4-ba478164249b', $result['check_id'] );
 		$this->assertMatchesRegularExpression( '/^\d{4}-\d\d-\d\dT/', $result['checked_at'] );
 		$this->assertSame( [], $o->notes );
-		$this->assertGreaterThan( 0, $o->saved );
+		$this->assertGreaterThan( 0, $o->meta_saves );
+		$this->assertSame( 0, $o->saved, 'only the meta is persisted, never the whole order' );
 	}
 
 	public function test_silent_mode_stores_the_result_without_a_note(): void {
@@ -239,5 +240,43 @@ final class OrderResultTest extends CheckoutTestCase {
 		$this->assertSame( 'flag', $r['verdict'] );
 		$this->assertArrayNotHasKey( 'fallback', $r );
 		$this->assertCount( 1, $o->notes );
+	}
+
+	public function test_pay_for_order_keeps_the_stored_result_and_runs_no_check(): void {
+		\LightweightPlugins\TrustOrder\Checkout\Scope::setRoute( '/wc/store/v1/checkout/42' );
+		$this->answers = [ $this->verdict( 'block', 'risky', 10, [ 'LOW_SCORE' ] ) ];
+		$o             = $this->order();
+		$o->update_meta_data( '_trustorder_result', '{"verdict":"allow","level":"trusted","score":90,"check_id":"first"}' );
+
+		do_action( 'woocommerce_store_api_checkout_order_processed', $o );
+
+		$this->assertSame( 0, $this->checks() );
+		$this->assertSame( 'first', json_decode( $o->meta['_trustorder_result'], true )['check_id'] );
+		$this->assertArrayHasKey( '_trustorder_hashes', $o->meta );
+	}
+
+	public function test_pay_for_order_keeps_the_stored_hashes_when_the_billing_data_differs(): void {
+		$first = $this->order();
+		OrderResult::onOrder( $first );
+		$hashes = $first->meta['_trustorder_hashes'];
+		$result = $first->meta['_trustorder_result'] ?? null;
+
+		\LightweightPlugins\TrustOrder\Checkout\Scope::setRoute( '/wc/store/v1/checkout/42' );
+		$first->p['billing_email'] = 'other@example.com';
+		$first->p['billing_phone'] = '+36709999999';
+		do_action( 'woocommerce_store_api_checkout_order_processed', $first );
+
+		$this->assertSame( $hashes, $first->meta['_trustorder_hashes'] );
+		$this->assertSame( $result, $first->meta['_trustorder_result'] ?? null );
+	}
+
+	public function test_pay_for_order_writes_the_hashes_when_none_are_stored_yet(): void {
+		\LightweightPlugins\TrustOrder\Checkout\Scope::setRoute( '/wc/store/v1/checkout/42' );
+		$o = $this->order();
+
+		do_action( 'woocommerce_store_api_checkout_order_processed', $o );
+
+		$this->assertArrayHasKey( '_trustorder_hashes', $o->meta );
+		$this->assertArrayNotHasKey( '_trustorder_result', $o->meta );
 	}
 }

@@ -409,6 +409,10 @@ namespace {
 		return (bool) $GLOBALS['trustorder_test']['admin'];
 	}
 
+	function wp_doing_ajax() {
+		return (bool) $GLOBALS['trustorder_test']['ajax'];
+	}
+
 	function is_checkout_pay_page( $use_query_params = false ) {
 		return 'order-pay' === $GLOBALS['trustorder_test']['endpoint'];
 	}

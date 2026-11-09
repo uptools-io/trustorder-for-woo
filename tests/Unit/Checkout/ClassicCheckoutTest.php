@@ -39,6 +39,32 @@ final class ClassicCheckoutTest extends CheckoutTestCase {
 		$this->assertSame( $out, apply_filters( 'woocommerce_checkout_fields', $out ), 'idempotent' );
 	}
 
+	/**
+	 * @return array<string, array{0: array<string, mixed>}>
+	 */
+	public function inactive(): array {
+		return [
+			'disabled' => [ [ 'enabled' => false ] ],
+			'no key'   => [ [ 'api_key' => '' ] ],
+		];
+	}
+
+	/**
+	 * @dataProvider inactive
+	 * @param array<string, mixed> $settings Settings change.
+	 */
+	public function test_fields_are_untouched_while_checks_cannot_run( array $settings ): void {
+		\LightweightPlugins\TrustOrder\Settings::update( $settings );
+		$fields = [
+			'billing' => [
+				'billing_email' => [ 'class' => [ 'form-row-wide' ] ],
+				'billing_phone' => [],
+			],
+		];
+
+		$this->assertSame( $fields, apply_filters( 'woocommerce_checkout_fields', $fields ), 'no order-review refresh per keystroke for nothing' );
+	}
+
 	public function test_update_order_review_reads_post_data_not_the_stale_customer(): void {
 		$this->onCheckout( [ 'billing_email' => 'old@example.com' ] );
 		$post = http_build_query(

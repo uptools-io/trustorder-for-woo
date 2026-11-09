@@ -156,12 +156,12 @@ if (extension_loaded('mbstring')) {
     return;
 }
 
-if (!defined('TRUSTORDER_VENDOR_MB_CASE_UPPER')) {
-    define('TRUSTORDER_VENDOR_MB_CASE_UPPER', 0);
+if (!defined('MB_CASE_UPPER')) {
+    define('MB_CASE_UPPER', 0);
 }
-if (!defined('TRUSTORDER_VENDOR_MB_CASE_LOWER')) {
-    define('TRUSTORDER_VENDOR_MB_CASE_LOWER', 1);
+if (!defined('MB_CASE_LOWER')) {
+    define('MB_CASE_LOWER', 1);
 }
-if (!defined('TRUSTORDER_VENDOR_MB_CASE_TITLE')) {
-    define('TRUSTORDER_VENDOR_MB_CASE_TITLE', 2);
+if (!defined('MB_CASE_TITLE')) {
+    define('MB_CASE_TITLE', 2);
 }

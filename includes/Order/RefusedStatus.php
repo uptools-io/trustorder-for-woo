@@ -32,6 +32,28 @@ final class RefusedStatus {
 		// class-wc-admin-list-table-orders.php:495 (nonce + capability included).
 		add_filter( 'bulk_actions-woocommerce_page_wc-orders', [ self::class, 'bulkActions' ] );
 		add_filter( 'bulk_actions-edit-shop_order', [ self::class, 'bulkActions' ] );
+		// includes/wc-stock-functions.php:136-162 (WC 11.2.1): puts reduced stock back; it respects
+		// `_order_stock_reduced`, so moving the order back to processing reduces it again.
+		add_action( 'woocommerce_order_status_' . self::SLUG, 'wc_maybe_increase_stock_levels' );
+		// src/Admin/API/Reports/DataStore.php:861 (WC 11.2.1): not picked up is no sale.
+		add_filter( 'woocommerce_analytics_excluded_order_statuses', [ self::class, 'analyticsExcluded' ] );
+	}
+
+	/**
+	 * Keep the status out of the Analytics reports (slug without the `wc-` prefix).
+	 *
+	 * @param mixed $statuses Excluded statuses.
+	 * @return mixed
+	 */
+	public static function analyticsExcluded( $statuses ) {
+		if ( ! is_array( $statuses ) ) {
+			return $statuses;
+		}
+		if ( ! in_array( self::SLUG, $statuses, true ) ) {
+			$statuses[] = self::SLUG;
+		}
+
+		return $statuses;
 	}
 
 	/**

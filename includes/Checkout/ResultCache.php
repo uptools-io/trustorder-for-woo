@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\TrustOrder\Checkout;
 
+use LightweightPlugins\TrustOrder\Settings;
+
 /**
  * Transient per (env, cache generation, identity hashes, strictness), 10
  * minutes; see CacheGeneration. Transients
@@ -61,5 +63,18 @@ final class ResultCache {
 			return;
 		}
 		set_transient( self::key( $env, $cache_key, $strictness ), $decision->toArray(), self::TTL );
+	}
+
+	/**
+	 * Drop one identity's cached results (every strictness) in the current
+	 * generation, e.g. after an outcome signal changed that buyer's history.
+	 *
+	 * @param string $env       live|test.
+	 * @param string $cache_key IdentitySet::cacheKey().
+	 */
+	public static function forget( string $env, string $cache_key ): void {
+		foreach ( Settings::STRICTNESS as $strictness ) {
+			delete_transient( self::key( $env, $cache_key, $strictness ) );
+		}
 	}
 }

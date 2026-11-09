@@ -3,7 +3,7 @@
  * Plugin Name:       TrustOrder for WooCommerce
  * Plugin URI:        https://uptools.io
  * Description:       Cash-on-delivery buyer reputation for WooCommerce: hides cash on delivery for risky buyers, based on hashed identities shared across shops.
- * Version:           1.0.13
+ * Version:           1.0.14
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            uptools.io
@@ -13,6 +13,7 @@
  * Text Domain:       trustorder-for-woo
  * Domain Path:       /languages
  * Requires Plugins:  woocommerce
+ * Update URI:        https://uptools.io/trustorder-for-woo/
  * WC requires at least: 8.2
  * WC tested up to:   11.2
  *
@@ -28,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TRUSTORDER_VERSION', '1.0.13' );
+define( 'TRUSTORDER_VERSION', '1.0.14' );
 define( 'TRUSTORDER_FILE', __FILE__ );
 define( 'TRUSTORDER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TRUSTORDER_URL', plugin_dir_url( __FILE__ ) );

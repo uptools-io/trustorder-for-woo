@@ -64,7 +64,12 @@ export default function SideNav( { pages, current, meta = {}, search } ) {
 				onClick={ () => setIsOpen( ! isOpen ) }
 			>
 				<Icon icon={ active.icon } size={ 20 } />
-				<span>{ active.label }</span>
+				<span>
+					<span className="screen-reader-text">
+						{ __( 'Sections:', 'trustorder-for-woo' ) }{ ' ' }
+					</span>
+					{ active.label }
+				</span>
 				<Icon icon={ chevronDown } size={ 20 } />
 			</button>
 			<nav

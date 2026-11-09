@@ -18,7 +18,11 @@ export default function StatTile( { label, value, detail, meter } ) {
 			<span className="to-tile__label">{ label }</span>
 			<span className="to-tile__value">{ value }</span>
 			{ typeof meter === 'number' && (
-				<ProgressBar className="to-tile__meter" value={ meter } />
+				<ProgressBar
+					className="to-tile__meter"
+					value={ meter }
+					aria-label={ label }
+				/>
 			) }
 			{ detail && <span className="to-tile__detail">{ detail }</span> }
 		</div>

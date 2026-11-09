@@ -59,7 +59,8 @@ final class CapNotice {
 			}
 			$url = wp_nonce_url( admin_url( 'admin-post.php?action=' . self::ACTION . '&notice=' . rawurlencode( $transient ) ), self::ACTION );
 			echo '<div class="notice notice-warning"><p>' . esc_html( $text ) . '</p><p><a href="' . esc_url( $url ) . '">'
-				. esc_html__( 'Dismiss', 'trustorder-for-woo' ) . '</a></p></div>';
+				. esc_html__( 'Dismiss', 'trustorder-for-woo' )
+				. '<span class="screen-reader-text"> ' . esc_html__( 'the TrustOrder notice', 'trustorder-for-woo' ) . '</span></a></p></div>';
 		}
 	}
 

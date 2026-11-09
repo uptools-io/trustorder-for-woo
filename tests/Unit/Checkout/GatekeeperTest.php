@@ -170,6 +170,44 @@ final class GatekeeperTest extends CheckoutTestCase {
 		$this->assertNull( Scope::route() );
 	}
 
+	public function test_nested_dispatch_restores_the_outer_route(): void {
+		Scope::register();
+		$outer = new \WP_REST_Request( 'POST', '/wc/store/v1/checkout' );
+		$inner = new \WP_REST_Request( 'GET', '/wc/store/v1/cart' );
+
+		apply_filters( 'rest_request_before_callbacks', null, [], $outer );
+		// A callback dispatching another request (rest_do_request(), a preload, /batch).
+		apply_filters( 'rest_request_before_callbacks', null, [], $inner );
+		$this->assertSame( '/wc/store/v1/cart', Scope::route() );
+		apply_filters( 'rest_request_before_callbacks', null, [], 'not a request' );
+		$this->assertNull( Scope::route() );
+		apply_filters( 'rest_request_after_callbacks', null, [], 'not a request' );
+		apply_filters( 'rest_request_after_callbacks', null, [], $inner );
+
+		$this->assertSame( '/wc/store/v1/checkout', Scope::route(), 'the outer route is back' );
+		trustorder_test_wc( self::customer() );
+		$this->assertSame( 'live', Scope::mode() );
+
+		apply_filters( 'rest_request_after_callbacks', null, [], $outer );
+		$this->assertNull( Scope::route() );
+		apply_filters( 'rest_request_after_callbacks', null, [], $outer );
+		$this->assertNull( Scope::route(), 'an unpaired leave is harmless' );
+	}
+
+	public function test_set_route_resets_the_stack(): void {
+		Scope::register();
+		apply_filters( 'rest_request_before_callbacks', null, [], new \WP_REST_Request( 'POST', '/wc/store/v1/checkout' ) );
+		Scope::setRoute( '/wc/store/v1/cart' );
+
+		$this->assertSame( '/wc/store/v1/cart', Scope::route() );
+		apply_filters( 'rest_request_after_callbacks', null, [], null );
+		$this->assertNull( Scope::route(), 'nothing of the earlier route is left' );
+
+		apply_filters( 'rest_request_before_callbacks', null, [], new \WP_REST_Request( 'POST', '/wc/store/v1/checkout' ) );
+		Scope::setRoute( null );
+		$this->assertNull( Scope::route() );
+	}
+
 	public function test_hidden_now_reports_the_hidden_list(): void {
 		$this->onCheckout();
 		$this->answers = [ $this->verdict( 'block', 'blocked' ) ];

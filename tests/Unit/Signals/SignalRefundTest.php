@@ -19,6 +19,7 @@ final class SignalRefundTest extends SignalTestCase {
 	public function test_a_full_refund_retracts_a_sent_delivery(): void {
 		$o = $this->order();
 		$this->transition( $o, 'completed' );
+		$this->cacheResultFor( $o );
 		$before = CacheGeneration::current();
 		$this->transition( $o, 'refunded' );
 
@@ -27,7 +28,8 @@ final class SignalRefundTest extends SignalTestCase {
 		$s = $this->state( $o );
 		$this->assertNull( $s['outcome'] );
 		$this->assertSame( SignalState::RETRACTED, $s['status'] );
-		$this->assertSame( $before + 1, CacheGeneration::current() );
+		$this->assertSame( [], $this->cachedFor( $o ), 'the buyer\'s cached result is dropped' );
+		$this->assertSame( $before, CacheGeneration::current() );
 	}
 
 	public function test_a_refund_keeps_a_sent_refusal(): void {

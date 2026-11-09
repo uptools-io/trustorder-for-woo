@@ -13,6 +13,8 @@ use LightweightPlugins\TrustOrder\Api\ApiKey;
 use LightweightPlugins\TrustOrder\Api\Client;
 use LightweightPlugins\TrustOrder\Api\Response;
 use LightweightPlugins\TrustOrder\Checkout\CacheGeneration;
+use LightweightPlugins\TrustOrder\Checkout\IdentityBuilder;
+use LightweightPlugins\TrustOrder\Checkout\ResultCache;
 use LightweightPlugins\TrustOrder\Log;
 use LightweightPlugins\TrustOrder\Settings;
 
@@ -163,8 +165,13 @@ final class SignalJob {
 			$next['sent_at']     = SignalState::now();
 			$next['occurred_at'] = $occurred_at;
 			SignalState::write( $order, $next );
-			// The buyer's history changed: a cached check result is now stale.
-			CacheGeneration::bump();
+			if ( Outcome::REFUSED === $want ) {
+				// Rare, and every cached variant of the buyer (e.g. the same e-mail
+				// with another address) must go: a new generation.
+				CacheGeneration::bump();
+			} else {
+				self::forgetBuyer( $order, $env );
+			}
 			return;
 		}
 		$next                = self::failure( $order, $state, $env, $want, $resp, $attempts );
@@ -186,7 +193,7 @@ final class SignalJob {
 			$next            = self::next( $state, $env, null, SignalState::RETRACTED, Outcome::RETRACT );
 			$next['sent_at'] = SignalState::now();
 			SignalState::write( $order, $next );
-			CacheGeneration::bump();
+			self::forgetBuyer( $order, $env );
 			return;
 		}
 		if ( 409 === $resp->status() ) {
@@ -194,6 +201,18 @@ final class SignalJob {
 			return;
 		}
 		SignalState::write( $order, self::failure( $order, $state, $env, Outcome::RETRACT, $resp, $attempts ) );
+	}
+
+	/**
+	 * The buyer's history changed: drop that identity's cached check results
+	 * (not the whole shop's). Session-memory rows of that identity may live
+	 * on for up to their 10-minute TTL.
+	 *
+	 * @param \WC_Order $order Order.
+	 * @param string    $env   Env.
+	 */
+	private static function forgetBuyer( \WC_Order $order, string $env ): void {
+		ResultCache::forget( $env, IdentityBuilder::fromOrder( $order )->cacheKey() );
 	}
 
 	/**

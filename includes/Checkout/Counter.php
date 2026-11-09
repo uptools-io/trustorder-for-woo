@@ -52,6 +52,20 @@ final class Counter {
 	}
 
 	/**
+	 * Current count of a bucket from the storage incr() would use in this
+	 * request (the transient copy once the object-cache counter failed).
+	 * Read-only.
+	 *
+	 * @param string $bucket Bucket id.
+	 * @param int    $window Window (seconds).
+	 */
+	public static function current( string $bucket, int $window ): int {
+		$key = self::key( $bucket, $window );
+
+		return self::read( $key, isset( self::$degraded[ $key ] ) );
+	}
+
+	/**
 	 * Stored value of a key (0 when missing or non-numeric).
 	 *
 	 * @param string $key       Storage key.

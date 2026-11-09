@@ -165,7 +165,10 @@ export default function ExceptionForm( { onChanged } ) {
 			setForm( { ...EMPTY, country: form.country } );
 			onChanged();
 		} catch ( error ) {
-			createErrorNotice( requestError( error ), { type: 'snackbar' } );
+			createErrorNotice( requestError( error ), {
+				type: 'snackbar',
+				explicitDismiss: true,
+			} );
 		} finally {
 			setBusy( '' );
 		}
@@ -212,15 +215,18 @@ export default function ExceptionForm( { onChanged } ) {
 					'trustorder-for-woo'
 				) }
 			>
-				<TextControl
-					__next40pxDefaultSize
-					__nextHasNoMarginBottom
-					label={ __( 'Note', 'trustorder-for-woo' ) }
-					hideLabelFromVision
-					maxLength={ 500 }
-					value={ form.note }
-					onChange={ ( value ) => set( { note: value } ) }
-				/>
+				{ ( { describedBy } ) => (
+					<TextControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Note', 'trustorder-for-woo' ) }
+						hideLabelFromVision
+						aria-describedby={ describedBy }
+						maxLength={ 500 }
+						value={ form.note }
+						onChange={ ( value ) => set( { note: value } ) }
+					/>
+				) }
 			</SettingRow>
 			<div className="to-actions">
 				<Button

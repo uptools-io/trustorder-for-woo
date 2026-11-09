@@ -76,7 +76,10 @@ export default function BackfillPage() {
 			await startBackfill();
 			await status.reload();
 		} catch ( error ) {
-			createErrorNotice( requestError( error ), { type: 'snackbar' } );
+			createErrorNotice( requestError( error ), {
+				type: 'snackbar',
+				explicitDismiss: true,
+			} );
 		} finally {
 			setStarting( false );
 		}
@@ -148,7 +151,7 @@ export default function BackfillPage() {
 			) }
 			{ run && (
 				<div className="to-progress">
-					{ badges[ current ] }
+					<span role="status">{ badges[ current ] }</span>
 					{ current === 'running' && (
 						<ProgressBar
 							className="to-progress__bar"
