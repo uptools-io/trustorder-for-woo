@@ -13,7 +13,7 @@
         "php": ">=8.1"
     },
     "require-dev": {
-        "giggsey/libphonenumber-for-php-lite": "9.0.42",
+        "giggsey/libphonenumber-for-php-lite": "9.0.43",
         "php-stubs/woocommerce-stubs": "^11.1",
         "php-stubs/wp-cli-stubs": "^2.12",
         "phpcompatibility/phpcompatibility-wp": "^2.1",
