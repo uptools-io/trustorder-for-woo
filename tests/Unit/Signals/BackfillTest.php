@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\TrustOrder\Tests\Unit\Signals;
 
 use LightweightPlugins\TrustOrder\Settings;
+use LightweightPlugins\TrustOrder\Order\RefusedStatus;
 use LightweightPlugins\TrustOrder\Signals\Backfill;
 use LightweightPlugins\TrustOrder\Signals\OrderPager;
 use LightweightPlugins\TrustOrder\Signals\SignalLock;
@@ -128,6 +129,20 @@ final class BackfillTest extends SignalTestCase {
 		$rows = $this->batches()[0];
 		$this->assertSame( [ '1', '2', '3', '4' ], array_column( $rows, 'order_ref' ) );
 		$this->assertSame( [ 'delivered', 'delivered', 'refused', 'refused' ], array_column( $rows, 'outcome' ) );
+	}
+
+	public function test_statuses_added_by_the_filter_are_back_loaded_as_refused(): void {
+		add_filter( RefusedStatus::FILTER, static fn( array $s ): array => array_merge( $s, [ 'returned' ] ) );
+		$this->batchAnswer();
+		$this->orders( 1, 'completed', 1 );
+		$this->orders( 1, 'returned', 2 );
+
+		Backfill::start( 'test' );
+		$this->drain();
+
+		$rows = $this->batches()[0];
+		$this->assertSame( [ 'delivered', 'refused' ], array_column( $rows, 'outcome' ) );
+		$this->assertSame( [ 'wc-completed', 'wc-to-refused', 'wc-returned' ], $GLOBALS['trustorder_test']['order_queries'][0]['status'] );
 	}
 
 	public function test_age_cut_off_is_1095_days(): void {
@@ -275,10 +290,28 @@ final class BackfillTest extends SignalTestCase {
 		$this->assertStringContainsString( 'UNAUTHORIZED', $this->logged() );
 	}
 
-	public function test_no_email_orders_are_skipped_without_a_row(): void {
+	public function test_an_order_without_email_still_gets_a_row_with_its_phone_and_address(): void {
 		$this->batchAnswer();
 		$this->orders( 2 );
 		$GLOBALS['trustorder_test']['orders'][2]->set_billing_email( '' );
+
+		Backfill::start( 'test' );
+		$this->drain();
+
+		$rows = $this->batches()[0];
+		$this->assertSame( [ '1', '2' ], array_column( $rows, 'order_ref' ) );
+		$this->assertArrayNotHasKey( 'email_hash', $rows[1] );
+		$this->assertArrayHasKey( 'phone_hash', $rows[1] );
+	}
+
+	public function test_orders_without_any_identity_are_skipped_without_a_row(): void {
+		$this->batchAnswer();
+		$this->orders( 2 );
+		$GLOBALS['trustorder_test']['orders'][2]->set_billing_email( '' );
+		$GLOBALS['trustorder_test']['orders'][2]->set_billing_phone( '' );
+		$GLOBALS['trustorder_test']['orders'][2]->set_shipping_address_1( '' );
+		$GLOBALS['trustorder_test']['orders'][2]->set_shipping_postcode( '' );
+		$GLOBALS['trustorder_test']['orders'][2]->shipping = [];
 
 		Backfill::start( 'test' );
 		$this->drain();

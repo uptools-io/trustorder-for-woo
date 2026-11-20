@@ -298,11 +298,48 @@ final class CheckerTest extends CheckoutTestCase {
 	}
 
 	public function test_no_email_sends_nothing(): void {
-		$d = $this->checker()->decide( IdentitySet::fromOrderData( [ 'email' => 'not-an-email', 'phone' => '+36301234567' ] ), 'normal' );
+		$d = $this->checker()->decide( IdentitySet::fromOrderData( [ 'email' => '', 'phone' => '+36301234567' ] ), 'normal' );
 
 		$this->assertTrue( $d->failedOpen() );
 		$this->assertSame( 'NO_EMAIL', $d->errorCode() );
 		$this->assertSame( 0, $this->checks() );
+	}
+
+	public function test_unusable_email_gets_the_local_block_fallback_without_a_request(): void {
+		$ids = IdentitySet::fromOrderData( [ 'email' => '...@gmail.com', 'phone' => '+36301234567' ] );
+
+		foreach ( [ $this->checker()->decide( $ids, 'normal' ), $this->checker()->decideForSubmit( $ids, 'lenient' ) ] as $d ) {
+			$this->assertFalse( $d->failedOpen() );
+			$this->assertTrue( $d->isFallback() );
+			$this->assertSame( 'block', $d->verdict() );
+			$this->assertSame( Checker::EMAIL_UNUSABLE, $d->fallbackCode() );
+		}
+		$this->assertSame( 0, $this->checks() );
+		$this->assertSame( [], $GLOBALS['trustorder_test']['as'], 'no MX lookup either' );
+	}
+
+	public function test_an_incomplete_email_fails_open_like_an_empty_one(): void {
+		foreach ( [ 'abc', 'abc@', 'not-an-email', 'a@b' ] as $email ) {
+			$d = $this->checker()->decide( IdentitySet::fromOrderData( [ 'email' => $email, 'phone' => '+36301234567' ] ), 'normal' );
+
+			$this->assertTrue( $d->failedOpen(), $email );
+			$this->assertSame( 'NO_EMAIL', $d->errorCode(), $email );
+		}
+		$this->assertSame( 0, $this->checks() );
+	}
+
+	public function test_a_complete_email_that_cannot_be_normalised_takes_the_fallback(): void {
+		$d = $this->checker()->decide( IdentitySet::fromOrderData( [ 'email' => ' +x@gmail.com ', 'phone' => '+36301234567' ] ), 'normal' );
+
+		$this->assertTrue( $d->isFallback() );
+		$this->assertSame( Checker::EMAIL_UNUSABLE, $d->fallbackCode() );
+		$this->assertSame( 0, $this->checks() );
+	}
+
+	public function test_unusable_email_without_a_key_still_fails_open(): void {
+		$d = ( new Checker( new Client( '', 'https://api.example.test/v1/trustorder' ), '', 's:abc' ) )->decide( IdentitySet::fromOrderData( [ 'email' => '+x@example.com' ] ), 'normal' );
+
+		$this->assertTrue( $d->failedOpen() );
 	}
 
 	public function test_no_env_sends_nothing(): void {

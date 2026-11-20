@@ -28,6 +28,14 @@ final class PhoneTest extends TestCase {
 			'all identical digits'    => [ '+36 99 999 9999', 'HU', null ],
 			'invalid utf8'            => [ "06 30 123 4567\xFF", 'HU', null ],
 			'invalid utf8 region'     => [ '06 30 123 4567', "H\xFF", null ],
+			'hash sign stripped'      => [ '+36 30 123 4567#', 'HU', '+36301234567' ],
+			'underscores stripped'    => [ '06_30_123_4567', 'HU', '+36301234567' ],
+			'only hash and underscore' => [ '#_#', 'HU', null ],
+			'extension after hash cut' => [ '+36 30 123 4567 #12', 'HU', '+36301234567' ],
+			'text after hash cut'     => [ '06 30 123 4567#ext', 'HU', '+36301234567' ],
+			'leading hash dropped'    => [ '#06 30 123 4567', 'HU', '+36301234567' ],
+			'hash inside the number'  => [ '+36 30 #123 4567', 'HU', '+36301234567' ],
+			'letters still invalid'   => [ '06 30 123 4567 ext', 'HU', null ],
 		];
 	}
 

@@ -9,11 +9,13 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\TrustOrder\Admin;
 
+use LightweightPlugins\TrustOrder\Checkout\Checker;
 use LightweightPlugins\TrustOrder\Checkout\QuotaGuard;
 
 /**
- * Two notices on WooCommerce / TrustOrder screens for `manage_woocommerce`
- * users: the shop-wide hourly breaker and the place-order network cap. Each
+ * Notices on WooCommerce / TrustOrder screens for `manage_woocommerce`
+ * users: the shop-wide hourly breaker, the place-order network cap, the
+ * shop-wide place-order cap and the service's daily check quota. Each
  * is dismissible per user and per trip (the dismissal stores the trip time).
  */
 final class CapNotice {
@@ -37,8 +39,10 @@ final class CapNotice {
 	 */
 	private static function messages(): array {
 		return [
-			QuotaGuard::BREAKER_TRANSIENT   => __( 'TrustOrder reached its hourly check limit in the last hour. While the limit was reached, buyers not checked yet kept every payment method while filling in the checkout. If your shop really has this many checkouts, raise the limit with the trustorder_hourly_check_limit filter.', 'trustorder-for-woo' ),
-			QuotaGuard::SUBMIT_IP_TRANSIENT => __( 'TrustOrder reached its place-order check limit for one visitor network in the last hour. For those orders the risky payment methods stayed hidden. If many buyers share one address (for example behind a proxy), set the real visitor address with the trustorder_client_ip filter, or raise the limit with trustorder_submit_ip_check_limit.', 'trustorder-for-woo' ),
+			QuotaGuard::BREAKER_TRANSIENT     => __( 'TrustOrder reached its hourly check limit in the last hour. While the limit was reached, buyers not checked yet kept every payment method while filling in the checkout. If your shop really has this many checkouts, raise the limit with the trustorder_hourly_check_limit filter.', 'trustorder-for-woo' ),
+			QuotaGuard::SUBMIT_IP_TRANSIENT   => __( 'TrustOrder reached its place-order check limit for one visitor network in the last hour. For those orders the risky payment methods stayed hidden. If many buyers share one address (for example behind a proxy), set the real visitor address with the trustorder_client_ip filter, or raise the limit with trustorder_submit_ip_check_limit.', 'trustorder-for-woo' ),
+			Checker::DAILY_QUOTA_TRANSIENT    => __( 'TrustOrder reached its daily check limit at the service. Until the limit resets at midnight UTC, buyers are not checked and every payment method stays available. Reporting delivered and not picked up orders raises the limit.', 'trustorder-for-woo' ),
+			QuotaGuard::SUBMIT_SHOP_TRANSIENT => __( 'TrustOrder reached its hourly place-order check limit in the last hour. While the limit was reached, orders were not checked: every payment method stayed available, except for visitor networks that had used place-order checks themselves. If your shop really has this many orders, raise the limit with the trustorder_hourly_submit_check_limit filter.', 'trustorder-for-woo' ),
 		];
 	}
 

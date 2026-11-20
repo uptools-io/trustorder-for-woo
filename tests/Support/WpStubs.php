@@ -430,6 +430,33 @@ function esc_url( $url ) {
 	return htmlspecialchars( (string) $url, ENT_QUOTES, 'UTF-8' );
 }
 
+/**
+ * WordPress core is_email() (wp-includes/formatting.php), without the filter.
+ */
+function is_email( $email, $deprecated = false ) {
+	$email = (string) $email;
+	if ( strlen( $email ) < 6 || false === strpos( $email, '@', 1 ) ) {
+		return false;
+	}
+	list( $local, $domain ) = explode( '@', $email, 2 );
+	if ( ! preg_match( '/^[a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]+$/', $local ) ) {
+		return false;
+	}
+	if ( preg_match( '/\.{2,}/', $domain ) || trim( $domain, " \t\n\r\0\x0B." ) !== $domain ) {
+		return false;
+	}
+	$subs = explode( '.', $domain );
+	if ( 2 > count( $subs ) ) {
+		return false;
+	}
+	foreach ( $subs as $sub ) {
+		if ( trim( $sub, " \t\n\r\0\x0B-" ) !== $sub || ! preg_match( '/^[a-z0-9-]+$/i', $sub ) ) {
+			return false;
+		}
+	}
+	return $email;
+}
+
 function sanitize_text_field( $str ) {
 	return trim( strip_tags( (string) $str ) );
 }

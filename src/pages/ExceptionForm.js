@@ -195,7 +195,7 @@ export default function ExceptionForm( { onChanged } ) {
 				<IdentityFields kind={ kind } form={ form } set={ set } />
 				<Callout>
 					{ __(
-						'The value is turned into a one-way hash on this server and only the hash is sent. The value itself is not saved anywhere, so the list below cannot show it: to remove an exception, type the same value again.',
+						'The value is turned into a hash on this server and only the hash is sent. The value itself is not saved anywhere, so the list below cannot show it: to remove an exception, type the same value again.',
 						'trustorder-for-woo'
 					) }
 				</Callout>

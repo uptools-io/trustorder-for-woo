@@ -28,7 +28,6 @@ final class DecisionTest extends TestCase {
 			'level'    => 'blocked',
 			'score'    => 33,
 			'reasons'  => [ 'NEGATIVE_RECENT', 'LOW_SCORE' ],
-			'stats'    => [ 'delivered' => 0, 'refused' => 2, 'accounts_refused' => 2 ],
 			'check_id' => '01a1a17c-7e54-7032-95b4-ba478164249b',
 		];
 	}

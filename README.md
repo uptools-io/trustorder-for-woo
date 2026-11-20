@@ -5,7 +5,9 @@
 Cash-on-delivery protection for WooCommerce by [uptools.io](https://uptools.io).
 At checkout it hashes the buyer's e-mail, phone number and address, and if the
 buyer has a history of refusing cash-on-delivery parcels, it hides cash on
-delivery. Raw personal data never leaves the shop. The one exception, on by default and easy to turn off, is the country and postcode of new orders (see below).
+delivery. Raw personal data never leaves the shop. The hashes are pseudonymous
+personal data (a known value can be matched to its hash); the service re-keys
+them with its own secret before storing them. The one exception, on by default and easy to turn off, is the country and postcode of new orders (see below).
 
 - Requirements: WordPress 6.6+, WooCommerce 8.2+, PHP 8.1+ (the bundled libphonenumber 9.x uses enums). The PHP `intl` extension is recommended: without it (or without mbstring), values with non-ASCII characters (accented addresses, international e-mail domains) are not hashed, and an order whose e-mail contains such characters is not checked (the admin shows a notice).
 - Block and classic (shortcode) checkout, HPOS and legacy order storage.
@@ -19,20 +21,24 @@ If the TrustOrder service is slow or unavailable (the check waits at most **1.5 
 ## Check limits and the visitor IP
 
 - While the buyer types, at most 5 checks run per checkout session; placing an order has its own limit of at most 3 per session.
-- Per visitor network, at most 20 browsing checks and 10 place-order checks run per 30 minutes. Shop-wide, at most 300 browsing checks run per hour.
-- Filters: `trustorder_ip_check_limit`, `trustorder_submit_ip_check_limit`, `trustorder_hourly_check_limit`.
+- Per visitor network, at most 20 browsing checks and 10 place-order checks run per 30 minutes. Shop-wide, at most 300 browsing checks and 300 place-order checks run per hour. When the shop-wide place-order cap is reached, orders are not checked until the hour passes: every payment method stays available, except for visitor networks that used place-order checks themselves in the last 30 minutes.
+- The first place-order check of a session that has no check result yet is not stopped by the place-order network limit (it is still counted there); at most 30 such first checks run per visitor network per 30 minutes, and the session and shop-wide limits still apply.
+- Filters: `trustorder_ip_check_limit`, `trustorder_submit_ip_check_limit`, `trustorder_hourly_check_limit`, `trustorder_hourly_submit_check_limit`, `trustorder_first_check_ip_limit`.
+- At most 200 e-mail domain (MX) lookups are queued per hour (`trustorder_mx_lookup_limit`); above it the domain stays unknown for the check.
 - Without a persistent object cache, the counters are approximate under concurrent requests. With one, every count is atomic and a denied check takes no unit. If the object cache errors, the counters fall back to transients for that request, so the limits still apply.
 - A place-order check that fails because the service is unreachable does not use up the limit, at most 3 times per session and 6 times per visitor network in 30 minutes (filter: `trustorder_network_refund_limit`).
-- When the place-order limit is reached for a buyer who has not been checked yet, the risky payment methods stay hidden. The last remaining payment method is never hidden.
+- When the place-order limit is reached for a buyer who has not been checked yet, the risky payment methods stay hidden. The same happens when the buyer typed a complete e-mail address (one WordPress accepts) that cannot be normalised (so it cannot be checked); the order shows "E-mail not usable". An empty or incomplete (still being typed) address changes nothing. The last remaining payment method is never hidden.
 - The visitor network comes from `REMOTE_ADDR`. Cloudflare's `CF-Connecting-IP` header is used only when the request comes from a Cloudflare edge address; the ranges are built in and the `trustorder_cloudflare_ranges` filter changes them. `X-Forwarded-For` is never trusted.
 - Behind another proxy or load balancer, return the real address from the `trustorder_client_ip` filter. IPv4-mapped IPv6 addresses (`::ffff:a.b.c.d`) count as IPv4; IPv6 addresses are grouped per /64.
 - When the visitor address is private, CGNAT (100.64.0.0/10), loopback, link-local or IPv6 ULA, the network limits are skipped until you set the `trustorder_client_ip` filter; the per-session limits still apply.
-- The admin shows a dismissible warning when the hourly limit or the place-order network limit was reached in the last hour.
+- The admin shows a dismissible warning when the hourly limit, the place-order network limit or the shop-wide place-order limit was reached in the last hour, and when the service answered that the daily check limit is used up (until midnight UTC).
+- While checkout visitors arrived from a private or local address in the last day and the `trustorder_client_ip` filter is not set, the admin shows a warning that stays until the filter is set.
 
 ## Outcome signals and backfill
 
 - New order status: **"Not picked up"** (`wc-to-refused`), with a bulk action on both order lists. The buyer gets no e-mail about it.
 - Every completed order is reported as `delivered`, whatever the payment method. An order in "Not picked up" is reported as `refused`.
+- Other statuses can count as "Not picked up" too: the `trustorder_refused_statuses` filter gets the list of slugs (without `wc-`) and may add to it, e.g. `add_filter( 'trustorder_refused_statuses', fn( $s ) => [ ...$s, 'returned' ] );`. These orders are reported as `refused` and included in the backfill. `completed`, `processing`, `on-hold`, `pending`, `refunded` and `checkout-draft` cannot be added, and the own status always stays.
 - Moving a completed or "Not picked up" order back to processing, on hold or pending payment withdraws its report. A full refund (status refunded) withdraws a sent delivered report; a refusal is never withdrawn by a refund, and partial refunds change nothing; this applies to orders refunded from 1.0.2 on, earlier refunds are not withdrawn. Deletions and cancellations change nothing.
 - Signals are sent in the background (Action Scheduler, group `trustorder`), one job per order that reads the order's state when it runs. When the service is busy or unreachable, it retries after 1, 5, 30 and 120 minutes, then marks the signal `failed`. Only hashes are sent.
 - Test and live keys keep separate reports: after a key switch the order is sent again to the new environment. Switching keys does not withdraw reports sent with the other key (that would need the other key); after a switch, moving an order back withdraws its report in the new key's environment.
@@ -49,7 +55,7 @@ On by default; turn it off in the settings or with `wp trustorder settings set s
 
 ## API key in the configuration
 
-`define( 'TRUSTORDER_API_KEY', 'to_live_...' );` in `wp-config.php` (Bedrock: `TRUSTORDER_API_KEY=` in `.env` and `Config::define( 'TRUSTORDER_API_KEY', env( 'TRUSTORDER_API_KEY' ) );` in `config/application.php`) overrides the saved key and is never written to the database. While it is defined, the admin screen shows only its first 12 characters, and saving a key from the admin, REST (`trustorder_key_locked`) or `wp trustorder settings set api-key` is refused. An invalid value counts as no key; an empty or null value (for example Bedrock's `env()` of a missing variable) counts as not set, and the saved key stays in use.
+Recommended: `define( 'TRUSTORDER_API_KEY', 'to_live_...' );` in `wp-config.php` (Bedrock: `TRUSTORDER_API_KEY=` in `.env` and `Config::define( 'TRUSTORDER_API_KEY', env( 'TRUSTORDER_API_KEY' ) );` in `config/application.php`) overrides the saved key and is never written to the database. While it is defined, the admin screen shows only its first 12 characters, and saving a key from the admin, REST (`trustorder_key_locked`) or `wp trustorder settings set api-key` is refused. An invalid value counts as no key; an empty or null value (for example Bedrock's `env()` of a missing variable) counts as not set, and the saved key stays in use.
 
 ## Admin screen
 

@@ -66,4 +66,25 @@ final class RefusedStatusTest extends TestCase {
 		$this->assertSame( 'x', RefusedStatus::postStatuses( 'x' ) );
 		$this->assertSame( 1, RefusedStatus::bulkActions( 1 ) );
 	}
+	public function test_only_the_own_status_counts_as_refused_by_default(): void {
+		$this->assertSame( [ 'to-refused' ], RefusedStatus::slugs() );
+	}
+
+	public function test_the_filter_adds_statuses_with_or_without_prefix(): void {
+		add_filter( RefusedStatus::FILTER, static fn( array $s ): array => array_merge( $s, [ 'wc-returned', 'undelivered', 'undelivered', '' ] ) );
+
+		$this->assertSame( [ 'to-refused', 'returned', 'undelivered' ], RefusedStatus::slugs() );
+	}
+
+	public function test_the_filter_cannot_drop_the_own_status_or_take_reserved_ones(): void {
+		add_filter( RefusedStatus::FILTER, static fn(): array => [ 'completed', 'wc-processing', 'on-hold', 'pending', 'refunded', 'checkout-draft', 'returned', 42, [ 'x' ] ] );
+
+		$this->assertSame( [ 'to-refused', 'returned' ], RefusedStatus::slugs() );
+	}
+
+	public function test_a_broken_filter_value_keeps_the_default(): void {
+		add_filter( RefusedStatus::FILTER, static fn(): string => 'returned' );
+
+		$this->assertSame( [ 'to-refused' ], RefusedStatus::slugs() );
+	}
 }

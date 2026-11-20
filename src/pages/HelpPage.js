@@ -212,6 +212,16 @@ export default function HelpPage( { store } ) {
 						</a>
 					</div>
 				</div>
+				<p className="to-help__muted">
+					{ sprintf(
+						/* translators: %s: filter name. */
+						__(
+							'Already using your own status for parcels that came back? Your developer can report it as not picked up too, with the %s filter.',
+							'trustorder-for-woo'
+						),
+						'trustorder_refused_statuses'
+					) }
+				</p>
 			</Section>
 
 			<Section
@@ -254,7 +264,7 @@ export default function HelpPage( { store } ) {
 					<h2>{ __( 'Privacy', 'trustorder-for-woo' ) }</h2>
 					<p>
 						{ __(
-							'Names, e-mail addresses, phone numbers and addresses never leave your shop. TrustOrder sends only one-way codes made from them, which cannot be turned back into data. If “Share country and postcode” is on in Settings, the country and postcode of new orders are sent too, without any customer data.',
+							'Names, e-mail addresses, phone numbers and addresses never leave your shop. TrustOrder sends only codes (hashes) made from them, and the service re-keys them with its own secret before storing them. If “Share country and postcode” is on in Settings, the country and postcode of new orders are sent too, without any customer data.',
 							'trustorder-for-woo'
 						) }
 					</p>

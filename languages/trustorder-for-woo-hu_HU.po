@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TrustOrder for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustorder-for-"
 "woo\n"
-"POT-Creation-Date: 2026-11-09T14:06:24+00:00\n"
+"POT-Creation-Date: 2026-11-25T11:35:14+00:00\n"
 "PO-Revision-Date: 2026-11-03 12:00+0000\n"
 "Last-Translator: uptools.io\n"
 "Language-Team: Hungarian\n"
@@ -55,7 +55,7 @@ msgstr ""
 "Hiányzik az admin felület. Futtasd a bővítmény mappájában: \"npm ci && npm "
 "run build\"."
 
-#: includes/Admin/CapNotice.php:40
+#: includes/Admin/CapNotice.php:42
 msgid ""
 "TrustOrder reached its hourly check limit in the last hour. While the limit "
 "was reached, buyers not checked yet kept every payment method while filling "
@@ -67,7 +67,7 @@ msgstr ""
 "a pénztár kitöltése közben. Ha a boltodban tényleg ennyi pénztár-munkamenet "
 "van, emeld a keretet a trustorder_hourly_check_limit szűrővel."
 
-#: includes/Admin/CapNotice.php:41
+#: includes/Admin/CapNotice.php:43
 msgid ""
 "TrustOrder reached its place-order check limit for one visitor network in "
 "the last hour. For those orders the risky payment methods stayed hidden. If "
@@ -81,11 +81,38 @@ msgstr ""
 "proxy mögött), add meg a valódi látogatói címet a trustorder_client_ip "
 "szűrővel, vagy emeld a keretet a trustorder_submit_ip_check_limit szűrővel."
 
-#: includes/Admin/CapNotice.php:62 includes/Admin/IntlNotice.php:52
+#: includes/Admin/CapNotice.php:44
+msgid ""
+"TrustOrder reached its daily check limit at the service. Until the limit "
+"resets at midnight UTC, buyers are not checked and every payment method "
+"stays available. Reporting delivered and not picked up orders raises the "
+"limit."
+msgstr ""
+"A TrustOrder elérte a szolgáltatás napi ellenőrzési keretét. Amíg a keret "
+"éjfélkor (UTC) újra nem indul, a vásárlók nincsenek ellenőrizve, és minden "
+"fizetési mód elérhető marad. A kézbesített és az át nem vett rendelések "
+"jelentése növeli a keretet."
+
+#: includes/Admin/CapNotice.php:45
+msgid ""
+"TrustOrder reached its hourly place-order check limit in the last hour. "
+"While the limit was reached, orders were not checked: every payment method "
+"stayed available, except for visitor networks that had used place-order "
+"checks themselves. If your shop really has this many orders, raise the limit "
+"with the trustorder_hourly_submit_check_limit filter."
+msgstr ""
+"A TrustOrder az elmúlt órában elérte a rendelésleadási ellenőrzések "
+"óránkénti keretét. Ezalatt a rendeléseknél nem volt ellenőrzés: minden "
+"fizetési mód elérhető maradt, kivéve azokat a látogatói hálózatokat, amelyek "
+"maguk is rendelésleadási ellenőrzést használtak. Ha a boltodban tényleg "
+"ennyi rendelés van, emeld a keretet a trustorder_hourly_submit_check_limit "
+"szűrővel."
+
+#: includes/Admin/CapNotice.php:66 includes/Admin/IntlNotice.php:52
 msgid "Dismiss"
 msgstr "Elrejtés"
 
-#: includes/Admin/CapNotice.php:63 includes/Admin/IntlNotice.php:53
+#: includes/Admin/CapNotice.php:67 includes/Admin/IntlNotice.php:53
 msgid "the TrustOrder notice"
 msgstr "(TrustOrder-értesítés)"
 
@@ -132,15 +159,15 @@ msgstr ""
 
 #: includes/Admin/Privacy.php:40
 msgid ""
-"When the checkout is filled in, the webshop sends one-way hashes of the "
-"buyer's e-mail address, phone number and shipping address, hashes of the e-"
-"mail domain, and whether the e-mail domain can receive mail. Names and the "
-"readable values are never sent."
+"When the checkout is filled in, the webshop sends hashes (pseudonymous "
+"codes) of the buyer's e-mail address, phone number and shipping address, "
+"hashes of the e-mail domain, and whether the e-mail domain can receive mail. "
+"Names and the readable values are never sent."
 msgstr ""
 "A pénztár kitöltésekor a webáruház a vásárló e-mail-címének, telefonszámának "
-"és szállítási címének egyirányú hash-ét, az e-mail-domain hash-eit, valamint "
-"azt továbbítja, hogy az e-mail-domain tud-e leveleket fogadni. Nevet és "
-"olvasható adatot a webáruház nem továbbít."
+"és szállítási címének hash-ét (álnevesített kódját), az e-mail-domain hash-"
+"eit, valamint azt továbbítja, hogy az e-mail-domain tud-e leveleket fogadni. "
+"Nevet és olvasható adatot a webáruház nem továbbít."
 
 #: includes/Admin/Privacy.php:41
 msgid ""
@@ -199,68 +226,86 @@ msgstr ""
 "kérdéseket és a tiltakozást a webáruházhoz lehet intézni. A szolgáltatás a "
 "hash-elt kézbesítési eredményeket 3 évig őrzi, utána törli."
 
+#: includes/Admin/ProxyNotice.php:42
+msgid ""
+"TrustOrder sees a private or local address (for example 10.x.x.x or "
+"127.0.0.1) for your checkout visitors, so a proxy or load balancer probably "
+"stands in front of the shop. The per-network check limits cannot tell these "
+"visitors apart. Set the real visitor address with the trustorder_client_ip "
+"filter, for example from the header your proxy sends."
+msgstr ""
+"A TrustOrder privát vagy helyi címet (például 10.x.x.x vagy 127.0.0.1) lát a "
+"pénztár látogatóinál, így valószínűleg proxy vagy terheléselosztó áll a bolt "
+"előtt. A hálózatonkénti ellenőrzési keretek így nem tudják megkülönböztetni "
+"ezeket a látogatókat. Állítsd be a látogató valódi címét a "
+"trustorder_client_ip szűrővel, például a proxyd által küldött fejlécből."
+
 #: includes/Checkout/Enforcer.php:111
 msgid "Choose another payment method for this order."
 msgstr "Ehhez a rendeléshez válassz másik fizetési módot."
 
-#: includes/Order/Labels.php:53 build/index.js:7
+#: includes/Order/Labels.php:55 build/index.js:7
 msgid "Trusted"
 msgstr "Megbízható"
 
-#: includes/Order/Labels.php:55 build/index.js:7
+#: includes/Order/Labels.php:57 build/index.js:7
 msgid "Limited data"
 msgstr "Kevés adat"
 
-#: includes/Order/Labels.php:57 build/index.js:7
+#: includes/Order/Labels.php:59 build/index.js:7
 msgid "Risky"
 msgstr "Kockázatos"
 
-#: includes/Order/Labels.php:59 build/index.js:7
+#: includes/Order/Labels.php:61 build/index.js:7
 msgid "Blocked"
 msgstr "Tiltott"
 
-#: includes/Order/Labels.php:72 build/index.js:9
+#: includes/Order/Labels.php:74 build/index.js:10
 msgid "Refused orders at several shops"
 msgstr "Több boltban sem vette át a rendelést"
 
-#: includes/Order/Labels.php:73 build/index.js:9
+#: includes/Order/Labels.php:75 build/index.js:10
 msgid "Recently refused an order"
 msgstr "Nemrég nem vett át egy rendelést"
 
-#: includes/Order/Labels.php:74 build/index.js:9
+#: includes/Order/Labels.php:76 build/index.js:10
 msgid "Low score"
 msgstr "Alacsony pontszám"
 
-#: includes/Order/Labels.php:75 build/index.js:9
+#: includes/Order/Labels.php:77 build/index.js:10
 msgid "Disposable e-mail address"
 msgstr "Eldobható e-mail-cím"
 
-#: includes/Order/Labels.php:76 build/index.js:9
+#: includes/Order/Labels.php:78 build/index.js:10
 msgid "E-mail domain cannot receive mail"
 msgstr "Az e-mail-domain nem fogad leveleket"
 
-#: includes/Order/Labels.php:77 build/index.js:9
+#: includes/Order/Labels.php:79 build/index.js:10
 msgid "First-time customer"
 msgstr "Első alkalommal vásárol"
 
-#: includes/Order/Labels.php:78 build/index.js:9
+#: includes/Order/Labels.php:80 build/index.js:10
 msgid "Allowed by your exception list"
 msgstr "A kivétellistád engedélyezi"
 
-#: includes/Order/Labels.php:79 build/index.js:9
+#: includes/Order/Labels.php:81 build/index.js:10
 msgid "Denied by your exception list"
 msgstr "A kivétellistád tiltja"
 
-#: includes/Order/Labels.php:106
+#: includes/Order/Labels.php:118
+msgid "E-mail not usable"
+msgstr "Nem használható e-mail-cím"
+
+#: includes/Order/Labels.php:122
 msgid "Not checked (limit reached)"
 msgstr "Nem ellenőrzött (betelt a keret)"
 
-#: includes/Order/Labels.php:110 includes/Order/OrderColumn.php:87
+#: includes/Order/Labels.php:126 includes/Order/OrderColumn.php:87
 #: build/index.js:7
 msgid "Not checked"
 msgstr "Nem ellenőrzött"
 
-#: includes/Order/Labels.php:115 build/index.js:7
+#: includes/Order/Labels.php:131 build/index.js:7
 msgid "New customer"
 msgstr "Új vásárló"
 
@@ -272,8 +317,16 @@ msgstr "Utánvét ellenőrzés"
 msgid "This order was not checked."
 msgstr "Ez a rendelés nem volt ellenőrizve."
 
+#: includes/Order/OrderMetabox.php:61
+msgid ""
+"Risky payment methods stayed hidden: the e-mail address could not be used "
+"for the check."
+msgstr ""
+"A kockázatos fizetési módok rejtve maradtak: az e-mail-cím nem volt "
+"használható az ellenőrzéshez."
+
 #. translators: %s: limit code
-#: includes/Order/OrderMetabox.php:66
+#: includes/Order/OrderMetabox.php:70
 #, php-format
 msgid ""
 "Risky payment methods stayed hidden (not checked: check limit reached, %s)."
@@ -282,7 +335,7 @@ msgstr ""
 "keret, %s)."
 
 #. translators: %s: limit code
-#: includes/Order/OrderMetabox.php:68
+#: includes/Order/OrderMetabox.php:72
 #, php-format
 msgid ""
 "Not checked: check limit reached (%s); every payment method stayed available."
@@ -290,12 +343,12 @@ msgstr ""
 "Nem ellenőrzött: betelt a keret (%s); minden fizetési mód elérhető maradt."
 
 #. translators: %s: error code
-#: includes/Order/OrderMetabox.php:75
+#: includes/Order/OrderMetabox.php:79
 #, php-format
 msgid "The check did not run (%s); the order was accepted."
 msgstr "Az ellenőrzés nem futott le (%s); a rendelés átment."
 
-#: includes/Order/OrderMetabox.php:90
+#: includes/Order/OrderMetabox.php:94
 msgid "Check id:"
 msgstr "Ellenőrzés azonosítója:"
 
@@ -318,18 +371,18 @@ msgstr ""
 "%3$s."
 
 #. translators: %s: number of orders
-#: includes/Order/RefusedStatus.php:57
+#: includes/Order/RefusedStatus.php:109
 #, php-format
 msgid "Not picked up <span class=\"count\">(%s)</span>"
 msgid_plural "Not picked up <span class=\"count\">(%s)</span>"
 msgstr[0] "Rendelést nem vette át <span class=\"count\">(%s)</span>"
 msgstr[1] "Rendelést nem vette át <span class=\"count\">(%s)</span>"
 
-#: includes/Order/RefusedStatus.php:97
+#: includes/Order/RefusedStatus.php:149
 msgid "Change status to not picked up"
 msgstr "Állapot módosítása: Rendelést nem vette át"
 
-#: includes/Order/RefusedStatus.php:106 build/index.js:8
+#: includes/Order/RefusedStatus.php:158 build/index.js:8
 msgctxt "Order status"
 msgid "Not picked up"
 msgstr "Rendelést nem vette át"
@@ -557,7 +610,7 @@ msgstr "A kérés nem sikerült. Próbáld újra."
 msgid "Open the upTools Console"
 msgstr "Az upTools Console megnyitása"
 
-#: build/index.js:2 build/index.js:12
+#: build/index.js:2 build/index.js:13
 msgid "(opens in a new tab)"
 msgstr "(új lapon nyílik meg)"
 
@@ -730,13 +783,13 @@ msgstr "Érték"
 
 #: build/index.js:4
 msgid ""
-"The value is turned into a one-way hash on this server and only the hash is "
-"sent. The value itself is not saved anywhere, so the list below cannot show "
-"it: to remove an exception, type the same value again."
+"The value is turned into a hash on this server and only the hash is sent. "
+"The value itself is not saved anywhere, so the list below cannot show it: to "
+"remove an exception, type the same value again."
 msgstr ""
-"Az értékből ezen a szerveren egyirányú hash készül, és csak a hash megy el. "
-"Magát az értéket sehol nem mentjük el, ezért a lenti lista sem mutatja: egy "
-"kivétel törléséhez írd be újra ugyanazt az értéket."
+"Az értékből ezen a szerveren hash készül, és csak a hash megy el. Magát az "
+"értéket sehol nem mentjük el, ezért a lenti lista sem mutatja: egy kivétel "
+"törléséhez írd be újra ugyanazt az értéket."
 
 #: build/index.js:4
 msgid "Rule"
@@ -829,7 +882,7 @@ msgstr[1] "%d kivétel"
 
 #. translators: %d: number of matching exceptions.
 #. translators: %d: number of search results.
-#: build/index.js:6 build/index.js:11
+#: build/index.js:6 build/index.js:12
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] "%d találat"
@@ -1339,7 +1392,7 @@ msgstr "Marad, megjelölve"
 msgid "Stays"
 msgstr "Marad"
 
-#: build/index.js:7 build/index.js:9
+#: build/index.js:7 build/index.js:10
 msgid "Lenient"
 msgstr "Engedékeny"
 
@@ -1347,7 +1400,7 @@ msgstr "Engedékeny"
 msgid "Hides cash on delivery only for Blocked buyers."
 msgstr "Csak a Tiltott vásárlóknél rejti el az utánvétet."
 
-#: build/index.js:7 build/index.js:9
+#: build/index.js:7 build/index.js:10
 msgid "Normal"
 msgstr "Normál"
 
@@ -1355,7 +1408,7 @@ msgstr "Normál"
 msgid "Hidden for Blocked buyers, the Risky order gets a note."
 msgstr "A tiltottaknál eltűnik, a kockázatos rendelés megjegyzést kap."
 
-#: build/index.js:7 build/index.js:9
+#: build/index.js:7 build/index.js:10
 msgid "Strict"
 msgstr "Szigorú"
 
@@ -1396,7 +1449,7 @@ msgstr "Naplózva: %s"
 msgid "No error so far."
 msgstr "Eddig nem volt hiba."
 
-#: build/index.js:8 build/index.js:9
+#: build/index.js:8 build/index.js:10
 msgid "Settings"
 msgstr "Beállítások"
 
@@ -1683,47 +1736,56 @@ msgstr ""
 msgid "You know a buyer personally: allow or deny them."
 msgstr "Egy vásárlót személyesen ismersz: engedélyezd vagy tiltsd le."
 
-#. translators: %s: strictness name (Lenient, Normal, Strict).
+#. translators: %s: filter name.
 #: build/index.js:9
+msgid ""
+"Already using your own status for parcels that came back? Your developer can "
+"report it as not picked up too, with the %s filter."
+msgstr ""
+"Saját állapotot használsz a visszajött csomagokra? A fejlesztőd a %s "
+"szűrővel azt is „Nem vette át” jelzésként küldheti."
+
+#. translators: %s: strictness name (Lenient, Normal, Strict).
+#: build/index.js:10
 msgid "Your strictness: %s"
 msgstr "A szigorúságod: %s"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "You can change it under Settings."
 msgstr "A Beállításokban módosíthatod."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Reasons on the order page"
 msgstr "Okok a rendelés oldalán"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid ""
 "The TrustOrder box on the order page lists why the buyer got their level."
 msgstr ""
 "A rendelés oldalán a TrustOrder doboz felsorolja, miért kapta a vásárló a "
 "szintjét."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "No order data on this buyer in the network."
 msgstr "A hálózatban nincs rendelési adat erről a vásárlóról."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "A shop reported a parcel not picked up in the last 12 months."
 msgstr "Egy webshop az elmúlt 12 hónapban át nem vett csomagot jelzett."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "More than one shop reported parcels not picked up."
 msgstr "Több webshop is át nem vett csomagot jelzett."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "The score is below 60."
 msgstr "A pontszám 60 alatt van."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "The address belongs to a throwaway e-mail service."
 msgstr "A cím egy eldobható e-mail-szolgáltatásé."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid ""
 "The e-mail domain has no mail server, so the address is probably mistyped or "
 "made up."
@@ -1731,125 +1793,183 @@ msgstr ""
 "Az e-mail-domainnek nincs levelezőszervere, ezért a cím valószínűleg elírt "
 "vagy kitalált."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid ""
 "You allowed this buyer on the Exceptions page, so cash on delivery stays."
 msgstr ""
 "Ezt a vásárlót a Kivételek oldalon engedélyezted, ezért az utánvét megmarad."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid ""
 "You denied this buyer on the Exceptions page, so cash on delivery is hidden."
 msgstr ""
 "Ezt a vásárlót a Kivételek oldalon letiltottad, ezért az utánvét eltűnik."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Privacy"
 msgstr "Adatvédelem"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid ""
 "Names, e-mail addresses, phone numbers and addresses never leave your shop. "
-"TrustOrder sends only one-way codes made from them, which cannot be turned "
-"back into data. If “Share country and postcode” is on in Settings, the "
-"country and postcode of new orders are sent too, without any customer data."
+"TrustOrder sends only codes (hashes) made from them, and the service re-keys "
+"them with its own secret before storing them. If “Share country and "
+"postcode” is on in Settings, the country and postcode of new orders are sent "
+"too, without any customer data."
 msgstr ""
 "A nevek, e-mail-címek, telefonszámok és címek soha nem hagyják el a "
-"webshopodat. A TrustOrder csak belőlük képzett, egyirányú kódokat küld, "
-"ezekből az adat nem fejthető vissza. Ha a Beállításokban be van kapcsolva az "
-"„Ország és irányítószám megosztása”, az új rendelések országa és "
-"irányítószáma is elmegy, vásárlói adat nélkül."
+"webshopodat. A TrustOrder csak belőlük képzett kódokat (hash-eket) küld, és "
+"a szolgáltatás tárolás előtt a saját titkos kulcsával újrakódolja őket. Ha a "
+"Beállításokban be van kapcsolva az „Ország és irányítószám megosztása”, az "
+"új rendelések országa és irányítószáma is elmegy, vásárlói adat nélkül."
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Recent"
 msgstr "Legutóbbiak"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Sections"
 msgstr "Menüpontok"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Go to"
 msgstr "Ugrás"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Quick search"
 msgstr "Gyorskeresés"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Search sections and settings"
 msgstr "Keresés a menüpontok és beállítások között"
 
-#: build/index.js:9
+#: build/index.js:10
 msgid "Results"
 msgstr "Találatok"
 
 #. translators: %s: the search text.
-#: build/index.js:10
+#: build/index.js:11
 msgid "No results for “%s”."
 msgstr "Nincs találat erre: „%s”."
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "to navigate"
 msgstr "navigálás"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "to open"
 msgstr "megnyitás"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "Quick search…"
 msgstr "Gyorskeresés…"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "upTools (opens in a new tab)"
 msgstr "upTools (új lapon nyílik meg)"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "TrustOrder overview"
 msgstr "TrustOrder áttekintés"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "Sections:"
 msgstr "Menüpontok:"
 
-#: build/index.js:11
+#: build/index.js:12
 msgid "TrustOrder sections"
 msgstr "TrustOrder szakaszok"
 
 #. translators: URL of the WordPress guide on docs.uptools.io; use the page in your language if there is one.
-#: build/index.js:12
+#: build/index.js:13
 msgid "https://docs.uptools.io/trustorder/wordpress/install/"
 msgstr "https://docs.uptools.io/hu/trustorder/wordpress/install/"
 
-#: build/index.js:12
+#: build/index.js:13
 msgid "Documentation"
 msgstr "Dokumentáció"
 
-#: build/index.js:12
+#: build/index.js:13
 msgid "Unsaved changes"
 msgstr "Mentetlen módosítások"
 
-#: build/index.js:12
+#: build/index.js:13
 msgid "Discard"
 msgstr "Elvetés"
 
-#: build/index.js:12
+#: build/index.js:13
 msgid "Save"
 msgstr "Mentés"
 
-#: build/index.js:12
+#: build/index.js:13
 msgid "Settings saved."
 msgstr "Beállítások elmentve."
 
-#: build/index.js:12
+#: build/index.js:13
 msgid "API key removed."
 msgstr "API-kulcs törölve."
 
-#: build/index.js:12
+#: build/index.js:13
 msgid "Could not load the TrustOrder settings. Reload the page."
 msgstr ""
 "Nem sikerült betölteni a TrustOrder beállításait. Töltsd újra az oldalt."
+
+#~ msgid ""
+#~ "TrustOrder reached its hourly place-order check limit in the last hour. "
+#~ "Orders placed while the limit was reached were not checked, and every "
+#~ "payment method stayed available. If your shop really has this many "
+#~ "orders, raise the limit with the trustorder_hourly_submit_check_limit "
+#~ "filter."
+#~ msgstr ""
+#~ "A TrustOrder az elmúlt órában elérte a rendelésleadási ellenőrzések "
+#~ "óránkénti keretét. Az ezalatt leadott rendeléseknél nem volt ellenőrzés, "
+#~ "és minden fizetési mód elérhető maradt. Ha a boltodban tényleg ennyi "
+#~ "rendelés van, emeld a keretet a trustorder_hourly_submit_check_limit "
+#~ "szűrővel."
+
+#~ msgid ""
+#~ "TrustOrder reached its hourly place-order check limit in the last hour. "
+#~ "For orders placed while the limit was reached, the risky payment methods "
+#~ "stayed hidden. If your shop really has this many orders, raise the limit "
+#~ "with the trustorder_hourly_submit_check_limit filter."
+#~ msgstr ""
+#~ "A TrustOrder az elmúlt órában elérte a rendelésleadási ellenőrzések "
+#~ "óránkénti keretét. Az ezalatt leadott rendeléseknél a kockázatos fizetési "
+#~ "módok rejtve maradtak. Ha a boltodban tényleg ennyi rendelés van, emeld a "
+#~ "keretet a trustorder_hourly_submit_check_limit szűrővel."
+
+#~ msgid ""
+#~ "When the checkout is filled in, the webshop sends one-way hashes of the "
+#~ "buyer's e-mail address, phone number and shipping address, hashes of the "
+#~ "e-mail domain, and whether the e-mail domain can receive mail. Names and "
+#~ "the readable values are never sent."
+#~ msgstr ""
+#~ "A pénztár kitöltésekor a webáruház a vásárló e-mail-címének, "
+#~ "telefonszámának és szállítási címének egyirányú hash-ét, az e-mail-domain "
+#~ "hash-eit, valamint azt továbbítja, hogy az e-mail-domain tud-e leveleket "
+#~ "fogadni. Nevet és olvasható adatot a webáruház nem továbbít."
+
+#~ msgid ""
+#~ "The value is turned into a one-way hash on this server and only the hash "
+#~ "is sent. The value itself is not saved anywhere, so the list below cannot "
+#~ "show it: to remove an exception, type the same value again."
+#~ msgstr ""
+#~ "Az értékből ezen a szerveren egyirányú hash készül, és csak a hash megy "
+#~ "el. Magát az értéket sehol nem mentjük el, ezért a lenti lista sem "
+#~ "mutatja: egy kivétel törléséhez írd be újra ugyanazt az értéket."
+
+#~ msgid ""
+#~ "Names, e-mail addresses, phone numbers and addresses never leave your "
+#~ "shop. TrustOrder sends only one-way codes made from them, which cannot be "
+#~ "turned back into data. If “Share country and postcode” is on in Settings, "
+#~ "the country and postcode of new orders are sent too, without any customer "
+#~ "data."
+#~ msgstr ""
+#~ "A nevek, e-mail-címek, telefonszámok és címek soha nem hagyják el a "
+#~ "webshopodat. A TrustOrder csak belőlük képzett, egyirányú kódokat küld, "
+#~ "ezekből az adat nem fejthető vissza. Ha a Beállításokban be van kapcsolva "
+#~ "az „Ország és irányítószám megosztása”, az új rendelések országa és "
+#~ "irányítószáma is elmegy, vásárlói adat nélkül."
 
 #~ msgid "Hide key"
 #~ msgstr "Kulcs elrejtése"

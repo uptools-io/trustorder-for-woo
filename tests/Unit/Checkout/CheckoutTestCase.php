@@ -68,7 +68,6 @@ abstract class CheckoutTestCase extends TestCase {
 					'level'    => $level,
 					'score'    => $score,
 					'reasons'  => $reasons,
-					'stats'    => [ 'delivered' => 0, 'refused' => 0, 'accounts_refused' => 0 ],
 					'check_id' => '01a1a17c-7e54-7032-95b4-ba478164249b',
 				]
 			)

@@ -93,6 +93,24 @@ final class IdentitySetTest extends TestCase {
 		);
 	}
 
+	public function test_a_complete_email_that_cannot_be_normalised_is_marked_unusable(): void {
+		foreach ( [ '...@gmail.com', '+shop@example.com', '+x@gmail.com', ' +x@gmail.com ' ] as $email ) {
+			$set = IdentitySet::fromOrderData( self::order( [ 'email' => $email ] ) );
+			$this->assertFalse( $set->hasEmail(), $email );
+			$this->assertTrue( $set->emailUnusable(), $email );
+		}
+		// Anything is_email() rejects counts as no e-mail at all.
+		foreach ( [ 'not-an-email', 'abc', 'abc@', 'abc@gmail', 'a b@gmail.com' ] as $email ) {
+			$set = IdentitySet::fromOrderData( self::order( [ 'email' => $email ] ) );
+			$this->assertFalse( $set->hasEmail(), $email );
+			$this->assertFalse( $set->emailUnusable(), $email );
+		}
+		foreach ( [ '', " \u{00A0} ", 'buyer@example.com' ] as $email ) {
+			$this->assertFalse( IdentitySet::fromOrderData( self::order( [ 'email' => $email ] ) )->emailUnusable(), $email );
+		}
+		$this->assertFalse( IdentitySet::fromOrderData( [] )->emailUnusable() );
+	}
+
 	public function test_no_address_without_shipping_or_when_skipped(): void {
 		$virtual = IdentitySet::fromOrderData( self::order( [ 'needs_shipping' => false ] ) );
 		$pickup  = IdentitySet::fromOrderData( self::order( [ 'skip_address' => true ] ) );

@@ -18,9 +18,17 @@ use LightweightPlugins\TrustOrder\Log;
  * - Browsing: MAX per session, IP_MAX per client network
  *   (`trustorder_ip_check_limit`) and the shop-wide breaker SHOP_MAX per hour
  *   (`trustorder_hourly_check_limit`).
- * - Place order: SUBMIT_MAX per session and SUBMIT_IP_MAX per client network
- *   (`trustorder_submit_ip_check_limit`). Never the browsing buckets and never
- *   the breaker, so browsing cannot starve the submit check.
+ * - Place order: SUBMIT_MAX per session, SUBMIT_IP_MAX per client network
+ *   (`trustorder_submit_ip_check_limit`) and SUBMIT_SHOP_MAX per hour for the
+ *   whole shop (`trustorder_hourly_submit_check_limit`). Never the browsing
+ *   buckets and never the breaker, so browsing cannot starve the submit
+ *   check. A session's first place-order check (no real verdict and no
+ *   place-order unit yet) is counted in its network bucket but not denied by
+ *   it, so a shared address cannot lock out new buyers; instead it is capped
+ *   by FIRST_IP_MAX first checks per client network
+ *   (`trustorder_first_check_ip_limit`), as session ids are chosen by the
+ *   client. The session and shop-wide caps still apply; the network buckets
+ *   come before the shop-wide one, so a network denial takes no shop unit.
  *
  * Counts: see Counter (atomic with a persistent object cache, approximate
  * otherwise). The network is ClientIp::bucket(); a private / loopback /
@@ -36,10 +44,15 @@ final class QuotaGuard {
 	public const SHOP_MAX      = 300;
 	public const SHOP_WINDOW   = 3600;
 
+	public const SUBMIT_SHOP_MAX = 300;
+	public const FIRST_IP_MAX    = 30;
+
 	public const SESSION_QUOTA = 'SESSION_QUOTA';
 	public const SUBMIT_QUOTA  = 'SUBMIT_QUOTA';
 	public const IP_QUOTA      = 'IP_QUOTA';
 	public const LOCAL_QUOTA   = 'LOCAL_QUOTA';
+
+	public const SUBMIT_SHOP_QUOTA = 'SUBMIT_SHOP_QUOTA';
 
 	/**
 	 * Logged (once per request) when both the object cache and the transient
@@ -64,6 +77,11 @@ final class QuotaGuard {
 	private const SUBMIT_NET = 'submit-ip|';
 
 	/**
+	 * Bucket prefix of the per-network cap on first checks.
+	 */
+	private const FIRST_NET = 'submit-first|';
+
+	/**
 	 * Set while the shop-wide breaker denied within the last hour.
 	 */
 	public const BREAKER_TRANSIENT = 'trustorder_breaker';
@@ -72,6 +90,17 @@ final class QuotaGuard {
 	 * Set while the place-order network cap denied within the last hour.
 	 */
 	public const SUBMIT_IP_TRANSIENT = 'trustorder_submit_ip_cap';
+
+	/**
+	 * Set while the shop-wide place-order cap denied within the last hour.
+	 */
+	public const SUBMIT_SHOP_TRANSIENT = 'trustorder_submit_shop_cap';
+
+	/**
+	 * Set for a day after a check from a private / local client address
+	 * without the `trustorder_client_ip` filter (Admin\ProxyNotice).
+	 */
+	public const LOCAL_CLIENT_TRANSIENT = 'trustorder_local_client_ip';
 
 	/**
 	 * Denial codes already logged in this request.
@@ -86,6 +115,7 @@ final class QuotaGuard {
 	 * @param string $session_key Session key ('' = unknown session: denied).
 	 */
 	public static function browse( string $session_key ): ?string {
+		self::noteLocalClient();
 		if ( '' === $session_key ) {
 			return self::SESSION_QUOTA;
 		}
@@ -135,14 +165,16 @@ final class QuotaGuard {
 	 *
 	 * @param string $session_key Session key ('' = denied).
 	 * @param array  $taken       Out: the units taken (for refundSubmit()).
+	 * @param bool   $unchecked   The session has no real verdict yet.
 	 * @phpstan-param list<array{0: string, 1: int, 2: bool, 3: string}> $taken
 	 */
-	public static function submit( string $session_key, array &$taken = [] ): ?string {
+	public static function submit( string $session_key, array &$taken = [], bool $unchecked = false ): ?string {
 		$taken = [];
+		self::noteLocalClient();
 		if ( '' === $session_key ) {
 			return self::SUBMIT_QUOTA;
 		}
-		[ $code, $taken ] = self::take( self::submitBuckets( $session_key ) );
+		[ $code, $taken ] = self::take( self::submitBuckets( $session_key, $unchecked ) );
 		if ( self::IP_QUOTA === $code ) {
 			self::mark( self::SUBMIT_IP_TRANSIENT );
 		}
@@ -167,8 +199,13 @@ final class QuotaGuard {
 		if ( '' === $session_key || [] === $taken || ! self::refundAllowed( 'refund|' . $session_key, self::REFUND_MAX ) ) {
 			return;
 		}
+		$net_ok = true;
 		foreach ( $taken as [ $key, $window, $transient, $bucket ] ) {
-			if ( str_starts_with( $bucket, self::SUBMIT_NET ) && ! self::refundAllowed( 'refund-ip|' . substr( $bucket, strlen( self::SUBMIT_NET ) ), self::limit( 'trustorder_network_refund_limit', self::NETWORK_REFUND_MAX ) ) ) {
+			if ( str_starts_with( $bucket, self::SUBMIT_NET ) ) {
+				$net_ok = self::refundAllowed( 'refund-ip|' . substr( $bucket, strlen( self::SUBMIT_NET ) ), self::limit( 'trustorder_network_refund_limit', self::NETWORK_REFUND_MAX ) );
+			}
+			// The first-check unit follows its network unit (taken right after it).
+			if ( ! $net_ok && ( str_starts_with( $bucket, self::SUBMIT_NET ) || str_starts_with( $bucket, self::FIRST_NET ) ) ) {
 				continue;
 			}
 			Counter::decrKey( $key, $window, $transient );
@@ -199,19 +236,45 @@ final class QuotaGuard {
 	}
 
 	/**
-	 * Place-order buckets.
+	 * Whether the shop-wide place-order cap denied within the last hour.
+	 */
+	public static function submitShopCapTripped(): bool {
+		return false !== get_transient( self::SUBMIT_SHOP_TRANSIENT );
+	}
+
+	/**
+	 * Place-order buckets. A session's first check counts in the network
+	 * bucket without its limit and is capped by the first-check network
+	 * bucket instead.
 	 *
 	 * @param string $session_key Session key.
+	 * @param bool   $unchecked   The session has no real verdict yet.
 	 * @return list<array{0: string, 1: int, 2: int, 3: string}>
 	 */
-	private static function submitBuckets( string $session_key ): array {
-		$buckets = [ [ 'submit|' . $session_key, self::SUBMIT_MAX, self::WINDOW, self::SUBMIT_QUOTA ] ];
+	private static function submitBuckets( string $session_key, bool $unchecked ): array {
+		$session = 'submit|' . $session_key;
+		$buckets = [ [ $session, self::SUBMIT_MAX, self::WINDOW, self::SUBMIT_QUOTA ] ];
 		$net     = ClientIp::bucket();
 		if ( '' !== $net ) {
-			$buckets[] = [ self::SUBMIT_NET . $net, self::limit( 'trustorder_submit_ip_check_limit', self::SUBMIT_IP_MAX ), self::WINDOW, self::IP_QUOTA ];
+			$first     = $unchecked && 0 === Counter::current( $session, self::WINDOW );
+			$buckets[] = [ self::SUBMIT_NET . $net, $first ? PHP_INT_MAX : self::limit( 'trustorder_submit_ip_check_limit', self::SUBMIT_IP_MAX ), self::WINDOW, self::IP_QUOTA ];
+			if ( $first ) {
+				$buckets[] = [ self::FIRST_NET . $net, self::limit( 'trustorder_first_check_ip_limit', self::FIRST_IP_MAX ), self::WINDOW, self::IP_QUOTA ];
+			}
 		}
+		$buckets[] = [ 'submit-shop', self::limit( 'trustorder_hourly_submit_check_limit', self::SUBMIT_SHOP_MAX ), self::SHOP_WINDOW, self::SUBMIT_SHOP_QUOTA ];
 
 		return $buckets;
+	}
+
+	/**
+	 * Whether the visitor's network used place-order checks in this window
+	 * (false when the network is unknown).
+	 */
+	public static function networkSpentSubmit(): bool {
+		$net = ClientIp::bucket();
+
+		return '' !== $net && Counter::current( self::SUBMIT_NET . $net, self::WINDOW ) > 0;
 	}
 
 	/**
@@ -288,18 +351,30 @@ final class QuotaGuard {
 		self::$logged[ $code ] = true;
 		if ( self::LOCAL_QUOTA === $code ) {
 			self::mark( self::BREAKER_TRANSIENT );
+		} elseif ( self::SUBMIT_SHOP_QUOTA === $code ) {
+			self::mark( self::SUBMIT_SHOP_TRANSIENT );
 		}
 		Log::error( 'checkout', [ 'code' => $code ] );
+	}
+
+	/**
+	 * Remember a check from a local client address (proxy indicator).
+	 */
+	private static function noteLocalClient(): void {
+		if ( ClientIp::localWithoutFilter() ) {
+			self::mark( self::LOCAL_CLIENT_TRANSIENT, DAY_IN_SECONDS );
+		}
 	}
 
 	/**
 	 * Remember a trip for the admin notice; written only when not already set.
 	 *
 	 * @param string $transient Transient name.
+	 * @param int    $ttl       Lifetime in seconds.
 	 */
-	private static function mark( string $transient ): void {
+	private static function mark( string $transient, int $ttl = HOUR_IN_SECONDS ): void {
 		if ( false === get_transient( $transient ) ) {
-			set_transient( $transient, time(), HOUR_IN_SECONDS );
+			set_transient( $transient, time(), $ttl );
 		}
 	}
 

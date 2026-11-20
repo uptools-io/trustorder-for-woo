@@ -103,6 +103,19 @@ final class ClientIp {
 	}
 
 	/**
+	 * Whether the client address is local (a proxy indicator) while the
+	 * `trustorder_client_ip` filter is not set.
+	 */
+	public static function localWithoutFilter(): bool {
+		if ( has_filter( 'trustorder_client_ip' ) ) {
+			return false;
+		}
+		$ip = self::address();
+
+		return '' !== $ip && self::inRanges( $ip, self::LOCAL );
+	}
+
+	/**
 	 * Bucket id: the IPv4 address, or the IPv6 /64. '' when unknown, or when
 	 * the address is local (proxy indicator) and `trustorder_client_ip` is
 	 * not filtered.

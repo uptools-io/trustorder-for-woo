@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\TrustOrder\Identity;
 
+use LightweightPlugins\TrustOrder\Checkout\Counter;
 use LightweightPlugins\TrustOrder\Log;
 
 /**
@@ -17,11 +18,15 @@ use LightweightPlugins\TrustOrder\Log;
  *
  * The job argument is sha256(domain), never the domain: the domain is parked
  * in a short-lived transient under that hash and removed by the handler.
+ * At most HOURLY_MAX new lookups are queued per hour
+ * (`trustorder_mx_lookup_limit`); above it a domain stays unknown.
  */
 final class MxCache {
 
 	public const HOOK  = 'trustorder_mx_lookup';
 	public const GROUP = 'trustorder';
+
+	public const HOURLY_MAX = 200;
 
 	private const RESULT_PREFIX = 'trustorder_mx_';
 	private const PARK_PREFIX   = 'trustorder_mxq_';
@@ -54,14 +59,33 @@ final class MxCache {
 		if ( ! self::isNormalised( $domain ) || null !== self::get( $domain ) || ! function_exists( 'as_schedule_single_action' ) ) {
 			return;
 		}
-		$id = self::id( $domain );
-		set_transient( self::PARK_PREFIX . $id, $domain, HOUR_IN_SECONDS );
-
+		$id   = self::id( $domain );
 		$args = [ $id ];
 		if ( function_exists( 'as_has_scheduled_action' ) && as_has_scheduled_action( self::HOOK, $args, self::GROUP ) ) {
+			set_transient( self::PARK_PREFIX . $id, $domain, HOUR_IN_SECONDS );
 			return;
 		}
+		if ( ! self::takeUnit() ) {
+			return;
+		}
+		set_transient( self::PARK_PREFIX . $id, $domain, HOUR_IN_SECONDS );
 		as_schedule_single_action( time(), self::HOOK, $args, self::GROUP, false );
+	}
+
+	/**
+	 * One unit of the hourly lookup budget; true when within the limit (or
+	 * when no counter works at all).
+	 */
+	private static function takeUnit(): bool {
+		$limit = apply_filters( 'trustorder_mx_lookup_limit', self::HOURLY_MAX );
+		$limit = is_numeric( $limit ) ? max( 0, (int) $limit ) : self::HOURLY_MAX;
+		$n     = Counter::incr( 'mx-lookups', HOUR_IN_SECONDS );
+		if ( null === $n || $n <= $limit ) {
+			return true;
+		}
+		Counter::decr( 'mx-lookups', HOUR_IN_SECONDS );
+
+		return false;
 	}
 
 	/**

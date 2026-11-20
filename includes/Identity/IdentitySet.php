@@ -24,6 +24,7 @@ final class IdentitySet {
 	 * @param string|null $phone_hash    Phone hash.
 	 * @param string|null $address_hash  Address hash.
 	 * @param string|null $domain        Normalised e-mail domain.
+	 * @param bool        $email_unusable A complete e-mail (is_email() accepts it) cannot be normalised.
 	 *
 	 * @phpstan-param list<string> $domain_hashes
 	 */
@@ -32,7 +33,8 @@ final class IdentitySet {
 		private array $domain_hashes,
 		private ?string $phone_hash,
 		private ?string $address_hash,
-		private ?string $domain
+		private ?string $domain,
+		private bool $email_unusable = false
 	) {}
 
 	/**
@@ -68,7 +70,8 @@ final class IdentitySet {
 			$domain_hashes,
 			null === $phone ? null : Hasher::client( 'phone', $phone ),
 			null === $address ? null : Hasher::client( 'address', $address ),
-			null === $email ? null : $email['domain']
+			null === $email ? null : $email['domain'],
+			null === $email && false !== is_email( Unicode::trim( $s( 'email' ) ) )
 		);
 	}
 
@@ -77,6 +80,15 @@ final class IdentitySet {
 	 */
 	public function hasEmail(): bool {
 		return null !== $this->email_hash;
+	}
+
+	/**
+	 * Whether a complete e-mail (WordPress is_email() accepts it) cannot be
+	 * normalised, so it cannot be checked; false when the e-mail is empty,
+	 * incomplete (is_email() rejects it, e.g. half-typed) or usable.
+	 */
+	public function emailUnusable(): bool {
+		return $this->email_unusable;
 	}
 
 	/**

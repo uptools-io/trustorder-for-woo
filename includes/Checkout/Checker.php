@@ -19,6 +19,9 @@ use LightweightPlugins\TrustOrder\Settings;
 
 /**
  * Never throws and never blocks on error: every failure is Decision::failOpen().
+ * A complete e-mail (is_email()) that cannot be normalised (no check
+ * possible) gets the local `block` fallback (EMAIL_UNUSABLE); an empty or
+ * incomplete one fails open (NO_EMAIL).
  * Failures are memoised for the request too, so a timeout costs 1.5 s once.
  * The session memory of this identity is reused while younger than the
  * result cache TTL; older, only when the budget is spent. Otherwise see
@@ -35,9 +38,10 @@ use LightweightPlugins\TrustOrder\Settings;
  */
 final class Checker {
 
-	public const NO_EMAIL      = 'NO_EMAIL';
-	public const SESSION_QUOTA = QuotaGuard::SESSION_QUOTA;
-	public const EXCEPTION     = 'EXCEPTION';
+	public const NO_EMAIL       = 'NO_EMAIL';
+	public const EMAIL_UNUSABLE = 'EMAIL_UNUSABLE';
+	public const SESSION_QUOTA  = QuotaGuard::SESSION_QUOTA;
+	public const EXCEPTION      = 'EXCEPTION';
 
 	/**
 	 * Transient prefix (+ `_<env>`), set while the API had an outage in that
@@ -45,6 +49,12 @@ final class Checker {
 	 */
 	public const API_DOWN     = 'trustorder_api_down';
 	public const API_DOWN_TTL = 60;
+
+	/**
+	 * Set until the next UTC day after the API answered 429 QUOTA_EXCEEDED
+	 * (the service's daily check quota; Admin\CapNotice).
+	 */
+	public const DAILY_QUOTA_TRANSIENT = 'trustorder_daily_quota';
 
 	/**
 	 * Request-wide instance.
@@ -158,7 +168,11 @@ final class Checker {
 	private function resolve( IdentitySet $ids, string $strictness, bool $submit ): Decision {
 		try {
 			if ( ! $ids->hasEmail() ) {
-				return Decision::failOpen( self::NO_EMAIL );
+				// /check needs an e-mail hash: a complete address that cannot be
+				// normalised gets the same stand-in as a spent place-order budget.
+				return $ids->emailUnusable() && '' !== $this->env
+					? Decision::fallback( Decision::BLOCK, self::EMAIL_UNUSABLE )
+					: Decision::failOpen( self::NO_EMAIL );
 			}
 			if ( '' === $this->env ) {
 				return Decision::failOpen( Response::NO_KEY );
@@ -205,8 +219,9 @@ final class Checker {
 			return $this->fallback[ $slot ];
 		}
 
-		$taken  = [];
-		$denied = $submit ? QuotaGuard::submit( $this->session_key, $taken ) : QuotaGuard::browse( $this->session_key );
+		$taken     = [];
+		$unchecked = $submit && null === SessionMemory::strictest( $this->session_key );
+		$denied    = $submit ? QuotaGuard::submit( $this->session_key, $taken, $unchecked ) : QuotaGuard::browse( $this->session_key );
 		if ( null !== $denied ) {
 			// Budget spent: an older answer for this very identity beats a stand-in.
 			$seen = SessionMemory::get( $this->session_key, $key );
@@ -232,15 +247,19 @@ final class Checker {
 
 	/**
 	 * Stand-in when a budget or cap denies a check for an unseen identity.
-	 * Place order: `block` (the hide rule still keeps a way to pay), never
-	 * fail-open, so spending the submit budget cannot open the hidden gateway.
-	 * Browsing: the session's strictest verdict, else fail-open.
+	 * Place order: `block` (the hide rule still keeps a way to pay), so spending
+	 * the session or network budget cannot open the hidden gateway. The
+	 * shop-wide place-order cap keeps `block` only for a network that itself
+	 * used place-order checks in this window: one client must not be able to
+	 * hide payment methods from every other buyer, nor open them for itself.
+	 * Browsing (and the shop-wide cap elsewhere): the session's strictest
+	 * verdict, else fail-open.
 	 *
 	 * @param string $code   Denial code.
 	 * @param bool   $submit Place order.
 	 */
 	private function fallbackFor( string $code, bool $submit ): Decision {
-		if ( $submit ) {
+		if ( $submit && ( QuotaGuard::SUBMIT_SHOP_QUOTA !== $code || QuotaGuard::networkSpentSubmit() ) ) {
 			return Decision::fallback( Decision::BLOCK, $code );
 		}
 		$strictest = SessionMemory::strictest( $this->session_key );
@@ -274,6 +293,9 @@ final class Checker {
 			set_transient( self::apiDown( $this->env ), time(), self::API_DOWN_TTL );
 		} elseif ( ! $outage && $flagged ) {
 			delete_transient( self::apiDown( $this->env ) );
+		}
+		if ( 429 === $response->status() && 'QUOTA_EXCEEDED' === $response->errorCode() && false === get_transient( self::DAILY_QUOTA_TRANSIENT ) ) {
+			set_transient( self::DAILY_QUOTA_TRANSIENT, time(), DAY_IN_SECONDS - time() % DAY_IN_SECONDS );
 		}
 		$decision = Decision::fromResponse( $response );
 		if ( Decision::BAD_RESPONSE === $decision->errorCode() ) {

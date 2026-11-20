@@ -4,7 +4,7 @@ Tags: woocommerce, cash on delivery, cod, fraud, payment gateways
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.14
+Stable tag: 1.0.15
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.2
@@ -28,11 +28,13 @@ If the TrustOrder service is slow or unavailable, nothing is hidden and every or
 
 = Check limits =
 
-To protect your API quota, the plugin makes at most 5 checks per checkout session while the buyer types, plus at most 3 checks per session when an order is placed. There are also network caps: 20 browsing checks and 10 place-order checks per visitor network per 30 minutes. A shop-wide cap of 300 browsing checks per hour applies too. The filters `trustorder_ip_check_limit`, `trustorder_submit_ip_check_limit` and `trustorder_hourly_check_limit` change these limits.
+To protect your API quota, the plugin makes at most 5 checks per checkout session while the buyer types, plus at most 3 checks per session when an order is placed. There are also network caps: 20 browsing checks and 10 place-order checks per visitor network per 30 minutes. Shop-wide caps of 300 browsing checks and 300 place-order checks per hour apply too. The first place-order check of a new checkout session is not stopped by the place-order network cap (so buyers sharing one address are still checked); instead at most 30 such first checks run per visitor network per 30 minutes. The filters `trustorder_ip_check_limit`, `trustorder_submit_ip_check_limit`, `trustorder_hourly_check_limit`, `trustorder_hourly_submit_check_limit` and `trustorder_first_check_ip_limit` change these limits. At most 200 e-mail domain lookups (MX) are queued per hour (`trustorder_mx_lookup_limit`). When the shop-wide place-order cap is reached, orders are not checked until the hour passes: every payment method stays available, except for visitor networks that used place-order checks themselves in the last 30 minutes.
 
 Without a persistent object cache, the counters are approximate when many requests arrive at the same moment.
 
-When the place-order limit is reached for a buyer who has not been checked yet, the plugin hides the risky payment methods. It still never hides the last remaining payment method.
+When the place-order limit is reached for a buyer who has not been checked yet, the plugin hides the risky payment methods. It does the same when the buyer's complete e-mail address cannot be used for a check (the order then shows "E-mail not usable"); an empty or incomplete address changes nothing. It still never hides the last remaining payment method.
+
+The admin shows a warning when a limit was reached in the last hour, when the service's daily check limit is used up (until midnight UTC), and while checkout visitors arrive from a private or local address without the `trustorder_client_ip` filter.
 
 = Visitor IP behind a proxy =
 
@@ -42,7 +44,7 @@ Without a persistent object cache, the counters are approximate under concurrenc
 
 = Outcome signals =
 
-The plugin adds the order status "Not picked up" (`wc-to-refused`), with a bulk action on both order lists. Changing an order to this status sends no e-mail to the buyer, and puts the order's reserved stock back.
+The plugin adds the order status "Not picked up" (`wc-to-refused`), with a bulk action on both order lists. Changing an order to this status sends no e-mail to the buyer, and puts the order's reserved stock back. Other order statuses (for example an existing "Returned" status) can be reported as refused too: add their slugs with the `trustorder_refused_statuses` filter (they are then also included in the backfill). Completed, processing, on hold, pending payment, refunded and checkout draft cannot be added.
 
 Every completed order, whatever the payment method, is reported to TrustOrder as delivered. An order in "Not picked up" is reported as refused. If you move a completed or "Not picked up" order back to processing, on hold or pending payment, the report is withdrawn. A fully refunded order withdraws its delivered report; a refused report is never withdrawn by a refund, and partial refunds change nothing; this applies to orders refunded from 1.0.2 on, earlier refunds are not withdrawn. Cancelled and failed orders change nothing, and deleting an order keeps its report. Only hashes are sent, in the background (Action Scheduler, group `trustorder`), with retries after 1, 5, 30 and 120 minutes when the API is busy or unreachable. Test and live keys keep separate reports. Switching keys does not withdraw reports already sent with the other key (that needs the other key); after a switch, moving an order back to processing, on hold or pending payment withdraws its report under the new key.
 
@@ -95,20 +97,31 @@ English and Hungarian (PHP and the admin app) are bundled in `languages/`.
 1. Requirements: WordPress 6.6 or newer, WooCommerce 8.2 or newer, PHP 8.1 or newer. The PHP `intl` extension is recommended: without it (or without mbstring), values with non-ASCII characters, such as accented addresses or international e-mail domains, are not hashed, and an order whose e-mail contains such characters is not checked (the admin shows a notice).
 2. Upload the `trustorder-for-woo` folder to `wp-content/plugins/` (or install the ZIP under Plugins → Add New → Upload) and activate it.
 3. Get a free API key: TrustOrder is free. Sign in to the upTools Console (https://console.uptools.io/), enable TrustOrder, then on the "Webshops and API keys" tab add your webshop and create a key with "New key".
-4. Under WooCommerce → TrustOrder → Settings, paste the API key (`to_test_` keys use the sandbox, `to_live_` keys the live service) and run the connection test on the Overview screen. Alternatively, set the key in `wp-config.php` with `define( 'TRUSTORDER_API_KEY', 'to_live_...' );` (on Bedrock: `TRUSTORDER_API_KEY` in `.env` and `Config::define( 'TRUSTORDER_API_KEY', env( 'TRUSTORDER_API_KEY' ) );` in `config/application.php`). The constant overrides the saved key, and the key then cannot be changed from the admin screen, REST or WP-CLI.
+4. Under WooCommerce → TrustOrder → Settings, paste the API key (`to_test_` keys use the sandbox, `to_live_` keys the live service) and run the connection test on the Overview screen. Alternatively, set the key in `wp-config.php` with `define( 'TRUSTORDER_API_KEY', 'to_live_...' );` (on Bedrock: `TRUSTORDER_API_KEY` in `.env` and `Config::define( 'TRUSTORDER_API_KEY', env( 'TRUSTORDER_API_KEY' ) );` in `config/application.php`). The constant overrides the saved key, and the key then cannot be changed from the admin screen, REST or WP-CLI. The constant is the recommended way: the key is then not stored in the database.
 5. If the shop runs behind a proxy or load balancer other than Cloudflare, return the real visitor address from the `trustorder_client_ip` filter (see "Visitor IP behind a proxy").
 
 == Frequently Asked Questions ==
 
 = Does any personal data leave my shop? =
 
-No raw data. E-mail addresses, phone numbers and addresses are normalised and hashed in the shop; only the hashes, the order number and the outcome are sent. The only exception is the country and postcode of new orders, on by default and easy to turn off (see "Share country and postcode").
+No raw data. E-mail addresses, phone numbers and addresses are normalised and hashed in the shop; only the hashes, the order number and the outcome are sent. The hashes are still pseudonymous personal data: a hash of a known e-mail address, phone number or address can be matched to it. The service re-keys every hash with its own secret before storing it. The only exception is the country and postcode of new orders, on by default and easy to turn off (see "Share country and postcode").
 
 = What happens when the TrustOrder service is down? =
 
 Nothing is hidden and every order goes through. The checkout waits at most 1.5 seconds for the answer.
 
 == Changelog ==
+
+= 1.0.15 =
+* New: Orders: other order statuses can be reported as "Not picked up" with the `trustorder_refused_statuses` filter; the Help screen mentions it.
+* Fix: Checkout: when the buyer's complete e-mail address (one WordPress accepts) cannot be used for a check, the risky payment methods stay hidden, as when a place-order limit is reached; the order shows "E-mail not usable". An empty or incomplete e-mail field changes nothing.
+* Fix: Reports: an order without a usable e-mail address is still reported with its phone number and address.
+* Fix: Checkout: placing orders has a shop-wide limit of 300 checks per hour (filter `trustorder_hourly_submit_check_limit`), with its own admin notice.
+* Fix: Checkout: the first place-order check of a new checkout session is no longer stopped by the per-network limit, so buyers sharing one address are still checked; at most 30 such checks run per visitor network per 30 minutes (filter `trustorder_first_check_ip_limit`).
+* Fix: Checkout: phone numbers with `#` or `_`, which WooCommerce accepts, are now recognised.
+* Fix: Performance: at most 200 e-mail domain lookups are queued per hour (filter `trustorder_mx_lookup_limit`).
+* Fix: Admin: a notice while checkout visitors arrive from a private or local address without the `trustorder_client_ip` filter, and a notice when the service's daily check limit is used up.
+* Change: Privacy: the readme, the suggested privacy policy text and the Help screen describe the hashes as pseudonymous personal data that the service re-keys before storing them; the readme recommends setting the API key with the `TRUSTORDER_API_KEY` constant.
 
 = 1.0.14 =
 * Fix: Compatibility: on PHP 8.3 and older, `mb_ucfirst()` and `mb_lcfirst()` no longer stop the site with a fatal error when another plugin or theme calls them.

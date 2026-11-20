@@ -12,6 +12,7 @@ namespace LightweightPlugins\TrustOrder\Tests\Unit\Signals;
 use LightweightPlugins\TrustOrder\Checkout\CacheGeneration;
 use LightweightPlugins\TrustOrder\Checkout\IdentityBuilder;
 use LightweightPlugins\TrustOrder\Signals\SignalJob;
+use LightweightPlugins\TrustOrder\Order\RefusedStatus;
 use LightweightPlugins\TrustOrder\Signals\SignalRouter;
 use LightweightPlugins\TrustOrder\Signals\SignalState;
 
@@ -84,6 +85,23 @@ final class SignalFlowTest extends SignalTestCase {
 		$body = $this->calls()[0][2];
 		$this->assertSame( 'refused', $body['outcome'] );
 		$this->assertSame( '2026-10-02T11:00:00Z', $body['occurred_at'] );
+	}
+
+	public function test_a_status_added_by_the_filter_sends_refused(): void {
+		add_filter( RefusedStatus::FILTER, static fn( array $s ): array => array_merge( $s, [ 'returned' ] ) );
+		$o = $this->order( [ 'date_completed' => null ] );
+		$this->transition( $o, 'returned' );
+
+		$this->assertSame( 'refused', $this->calls()[0][2]['outcome'] );
+
+		$this->transition( $o, 'processing' );
+		$this->assertSame( 'DELETE', $this->calls()[1][0], 'leaving it retracts like the own status' );
+	}
+
+	public function test_a_custom_status_without_the_filter_sends_nothing(): void {
+		$this->transition( $this->order(), 'returned' );
+
+		$this->assertSame( [], $this->calls() );
 	}
 
 	public function test_a_sent_refusal_starts_a_new_cache_generation(): void {
@@ -283,12 +301,25 @@ final class SignalFlowTest extends SignalTestCase {
 		$this->assertSame( '', $o->meta['_trustorder_signal'] ?? '' );
 	}
 
-	public function test_no_email_is_skipped_without_a_request(): void {
-		$o = $this->order( [ 'billing_email' => '' ] );
+	public function test_no_identity_at_all_is_skipped_without_a_request(): void {
+		$o = $this->order( [ 'billing_email' => '', 'billing_phone' => '', 'shipping_address_1' => '', 'shipping_postcode' => '' ] );
+		$o->shipping = [];
 		$this->transition( $o, 'completed' );
 
 		$this->assertSame( [], $this->calls() );
 		$this->assertSame( SignalState::SKIPPED, $this->state( $o )['status'] );
+	}
+
+	public function test_an_order_without_a_usable_email_still_sends_its_phone_and_address(): void {
+		$o = $this->order( [ 'billing_email' => '...@gmail.com' ] );
+		$this->transition( $o, 'completed' );
+
+		$this->assertCount( 1, $this->calls() );
+		$body = $this->calls()[0][2];
+		$this->assertArrayNotHasKey( 'email_hash', $body );
+		$this->assertMatchesRegularExpression( '/^[0-9a-f]{64}$/', $body['phone_hash'] );
+		$this->assertMatchesRegularExpression( '/^[0-9a-f]{64}$/', $body['address_hash'] );
+		$this->assertSame( 'delivered', $body['outcome'] );
 	}
 
 	public function test_env_switch_resends_to_the_new_env(): void {

@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\TrustOrder\Order;
 
+use LightweightPlugins\TrustOrder\Checkout\Checker;
+
 /**
  * Text and markup only (no logic beyond lookups).
  */
@@ -96,11 +98,25 @@ final class Labels {
 	}
 
 	/**
+	 * Whether the stored result is the stand-in for an e-mail that could not
+	 * be normalised (no check was possible).
+	 *
+	 * @param array<string, mixed> $result Stored `_trustorder_result`.
+	 */
+	public static function emailUnusable( array $result ): bool {
+		return Checker::EMAIL_UNUSABLE === ( $result['fallback'] ?? null );
+	}
+
+	/**
 	 * Escaped badge HTML for a stored result.
 	 *
 	 * @param array<string, mixed> $result Stored `_trustorder_result`.
 	 */
 	public static function badge( array $result ): string {
+		if ( self::emailUnusable( $result ) ) {
+			return '<span class="trustorder-badge trustorder-level-none" style="' . esc_attr( self::style( 'none' ) ) . '">' . self::icon( 'dashicons-warning' )
+				. esc_html__( 'E-mail not usable', 'trustorder-for-woo' ) . '</span>';
+		}
 		if ( ! empty( $result['fallback'] ) ) {
 			return '<span class="trustorder-badge trustorder-level-none" style="' . esc_attr( self::style( 'none' ) ) . '">' . self::icon( 'dashicons-warning' )
 				. esc_html__( 'Not checked (limit reached)', 'trustorder-for-woo' ) . '</span>';

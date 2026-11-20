@@ -58,7 +58,7 @@ final class OrderResult {
 			$ids      = IdentityBuilder::fromOrder( $order );
 			$settings = Settings::get();
 			$decision = null;
-			if ( ! $pay && $settings['enabled'] && (float) $order->get_total() > 0 && $ids->hasEmail() ) {
+			if ( ! $pay && $settings['enabled'] && (float) $order->get_total() > 0 && ( $ids->hasEmail() || $ids->emailUnusable() ) ) {
 				// Same identity key as the place-order check: a memo hit, no extra unit.
 				$decision = Checker::current()->decideForSubmit( $ids, $settings['strictness'] );
 			}

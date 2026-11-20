@@ -13,7 +13,8 @@ use LightweightPlugins\TrustOrder\Order\RefusedStatus;
 
 /**
  * Every `completed` order is `delivered` (whatever the payment method); a
- * `refused` comes only from the custom „Nem vette át” status. Switching back
+ * `refused` comes from the custom „Nem vette át” status and the statuses
+ * added by the `trustorder_refused_statuses` filter. Switching back
  * to processing / on-hold / pending retracts the signal. A full refund
  * (`refunded`) retracts a sent delivery; a refusal stays. Cancelled, failed
  * (and trash) change nothing.
@@ -39,7 +40,7 @@ final class Outcome {
 		if ( 'completed' === $status ) {
 			return self::DELIVERED;
 		}
-		if ( RefusedStatus::SLUG === $status ) {
+		if ( in_array( $status, RefusedStatus::slugs(), true ) ) {
 			return self::REFUSED;
 		}
 		if ( 'refunded' === $status ) {

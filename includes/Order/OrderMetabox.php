@@ -57,6 +57,10 @@ final class OrderMetabox {
 
 		echo '<p>' . Labels::badge( $result ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Labels::badge() escapes every part.
 
+		if ( Labels::emailUnusable( $result ) ) {
+			echo '<p>' . esc_html__( 'Risky payment methods stayed hidden: the e-mail address could not be used for the check.', 'trustorder-for-woo' ) . '</p>';
+			return;
+		}
 		if ( ! empty( $result['fallback'] ) ) {
 			$code    = is_string( $result['fallback'] ) ? $result['fallback'] : '';
 			$blocked = 'block' === ( $result['verdict'] ?? '' );

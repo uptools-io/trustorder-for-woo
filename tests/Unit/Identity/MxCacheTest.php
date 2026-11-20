@@ -16,6 +16,7 @@ final class MxCacheTest extends TestCase {
 
 	protected function setUp(): void {
 		trustorder_test_reset();
+		\LightweightPlugins\TrustOrder\Checkout\Counter::reset();
 	}
 
 	/**
@@ -73,6 +74,23 @@ final class MxCacheTest extends TestCase {
 		$this->assertSame( [ hash( 'sha256', 'example.org' ) ], $as[1]['args'] );
 	}
 
+	public function test_default_hourly_lookup_limit(): void {
+		$this->assertSame( 200, MxCache::HOURLY_MAX );
+	}
+
+	public function test_lookups_beyond_the_hourly_limit_are_not_scheduled(): void {
+		add_filter( 'trustorder_mx_lookup_limit', static fn(): int => 2 );
+
+		MxCache::schedule( 'a.example' );
+		MxCache::schedule( 'b.example' );
+		MxCache::schedule( 'a.example' ); // Already queued: no new unit.
+		MxCache::schedule( 'c.example' );
+
+		$this->assertCount( 2, $GLOBALS['trustorder_test']['as'] );
+		$this->assertSame( [], $this->transients( 'trustorder_mxq_' . hash( 'sha256', 'c.example' ) ), 'nothing parked for a skipped domain' );
+		$this->assertNull( MxCache::get( 'c.example' ) );
+	}
+
 	public function test_action_args_and_transient_names_contain_no_domain(): void {
 		MxCache::schedule( 'example.com' );
 
@@ -105,7 +123,7 @@ final class MxCacheTest extends TestCase {
 		$this->scheduleAndRun( 'example.com' );
 
 		$this->assertNull( MxCache::get( 'example.com' ) );
-		$this->assertSame( [], $GLOBALS['trustorder_test']['transients'] );
+		$this->assertSame( [], $this->transients( 'trustorder_mx' ), 'no result, nothing parked (only the lookup counter)' );
 		$this->assertSame( 'DNS_UNAVAILABLE', $GLOBALS['trustorder_test']['logs'][0]['context']['code'] ?? null );
 		$this->assertStringNotContainsString( 'example', serialize( $GLOBALS['trustorder_test']['logs'] ) );
 	}

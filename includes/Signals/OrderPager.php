@@ -80,7 +80,7 @@ final class OrderPager {
 	private static function args( int $after, int $since ): array {
 		$args = [
 			'type'         => 'shop_order',
-			'status'       => [ 'wc-completed', RefusedStatus::KEY ],
+			'status'       => array_merge( [ 'wc-completed' ], array_map( static fn( string $s ): string => 'wc-' . $s, RefusedStatus::slugs() ) ),
 			'date_created' => '>=' . $since,
 			'orderby'      => 'ID',
 			'order'        => 'ASC',

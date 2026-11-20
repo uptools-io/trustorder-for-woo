@@ -15,8 +15,8 @@ use LightweightPlugins\TrustOrder\Order\OrderResult;
 /**
  * Hashes come from `_trustorder_hashes` (stored at checkout); orders without
  * a usable copy (pre-plugin, admin-created) are hashed locally from the
- * order's WooCommerce getters. Only hashes leave the site; without an e-mail
- * hash there is no body.
+ * order's WooCommerce getters. Only hashes leave the site; without any
+ * identity hash (e-mail, phone or address) there is no body.
  */
 final class SignalPayload {
 
@@ -28,18 +28,18 @@ final class SignalPayload {
 	 * @param \WC_Order   $order      Order.
 	 * @param string      $outcome    delivered|refused.
 	 * @param string|null $occurred_at Reuse this time (a retry of the same outcome).
-	 * @return array<string, string>|null Null when there is no e-mail hash.
+	 * @return array<string, string>|null Null when there is no identity hash.
 	 */
 	public static function build( \WC_Order $order, string $outcome, ?string $occurred_at = null ): ?array {
 		$h = self::hashes( $order );
-		if ( null === $h['email_hash'] ) {
+		if ( null === $h['email_hash'] && null === $h['phone_hash'] && null === $h['address_hash'] ) {
 			return null;
 		}
 
-		$body = [
-			'outcome'    => $outcome,
-			'email_hash' => $h['email_hash'],
-		];
+		$body = [ 'outcome' => $outcome ];
+		if ( null !== $h['email_hash'] ) {
+			$body['email_hash'] = $h['email_hash'];
+		}
 		if ( null !== $h['phone_hash'] ) {
 			$body['phone_hash'] = $h['phone_hash'];
 		}

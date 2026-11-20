@@ -16,8 +16,15 @@ namespace LightweightPlugins\TrustOrder\Order;
  */
 final class RefusedStatus {
 
-	public const SLUG = 'to-refused';
-	public const KEY  = 'wc-to-refused';
+	public const SLUG   = 'to-refused';
+	public const KEY    = 'wc-to-refused';
+	public const FILTER = 'trustorder_refused_statuses';
+
+	/**
+	 * Statuses the filter cannot turn into a refusal: a delivery, the states
+	 * that retract a signal, a refund and the checkout draft.
+	 */
+	private const RESERVED = [ 'completed', 'processing', 'on-hold', 'pending', 'refunded', 'checkout-draft' ];
 
 	/**
 	 * Hook in (call before `init`).
@@ -37,6 +44,32 @@ final class RefusedStatus {
 		add_action( 'woocommerce_order_status_' . self::SLUG, 'wc_maybe_increase_stock_levels' );
 		// src/Admin/API/Reports/DataStore.php:861 (WC 11.2.1): not picked up is no sale.
 		add_filter( 'woocommerce_analytics_excluded_order_statuses', [ self::class, 'analyticsExcluded' ] );
+	}
+
+	/**
+	 * Order statuses (without `wc-`) reported as „not picked up”: this plugin's
+	 * own status plus what the `trustorder_refused_statuses` filter adds (e.g. a
+	 * shop's existing "returned" status). The own status always stays.
+	 *
+	 * @return list<string>
+	 */
+	public static function slugs(): array {
+		$out   = [ self::SLUG ];
+		$extra = apply_filters( 'trustorder_refused_statuses', [ self::SLUG ] );
+		if ( ! is_array( $extra ) ) {
+			return $out;
+		}
+		foreach ( $extra as $status ) {
+			if ( ! is_string( $status ) ) {
+				continue;
+			}
+			$status = sanitize_key( str_starts_with( $status, 'wc-' ) ? substr( $status, 3 ) : $status );
+			if ( '' !== $status && ! in_array( $status, self::RESERVED, true ) && ! in_array( $status, $out, true ) ) {
+				$out[] = $status;
+			}
+		}
+
+		return $out;
 	}
 
 	/**

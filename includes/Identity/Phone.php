@@ -14,7 +14,8 @@ use LightweightPlugins\TrustOrder\Vendor\libphonenumber\PhoneNumberFormat;
 use LightweightPlugins\TrustOrder\Vendor\libphonenumber\PhoneNumberUtil;
 
 /**
- * Port of backend/internal/identity/phone.go (libphonenumber, E.164).
+ * Port of backend/internal/identity/phone.go (libphonenumber, E.164), except
+ * that `#` and `_` are removed first (the backend rejects them).
  */
 final class Phone {
 
@@ -30,6 +31,25 @@ final class Phone {
 		if ( ! Unicode::isUtf8( $raw ) || ! Unicode::isUtf8( $region ) ) {
 			return null;
 		}
+		// WC_Validation::is_phone() also allows `#` and `_`; `_` carries no digit.
+		// What follows a `#` is an extension when a valid number precedes it;
+		// otherwise every `#` is dropped.
+		$raw  = str_replace( '_', '', $raw );
+		$hash = strpos( $raw, '#' );
+		if ( false !== $hash ) {
+			return self::parse( substr( $raw, 0, $hash ), $region ) ?? self::parse( str_replace( '#', '', $raw ), $region );
+		}
+
+		return self::parse( $raw, $region );
+	}
+
+	/**
+	 * E.164 of a number without `#` or `_`, or null.
+	 *
+	 * @param string $raw    Raw phone number.
+	 * @param string $region Default region (ISO2), used without "+".
+	 */
+	private static function parse( string $raw, string $region ): ?string {
 		$s = Unicode::trim( $raw );
 		if ( '' === $s || 1 !== preg_match( '#^[0-9+ \t\-/().]+$#D', $s ) ) {
 			return null;

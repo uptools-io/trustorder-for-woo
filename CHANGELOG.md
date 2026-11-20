@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.0.15] - 2026-11-20
+
+### Added
+- Orders: other order statuses can be reported as "Not picked up" with the `trustorder_refused_statuses` filter; the Help screen mentions it.
+
+### Fixed
+- Checkout: when the buyer's complete e-mail address (one WordPress accepts) cannot be used for a check, the risky payment methods stay hidden, as when a place-order limit is reached; the order shows "E-mail not usable". An empty or incomplete e-mail field changes nothing.
+- Reports: an order without a usable e-mail address is still reported with its phone number and address.
+- Checkout: placing orders has a shop-wide limit of 300 checks per hour (filter `trustorder_hourly_submit_check_limit`), with its own admin notice.
+- Checkout: the first place-order check of a new checkout session is no longer stopped by the per-network limit, so buyers sharing one address are still checked; at most 30 such checks run per visitor network per 30 minutes (filter `trustorder_first_check_ip_limit`).
+- Checkout: phone numbers with `#` or `_`, which WooCommerce accepts, are now recognised.
+- Performance: at most 200 e-mail domain lookups are queued per hour (filter `trustorder_mx_lookup_limit`).
+- Admin: a notice while checkout visitors arrive from a private or local address without the `trustorder_client_ip` filter, and a notice when the service's daily check limit is used up.
+
+### Changed
+- Privacy: the readme, the suggested privacy policy text and the Help screen describe the hashes as pseudonymous personal data that the service re-keys before storing them; the readme recommends setting the API key with the `TRUSTORDER_API_KEY` constant.
+
 ## [1.0.14] - 2026-11-17
 
 ### Fixed

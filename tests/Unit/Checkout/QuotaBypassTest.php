@@ -232,9 +232,10 @@ final class QuotaBypassTest extends CheckoutTestCase {
 		$_SERVER['REMOTE_ADDR'] = '198.51.100.9';
 		add_filter( 'trustorder_submit_ip_check_limit', static fn(): int => 2 );
 		try {
-			$this->checker( 's:a' )->decideForSubmit( $this->ids( 'x1@example.com' ), 'normal' );
+			$this->checker( 's:sess-1' )->decideForSubmit( $this->ids( 'x1@example.com' ), 'normal' );
 			$this->checker( 's:b' )->decideForSubmit( $this->ids( 'x2@example.com' ), 'normal' );
 
+			// The session already had its real check, so its next one is capped.
 			$this->assertSame( 'trustorder_payment_not_allowed', $this->storeApiSubmit( 'never-seen@example.com', 'cod' ) );
 			$this->assertSame( 2, $this->checks() );
 		} finally {
@@ -444,9 +445,11 @@ final class QuotaBypassTest extends CheckoutTestCase {
 				$this->checker( "s:n{$i}" )->decideForSubmit( $this->ids( "n{$i}@example.com" ), 'normal' );
 			}
 			$this->assertSame( 0, Counter::count( 'submit-ip|198.51.100.42', QuotaGuard::WINDOW ), '6 network refunds' );
+			$this->assertSame( 0, Counter::count( 'submit-first|198.51.100.42', QuotaGuard::WINDOW ), 'first-check units refunded with them' );
 
 			$this->checker( 's:n7' )->decideForSubmit( $this->ids( 'n7@example.com' ), 'normal' );
 			$this->assertSame( 1, Counter::count( 'submit-ip|198.51.100.42', QuotaGuard::WINDOW ), 'the 7th network unit stays spent' );
+			$this->assertSame( 1, Counter::count( 'submit-first|198.51.100.42', QuotaGuard::WINDOW ), 'its first-check unit stays spent too' );
 			$this->assertSame( 0, Counter::count( 'submit|s:n7', QuotaGuard::WINDOW ), 'the session unit is still refunded' );
 
 			add_filter( 'trustorder_network_refund_limit', static fn(): int => 100 );
@@ -488,12 +491,12 @@ final class QuotaBypassTest extends CheckoutTestCase {
 		add_filter( 'trustorder_submit_ip_check_limit', static fn(): int => 1 );
 		try {
 			$this->checker( 's:a' )->decideForSubmit( $this->ids( 'x1@example.com' ), 'normal' );
-			$this->checker( 's:b' )->decideForSubmit( $this->ids( 'x2@example.com' ), 'normal' );
+			$this->checker( 's:a' )->decideForSubmit( $this->ids( 'x2@example.com' ), 'normal' );
 			$this->assertTrue( QuotaGuard::submitCapTripped() );
 			$GLOBALS['trustorder_test']['transients'][ QuotaGuard::SUBMIT_IP_TRANSIENT ]['value'] = 123;
 
 			QuotaGuard::reset();
-			$this->checker( 's:c' )->decideForSubmit( $this->ids( 'x3@example.com' ), 'normal' );
+			$this->checker( 's:a' )->decideForSubmit( $this->ids( 'x3@example.com' ), 'normal' );
 			$this->assertSame( 123, get_transient( QuotaGuard::SUBMIT_IP_TRANSIENT ), 'not rewritten while set' );
 		} finally {
 			unset( $_SERVER['REMOTE_ADDR'] );
